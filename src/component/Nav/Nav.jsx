@@ -17,7 +17,7 @@ import { HiLogout } from "react-icons/hi";
 import { BsPlusSquareFill } from "react-icons/bs";
 import { axiosInstance } from "../../configs/api";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link"
+import Link from "next/link";
 import NavItems from "./NavItems";
 
 const Nav = () => {
@@ -40,7 +40,6 @@ const Nav = () => {
       flexDir="column"
       justifyContent="space-between"
       border="1px solid white"
-
     >
       <Flex
         p="5%"
@@ -62,30 +61,34 @@ const Nav = () => {
             }
           }}
         />
-        <Link href="/home" style={{ textDecoration: "none" }}>
-          <NavItems
-            navSize={navSize}
-            icon={FaHome}
-            title="Home"
-            description=""
-          />
-        </Link>
+        <NavItems
+          navSize={navSize}
+          icon={FaHome}
+          title="Home"
+          description=""
+          href="/home"
+        />
 
-        <Link href="/my-profile">
-          <NavItems navSize={navSize} icon={CgProfile} title="Your Profile" />
-        </Link>
+        <NavItems
+          navSize={navSize}
+          icon={CgProfile}
+          title="Your Profile"
+          href="/my-profile"
+        />
 
-        <Link href="/upload">
         <NavItems
           navSize={navSize}
           icon={BsPlusSquareFill}
           title="Upload Memes"
+          href="/upload"
         />
-        </Link>
 
-        <Link href="/settings">
-          <NavItems navSize={navSize} icon={IoMdSettings} title="Settings" />
-        </Link>
+        <NavItems
+          navSize={navSize}
+          icon={IoMdSettings}
+          title="Settings"
+          href="/settings"
+        />
       </Flex>
 
       <Flex

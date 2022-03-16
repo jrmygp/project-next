@@ -3,14 +3,14 @@ import {
   Flex,
   Text,
   Icon,
-  Link,
   Menu,
   MenuButton,
   MenuList,
 } from "@chakra-ui/react";
 import NavHoverBox from "../Nav/NavHoverBox"
+import Link from "next/link";
 
-const NavItems = ({ navSize, icon, title, active, description }) => {
+const NavItems = ({ navSize, icon, title, active, description, href = ""}) => {
   return (
     <Flex
       mt={30}
@@ -19,11 +19,7 @@ const NavItems = ({ navSize, icon, title, active, description }) => {
       alignItems={navSize == "small" ? "center" : "flex-start"}
     >
       <Menu placement="right">
-        <Link
-        p={3}
-        borderRadius={8}
-        _hover={{textDecor: "none", backgroundColor: "black"}}
-        w={navSize == "large" && "100%"}>
+        <Link href={href}>
           <MenuButton w="100%">
             <Flex>
               <Icon as={icon} fontSize="xl" color={active ? "#82AAAD" : "#3CFF00" }/>

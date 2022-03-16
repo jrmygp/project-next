@@ -2,7 +2,7 @@ import { Box, Button, Center, FormLabel, Input, Text } from "@chakra-ui/react";
 import { axiosInstance } from "../../configs/api";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom"
+import Router from "next/router";
 
 const LoginPage = () => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -43,7 +43,7 @@ const LoginPage = () => {
   };
 
   if (userSelector.id) {
-    return <Navigate to="/"/>
+   Router.push("/home")
   }
   
   return (

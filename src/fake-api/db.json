@@ -23,6 +23,22 @@
       "number_of_likes": 123534,
       "caption": "Damn bruh, i thought id get some good alien cheeks tonight. Somehow got my cheeks clapped by 12 inch long tentacles. smh",
       "id": 3
+    },
+    {
+      "userId": 1,
+      "location": "Bekasi",
+      "caption": "haha",
+      "image_url": "https://preview.redd.it/tgzqetdqzyi41.png?width=640&crop=smart&auto=webp&s=e3e220432f52b9a56b0c80a2fcec8ec65ed89a10",
+      "number_of_likes": 0,
+      "id": 4
+    },
+    {
+      "userId": 2,
+      "location": "ur mum",
+      "caption": "when bae starts licking dem nuts",
+      "image_url": "https://media-assets-ggwp.s3.ap-southeast-1.amazonaws.com/2021/02/fakta-erwin-smith-aot-4.jpg",
+      "number_of_likes": 0,
+      "id": 5
     }
   ],
   "comments": [
@@ -43,6 +59,12 @@
       "content": "yooooo",
       "postId": 3,
       "id": 3
+    },
+    {
+      "username": "Admin2",
+      "content": "lmao",
+      "postId": 5,
+      "id": 4
     }
   ],
   "users": [
