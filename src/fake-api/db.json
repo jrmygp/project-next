@@ -1,0 +1,77 @@
+{
+  "posts": [
+    {
+      "userId": 1,
+      "location": "Ukraine",
+      "image_url": "https://preview.redd.it/wsoh5uuewxj31.jpg?auto=webp&s=e9ea562304f5f516e99b789edea2921dd9806c27",
+      "number_of_likes": 213424,
+      "caption": "When thanos snaps and ur dick turns into dust inside that pussy",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "location": "No More Racism",
+      "image_url": "https://preview.redd.it/8uqk7an3wbz21.jpg?auto=webp&s=c91b7cdcb4a509fd7f8da9b843fb975e0bbf8b26",
+      "number_of_likes": 53451,
+      "caption": "Wait holup is that a monkey?????",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "location": "Area 51",
+      "image_url": "https://ahseeit.com/anime/king-include/uploads/2021/02/125198641_1095653730876747_5353216878246094970_n-9712893570.jpg",
+      "number_of_likes": 123534,
+      "caption": "Damn bruh, i thought id get some good alien cheeks tonight. Somehow got my cheeks clapped by 12 inch long tentacles. smh",
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "userId": 1,
+      "content": "Take this down now!",
+      "postId": 1
+    },
+    {
+      "id": 2,
+      "userID": 2,
+      "content": "Lmao funny dude",
+      "postId": 1
+    },
+    {
+      "userId": 3,
+      "content": "yooooo",
+      "postId": 3,
+      "id": 3
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "Admin Killua",
+      "usertag": "@AdmnKillua",
+      "email": "killua@gmail.com",
+      "full_name": "Killua Zoldyck",
+      "password": "password123",
+      "profile_picture": "https://i.quotev.com/img/q/u/12/06/08/2952594-killua.jpg"
+    },
+    {
+      "id": 2,
+      "username": "Admin Gon",
+      "usertag": "@AdmnGon",
+      "email": "gon@gmail.com",
+      "full_name": "Gon Freecss",
+      "password": "password123",
+      "profile_picture": "https://www.looper.com/img/gallery/hunter-x-hunter-season-7-release-date-cast-and-plot/l-intro-1621819883.jpg"
+    },
+    {
+      "id": 3,
+      "username": "Admin Kurapika",
+      "usertag": "@AdmnKurapika",
+      "email": "kurapika@gmail.com",
+      "full_name": "Kurapika Kurta",
+      "password": "password123",
+      "profile_picture": "https://w0.peakpx.com/wallpaper/5/464/HD-wallpaper-hair-too-long-pretty-blond-guy-kurapika-adorable-kurapica-sweet-nice-anime-evening-night-hunter-x-hunter-male-lovely-blonde-blonde-hair-blond-hair-short-hair-cute-boy-kawaii-dark.jpg"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+* {
+    font-family: Lato, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  nav {
+    background-color: black;
+    color: white;
+    display: flex;
+    height: 45px;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 9;
+  }
+  
+  nav a {
+    font-size: 15px;
+    padding: 12px 24px;
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  nav a:hover {
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+  }
+  
+  nav .search-wrapper {
+    padding: 12px 24px;
+  }
+  
+  nav .search-wrapper:hover {
+    background-color: lightcoral;
+    cursor: pointer;
+  }
+  
+  .link-wrapper {
+    display: flex;
+  }
+  
+  .jumbotron {
+    position: relative;
+  }
+  
+  .jumbotron img {
+    width: 100%;
+  }
+  
+  .band-caption {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    left: 0;
+    color: white;
+    text-align: center;
+  }
+  
+  .band-info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .band-member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 180px;
+  }
+  
+  .band-member-card img {
+    width: 100%;
+  }
+  
+  .band-photos {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .tour-dates-section {
+    background-color: black;
+  }
+  
+  .tour-dates-section h2 {
+    color: white;
+  }
+  
+  .tour-dates-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tour-cards-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .tour-card {
+    background-color: white;
+    width: 180px;
+    margin: 0px 8px;
+  }
+  
+  .tour-card-image img {
+    width: 100%;
+  }
+  
+  .tour-card-content {
+    padding: 8px;
+  }
+  
+  .tour-card-content .city {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  
+  .tour-card-content .date {
+    font-size: 14px;
+    color: gray;
+  }
+  
+  .tour-card-content .description {
+    font-size: 12px;
+  }
+  
+  button {
+    background-color: black;
+    padding: 8px 12px;
+    color: white;
+    border: 0;
+    font-size: 12px !important;
+  }
+  
+  button:hover {
+    cursor: pointer;
+    background-color: gray;
+    color: black;
+  }
