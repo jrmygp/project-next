@@ -3,6 +3,7 @@ import ContentCard from "../../component/ContentCard/ContentCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Box, Center } from "@chakra-ui/react";
+import requiresAuth from "../../component/requiresAuth";
 
 function HomePage() {
   const [contentList, setContentList] = useState([]);
@@ -27,6 +28,7 @@ function HomePage() {
           numberOfLikes={val.number_of_likes}
           id={val.id}
           profile_picture = {val?.user?.profile_picture}
+          userId={val?.userId}
         />
       );
     });
@@ -46,5 +48,11 @@ function HomePage() {
     </Center>
   );
 }
+
+export const getServerSideProps = requiresAuth((context) => {
+  return {
+    props: {},
+  };
+});
 
 export default HomePage;

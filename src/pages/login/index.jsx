@@ -3,6 +3,7 @@ import { axiosInstance } from "../../configs/api";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -31,11 +32,17 @@ const LoginPage = () => {
       .then((res) => {
        const userData = res.data[0]
 
-       dispatch({
-         type: "USER_LOGIN",
-         payload: userData
-       })
-       localStorage.setItem("user_data", JSON.stringify(userData))
+       if (userData) {
+         dispatch({
+           type: "USER_LOGIN",
+           payload: userData
+         })
+  
+         const parsedData = JSON.stringify(userData)
+  
+         Cookies.set("user_data", parsedData)
+         
+       }
       })
       .catch((err) => {
         console.log(err);

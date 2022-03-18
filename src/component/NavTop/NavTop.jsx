@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link"
 import { Box, Button, Icon, Input } from "@chakra-ui/react";
 import { BsSearch } from "react-icons/bs"
+import Cookies from "js-cookie"
 
 const NavTop = () => {
   const userSelector = useSelector((state) => state.user);
@@ -13,7 +14,9 @@ const NavTop = () => {
       type: "USER_LOGOUT",
     });
 
-    localStorage.removeItem("user_data");
+    alert("logout")
+
+    Cookies.remove("user_data");
   };
 
   return (
@@ -30,8 +33,8 @@ const NavTop = () => {
       color="white"
     >
       <Box paddingLeft="50px" paddingTop="5px">
-        <Link href="/" style={{ textDecoration: "none" }}>
-          ( INI WEBSITE GUA )
+        <Link href="/home" style={{ textDecoration: "none" }}>
+          Purwadhika
         </Link>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -39,11 +42,15 @@ const NavTop = () => {
         <Icon as={BsSearch} fontSize="xl"/>
       </Box>
       <Box paddingRight="50px">
-        <Link href="/login">
-          <Button onClick={logoutBtnHandler} colorScheme="red">
-            Logout
-          </Button>
-        </Link>
+      {userSelector.id ? (
+            <Button onClick={logoutBtnHandler} colorScheme="red">
+              Logout
+            </Button>
+          ) : (
+            <Link href="/login">
+              <Button colorScheme="green">Login</Button>
+            </Link>
+          )}
       </Box>
     </Box>
   );

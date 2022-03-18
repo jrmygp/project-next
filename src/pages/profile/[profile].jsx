@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
 import axios from "axios";
 import { Box, Text, Avatar, Icon, Center, Image, Flex, } from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
 import { MdOutlinePhotoCamera } from "react-icons/md"
-import { Link } from "react-router-dom";
+import { useRouter } from "next/router"
+import requiresAuth from "../../component/requiresAuth";
 
 const ProfilePage = () => {
-  const { userId } = useParams();
-
   const [userData, setUserData] = useState({});
   const [userPost, setUserPost] = useState([]);
+  const router = useRouter()
 
   const fetchUserData = () => {
+  
     axios
-      .get(`http://localhost:2000/users/${userId}`)
+      .get(`http://localhost:2000/users/${router.query.profile}`)
       .then((res) => {
         setUserData(res.data);
       })
@@ -28,7 +28,7 @@ const ProfilePage = () => {
     axios
       .get(`http://localhost:2000/posts`, {
         params: {
-          userId: userId
+          userId: router.query.profile
         }
       })
       .then((res) => {
@@ -52,6 +52,7 @@ const ProfilePage = () => {
       <Image 
       src={val.image_url}
       boxSize="230px"
+
       />
       );
     });
@@ -113,12 +114,23 @@ const ProfilePage = () => {
             <Icon as={ MdOutlinePhotoCamera }/>
             <Text marginLeft={2}/>POSTS
         </Box>
-        <Flex padding={8} justifyContent="space-between" borderRadius={5} backgroundColor="black">
+        <Flex
+          borderRadius={5}
+          backgroundColor="black"
+          flexWrap="wrap"
+          marginLeft={1}
+        >
           {renderPost()}
         </Flex>
       </Box>
     </Center>
   );
 };
+
+export const getServerSideProps = requiresAuth((context) => {
+  return {
+    props: {}
+  }
+})
 
 export default ProfilePage;

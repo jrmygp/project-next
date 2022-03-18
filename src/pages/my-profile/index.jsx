@@ -1,23 +1,19 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {
-  Box,
-  Text,
-  Avatar,
-  Icon,
-  Center,
-  Image,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Text, Avatar, Icon, Center, Image, Flex } from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../configs/api";
+import requiresAuth from "../../component/requiresAuth";
+import { useRouter } from "next/router";
 
-const MyProfilePage = () => {
+const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
+
+  const router = useRouter();
 
   const fetchUserPosts = () => {
     axios
@@ -42,7 +38,14 @@ const MyProfilePage = () => {
 
   const renderPost = () => {
     return userPost.map((val) => {
-      return <Image src={val.image_url} boxSize="230px" />;
+      return (
+        <Image
+          src={val.image_url}
+          boxSize="245px"
+          margin="5px"
+          objectFit="cover"
+        />
+      );
     });
   };
   return (
@@ -115,10 +118,10 @@ const MyProfilePage = () => {
           POSTS
         </Box>
         <Flex
-          padding={8}
-          justifyContent="space-between"
           borderRadius={5}
           backgroundColor="black"
+          flexWrap="wrap"
+          marginLeft={1}
         >
           {renderPost()}
         </Flex>
@@ -126,5 +129,15 @@ const MyProfilePage = () => {
     </Center>
   );
 };
+
+export const getServerSideProps = requiresAuth((context) => {
+  const userData = context.req.cookies.user_data;
+
+  return {
+    props: {
+      user: userData,
+    },
+  };
+});
 
 export default MyProfilePage;

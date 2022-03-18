@@ -25,7 +25,8 @@ const ContentCard = ({
   numberOfLikes,
   imageUrl,
   id,
-  profile_picture
+  profile_picture,
+  userId
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
@@ -70,10 +71,6 @@ const ContentCard = ({
     });
   };
 
-  // useEffect(() => {
-  //   fetchUserData()
-  // }, [])
-
   return (
     <Box
       backgroundColor="black"
@@ -85,7 +82,7 @@ const ContentCard = ({
       marginY="4"
     >
       <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
-        <Link href="/ProfilePage">
+        <Link href={`/profile/${userId}`}>
           <Avatar
             src={profile_picture}
             size="md"
