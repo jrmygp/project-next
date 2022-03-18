@@ -63,12 +63,11 @@ const LoginPage = () => {
   }
 
   return (
-    <Flex mt="10px">
+    <Flex>
       <Image 
-      src="https://c4.wallpaperflare.com/wallpaper/984/558/532/moon-night-city-city-lights-wallpaper-preview.jpg"
-      w="1000px"
-      objectFit="cover"
-      mt="100px"/>
+      src="https://wallpapercave.com/wp/wp8424243.png"
+      w="500px"
+      objectFit="cover"/>
 
       <Box
         maxWidth="lg"
@@ -78,11 +77,11 @@ const LoginPage = () => {
         borderRadius={10}
         padding={10}
         position="absolute"
-        right={20}
+        right={500}
         top={220}
       >
         <Center mb={5}>
-          <Text>Please Log In</Text>
+          <Text>Welcome to Weebsgram™</Text>
         </Center>
         <FormLabel>Username</FormLabel>
         <Input onChange={(event) => inputHandler(event, "username")} mb={5} />

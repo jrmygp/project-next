@@ -42,11 +42,11 @@ const NavTop = () => {
     >
       <Box paddingLeft="50px" paddingTop="5px">
         <Link href="/home" style={{ textDecoration: "none" }}>
-          Purwadhika
+          Weebsgram™
         </Link>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Input w="50" marginRight="10px" />
+        <Input w="50" marginRight="10px" placeholder="search"/>
         <Icon as={BsSearch} fontSize="xl" />
       </Box>
       <Box paddingRight="50px">

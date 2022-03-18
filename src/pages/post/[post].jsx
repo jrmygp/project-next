@@ -54,19 +54,24 @@ const Post = () => {
         setComments(res.data);
       })
       .catch((err) => {
-        console.log(err)
-        alert("Terjadi kesalahan pada server")
-      })
+        console.log(err);
+        alert("Terjadi kesalahan pada server");
+      });
   };
   const renderComments = () => {
     return comments.map((val) => {
-      return <SmallComment content={val.content} profile_picture={val?.user?.profile_picture} />;
+      return (
+        <SmallComment
+          content={val.content}
+          profile_picture={val?.user?.profile_picture}
+        />
+      );
     });
   };
 
   useEffect(() => {
     fetchUserPost();
-    fetchComments()
+    fetchComments();
   }, []);
 
   return (
@@ -108,14 +113,15 @@ const Post = () => {
             <Text fontWeight="bold">
               {userPost?.number_of_likes?.toLocaleString()} People approve this.
             </Text>
-            <Box display="flex" alignItems="center">
-              <Text fontWeight="bold">{userPost?.user?.username}</Text>
-              <Text >
-                {userPost?.caption?.length > 140
-                  ? userPost?.caption?.slice(0, 140) + "..."
-                  : userPost?.caption}
-              </Text>
-            </Box>
+          <Text>
+            <span className="fw-bold">{userPost?.user?.username}</span>{" "}
+            <span>
+              {userPost?.caption?.length > 140
+                ? userPost?.caption?.slice(0, 140) + "..."
+                : userPost?.caption}
+            </span>
+            </Text>
+
             <Box display="flex" marginTop={4} paddingBottom={2}>
               <Icon boxSize={6} as={HiOutlineEmojiHappy}></Icon>
               <Icon boxSize={6} as={RiSkull2Line} marginLeft={2}></Icon>
@@ -132,7 +138,7 @@ const Post = () => {
           paddingY="2"
           marginY="4"
         >
-          <Text ml={5} mr={5}mb={6}>
+          <Text mb={6} padding={5}>
             Comment Section
           </Text>
           {renderComments()}

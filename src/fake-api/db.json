@@ -93,6 +93,12 @@
       "content": "ANAK ANJING",
       "postId": 1,
       "id": 6
+    },
+    {
+      "userId": 2,
+      "content": "????",
+      "postId": 7,
+      "id": 7
     }
   ],
   "users": [

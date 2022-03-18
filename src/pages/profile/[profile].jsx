@@ -53,6 +53,7 @@ const ProfilePage = () => {
           boxSize="245px"
           margin="5px"
           objectFit="cover"
+          border="1px solid white"
         />
       );
     });

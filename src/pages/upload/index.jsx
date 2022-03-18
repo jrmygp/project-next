@@ -1,9 +1,10 @@
-import { Box, Button, Center, Input, Text, useToast, Icon } from "@chakra-ui/react";
+import { Box, Button, Center, Input, Text, useToast, Icon, InputGroup, InputRightElement } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import requiresAuth from "../../component/requiresAuth";
-import { BsFillCheckCircleFill } from "react-icons/bs"
+import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs"
+
 
 const UploadPage = () => {
   const userSelector = useSelector((state) => state.user);
@@ -57,12 +58,16 @@ const UploadPage = () => {
         flexDir="column"
         justifyContent="center"
       >
+        <InputGroup>
         <Input
           w="50vh"
           marginBottom="10px"
           placeholder="upload your link image here"
+
           onChange={handleUrlInput}
         />
+        {/* <InputRightElement children={<Icon as={BsImageFill}/>}/> */}
+        </InputGroup>
         <Input
           w="50vh"
           marginBottom="10px"
