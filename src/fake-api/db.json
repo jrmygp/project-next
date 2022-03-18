@@ -66,7 +66,7 @@
     },
     {
       "id": 2,
-      "userID": 2,
+      "userId": 2,
       "content": "Lmao funny dude",
       "postId": 1
     },
@@ -77,10 +77,22 @@
       "id": 3
     },
     {
-      "username": "Admin2",
+      "userId": 2,
       "content": "lmao",
       "postId": 5,
       "id": 4
+    },
+    {
+      "userId": 2,
+      "content": "AHAHAHAHA",
+      "postId": 1,
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "content": "ANAK ANJING",
+      "postId": 1,
+      "id": 6
     }
   ],
   "users": [

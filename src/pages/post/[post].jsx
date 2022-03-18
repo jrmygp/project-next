@@ -22,6 +22,7 @@ import requiresAuth from "../../component/requiresAuth";
 
 const Post = () => {
   const [userPost, setUserPost] = useState([]);
+  const [comments, setComments] = useState([]);
 
   const router = useRouter();
 
@@ -41,9 +42,31 @@ const Post = () => {
       });
   };
 
+  const fetchComments = async () => {
+    await axiosInstance
+      .get(`/comments`, {
+        params: {
+          postId: router.query.post,
+          _expand: "user",
+        },
+      })
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((err) => {
+        console.log(err)
+        alert("Terjadi kesalahan pada server")
+      })
+  };
+  const renderComments = () => {
+    return comments.map((val) => {
+      return <SmallComment content={val.content} profile_picture={val?.user?.profile_picture} />;
+    });
+  };
 
   useEffect(() => {
     fetchUserPost();
+    fetchComments()
   }, []);
 
   return (
@@ -86,8 +109,8 @@ const Post = () => {
               {userPost?.number_of_likes?.toLocaleString()} People approve this.
             </Text>
             <Box display="flex" alignItems="center">
-              <Text marginRight={2} fontWeight="bold">{userPost?.user?.username}</Text>
-              <Text>
+              <Text fontWeight="bold">{userPost?.user?.username}</Text>
+              <Text >
                 {userPost?.caption?.length > 140
                   ? userPost?.caption?.slice(0, 140) + "..."
                   : userPost?.caption}
@@ -109,12 +132,10 @@ const Post = () => {
           paddingY="2"
           marginY="4"
         >
-          <Text ml={5} mb={6}>
+          <Text ml={5} mr={5}mb={6}>
             Comment Section
           </Text>
-          <SmallComment></SmallComment>
-          <SmallComment></SmallComment>
-          <SmallComment></SmallComment>
+          {renderComments()}
         </Box>
       </Flex>
     </Center>

@@ -15,8 +15,9 @@ import { RiSkull2Fill, RiSkull2Line } from "react-icons/ri";
 import { GoVerified } from "react-icons/go";
 import { HiLocationMarker } from "react-icons/hi";
 import Comment from "../Comment-Section/Comment";
-import Link from "next/link"
+import Link from "next/link";
 import { axiosInstance } from "../../configs/api";
+import { useSelector } from "react-redux";
 
 const ContentCard = ({
   username,
@@ -26,29 +27,34 @@ const ContentCard = ({
   imageUrl,
   id,
   profile_picture,
-  userId
+  userId,
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
-  // const [userData, setUserData] = useState({})
+  const userSelector = useSelector((state) => state.user)
 
   const [displayCommentInput, setDisplayCommentInput] = useState(false);
 
-  const fetchComments = () => {
-    axios
-      .get(`http://localhost:2000/comments`, {
+  const fetchComments = async () => {
+    await axiosInstance
+      .get(`/comments`, {
         params: {
           postId: id,
+          _expand: "user",
         },
       })
       .then((res) => {
         setComments(res.data);
-      });
+      })
+      .catch((err) => {
+        console.log(err)
+        alert("Terjadi kesalahan pada server")
+      })
   };
 
   const renderComments = () => {
     return comments.map((val) => {
-      return <Comment content={val.content} username={val.username} />;
+      return <Comment content={val.content} username={val?.user?.username} />;
     });
   };
 
@@ -60,7 +66,7 @@ const ContentCard = ({
 
   const postNewComment = () => {
     const newData = {
-      username: "Admin2",
+      userId: userSelector.id,
       content: commentInput,
       postId: id,
     };
@@ -83,10 +89,7 @@ const ContentCard = ({
     >
       <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
         <Link href={`/profile/${userId}`}>
-          <Avatar
-            src={profile_picture}
-            size="md"
-          />
+          <Avatar src={profile_picture} size="md" sx={{ _hover: { cursor: "pointer" } }}/>
         </Link>
         <Box
           display="flex"
@@ -105,7 +108,7 @@ const ContentCard = ({
         </Box>
       </Box>
       <Link href={`/post/${id}`}>
-      <Image padding={2} src={imageUrl} />
+        <Image padding={2} src={imageUrl} sx={{ _hover: { cursor: "pointer" } }}/>
       </Link>
       <Box paddingX="3">
         <Text fontWeight="bold">
