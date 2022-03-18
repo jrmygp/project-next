@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
-import Link from "next/link"
-import { Box, Button, Icon, Input } from "@chakra-ui/react";
-import { BsSearch } from "react-icons/bs"
-import Cookies from "js-cookie"
+import Link from "next/link";
+import { Box, Button, Icon, Input, useToast } from "@chakra-ui/react";
+import { BsSearch } from "react-icons/bs";
+import Cookies from "js-cookie";
+import { BsFillCheckCircleFill } from "react-icons/bs"
 
 const NavTop = () => {
   const userSelector = useSelector((state) => state.user);
+  const toast = useToast()
 
   const dispatch = useDispatch();
 
@@ -14,9 +16,15 @@ const NavTop = () => {
       type: "USER_LOGOUT",
     });
 
-    alert("logout")
-
     Cookies.remove("user_data");
+
+    toast({
+      position: "top-right",
+      render: () => (
+        <Box color='white' p={3} bg='green.500' borderRadius={5}>
+          Log out successful <Icon bg="green.500" as={BsFillCheckCircleFill}/>
+        </Box> )
+    })
   };
 
   return (
@@ -38,19 +46,21 @@ const NavTop = () => {
         </Link>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Input w="50" marginRight="10px"/>
-        <Icon as={BsSearch} fontSize="xl"/>
+        <Input w="50" marginRight="10px" />
+        <Icon as={BsSearch} fontSize="xl" />
       </Box>
       <Box paddingRight="50px">
-      {userSelector.id ? (
+        {userSelector.id ? (
+          <Link href="/login">
             <Button onClick={logoutBtnHandler} colorScheme="red">
               Logout
             </Button>
-          ) : (
-            <Link href="/login">
-              <Button colorScheme="green">Login</Button>
-            </Link>
-          )}
+          </Link>
+        ) : (
+          <Link href="/login">
+            <Button colorScheme="green">Login</Button>
+          </Link>
+        )}
       </Box>
     </Box>
   );

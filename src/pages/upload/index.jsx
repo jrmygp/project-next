@@ -1,15 +1,16 @@
-import { Box, Button, Center, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Input, Text, useToast, Icon } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import requiresAuth from "../../component/requiresAuth";
-import ProtectedPage from "../../lib/protectedpage";
+import { BsFillCheckCircleFill } from "react-icons/bs"
 
 const UploadPage = () => {
   const userSelector = useSelector((state) => state.user);
   const [urlInput, setUrlInput] = useState("");
   const [captionInput, setCaptionInput] = useState("");
   const [locationInput, setLocationInput] = useState("");
+
   const handleUrlInput = (event) => {
     const { value } = event.target;
     setUrlInput(value);
@@ -25,6 +26,7 @@ const UploadPage = () => {
     setLocationInput(value);
   };
 
+  const toast = useToast();
   const postNewPost = () => {
     const newPost = {
       userId: userSelector.id,
@@ -35,7 +37,17 @@ const UploadPage = () => {
     };
 
     axios.post(`http://localhost:2000/posts`, newPost);
+
+    toast({
+      position: "bottom",
+      render: () => (
+        <Box color="white" p={3} bg="green.500" borderRadius={5}>
+          Upload successful <Icon bg="green.500" as={BsFillCheckCircleFill} />
+        </Box>
+      ),
+    });
   };
+
   return (
     <Center>
       <Box

@@ -7,7 +7,6 @@ import {
   Button,
   Icon,
   Input,
-  Link,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { HiEmojiHappy, HiOutlineEmojiHappy } from "react-icons/hi";
@@ -16,6 +15,7 @@ import { RiSkull2Fill, RiSkull2Line } from "react-icons/ri";
 import { GoVerified } from "react-icons/go";
 import { HiLocationMarker } from "react-icons/hi";
 import Comment from "../Comment-Section/Comment";
+import Link from "next/link"
 import { axiosInstance } from "../../configs/api";
 
 const ContentCard = ({
@@ -104,8 +104,9 @@ const ContentCard = ({
           </Box>
         </Box>
       </Box>
-
+      <Link href={`/post/${id}`}>
       <Image padding={2} src={imageUrl} />
+      </Link>
       <Box paddingX="3">
         <Text fontWeight="bold">
           {numberOfLikes.toLocaleString()} People approve this.

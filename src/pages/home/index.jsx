@@ -11,7 +11,7 @@ function HomePage() {
 
   const fetchContentList = () => {
     axios
-      .get("http://localhost:2000/posts", { params: { _expand: "user" } })
+      .get("http://localhost:2000/posts", { params: { _expand: "user", _sort: "id", _order: "desc" } })
       .then((res) => {
         setContentList(res.data);
       });

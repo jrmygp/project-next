@@ -39,6 +39,22 @@
       "image_url": "https://media-assets-ggwp.s3.ap-southeast-1.amazonaws.com/2021/02/fakta-erwin-smith-aot-4.jpg",
       "number_of_likes": 0,
       "id": 5
+    },
+    {
+      "userId": 3,
+      "location": "Bikini Bottoms",
+      "caption": "Damn bruhh",
+      "image_url": "https://starecat.com/content/wp-content/uploads/spongebob-when-she-told-you-it-was-her-first-time-but-then-she-hit-you-with-the-vacuum-seal-double-hand-twist-gawk-gawk-combo-3000.jpg",
+      "number_of_likes": 0,
+      "id": 6
+    },
+    {
+      "userId": 3,
+      "location": "blok",
+      "caption": "upin ipin",
+      "image_url": "https://pict-b.sindonews.net/dyn/850/pena/news/2022/01/18/158/659825/cerita-upin-ipin-disebut-berasal-dari-kisah-nyata-tim-produksi-beri-penjelasan-ini-teu.jpg",
+      "number_of_likes": 0,
+      "id": 7
     }
   ],
   "comments": [

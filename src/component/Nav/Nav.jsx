@@ -35,7 +35,7 @@ const Nav = () => {
       boxShadow="0 4px 12px 0 rgba(0,0,0,0.2)"
       backgroundColor="black"
       color="white"
-      borderRadius={navSize === "small" ? "15px" : "30px"}
+      borderRadius={navSize === "small" ? "15px" : "20px"}
       w={navSize === "small" ? "75px" : "200px"}
       flexDir="column"
       justifyContent="space-between"
@@ -50,6 +50,7 @@ const Nav = () => {
       >
         <IconButton
           background="none"
+          marginBottom={3}
           mt={5}
           _hover={{ background: "none" }}
           icon={<BsThreeDotsVertical />}
