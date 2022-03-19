@@ -8,6 +8,7 @@ import {
   Flex,
   Grid,
   Image,
+  Link,
 } from "@chakra-ui/react";
 import { axiosInstance } from "../../configs/api";
 import { useState } from "react";
@@ -96,9 +97,11 @@ const LoginPage = () => {
             <Button onClick={loginBtnHandler} colorScheme="green" size="md">
               Login
             </Button>
+            <Link href="/sign-up">
             <Button colorScheme="green" ml={5} size="md">
               Register
             </Button>
+            </Link>
           </Flex>
         </Center>
       </Box>
