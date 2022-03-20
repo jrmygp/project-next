@@ -128,6 +128,15 @@
       "full_name": "Kurapika Kurta",
       "password": "password123",
       "profile_picture": "https://w0.peakpx.com/wallpaper/5/464/HD-wallpaper-hair-too-long-pretty-blond-guy-kurapika-adorable-kurapica-sweet-nice-anime-evening-night-hunter-x-hunter-male-lovely-blonde-blonde-hair-blond-hair-short-hair-cute-boy-kawaii-dark.jpg"
+    },
+    {
+      "email": "test@gmail.com",
+      "password": "password123",
+      "full_name": "testing123",
+      "username": "Admin test",
+      "usertag": "@AdmnTes",
+      "profile_picture": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAALVBMVEUAAAD+/v7+AAD+/gAA/v4A/gD+AP4AAP7+/oUA/jClpaX+APNgANsAAMHb/mGtrSIMAAABC0lEQVR4nO3QyQGAIAwAMFS8ANl/XDdon3ySEVK2xHPEZk28Z6xdsb4nxh37SsaBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBg8UHP2c10Y9sFf2LAAAAAElFTkSuQmCC",
+      "id": 4
     }
   ]
 }
