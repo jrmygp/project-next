@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
   Box,
   Button,
@@ -10,17 +11,21 @@ import {
   Stack,
   Text,
   useToast,
-  Icon
+  Icon,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { axiosInstance } from "../../configs/api";
 import Link from "next/link";
 import Router from "next/router";
-import { BsFillCheckCircleFill } from "react-icons/bs"
+import { BsFillCheckCircleFill } from "react-icons/bs";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const SignUpPage = () => {
-    const toast = useToast()
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const toast = useToast();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -59,13 +64,15 @@ const SignUpPage = () => {
       };
 
       await axiosInstance.post(`/users`, newUser);
-      formik.setSubmitting(false);  
-      Router.push("/login")
+      formik.setSubmitting(false);
+      Router.push("/login");
       toast({
         position: "bottom",
         render: () => (
           <Box color="white" p={3} bg="green.500" borderRadius={5}>
-            Successfully created new account! Now please log in to your new account. <Icon bg="green.500" as={BsFillCheckCircleFill} />
+            <Text bg="green.500">Successfully created new account!</Text>
+            Now please log in to your new account.{" "}
+            <Icon bg="green.500" as={BsFillCheckCircleFill} />
           </Box>
         ),
       });
@@ -74,12 +81,11 @@ const SignUpPage = () => {
 
   const inputHandler = (event) => {
     const { value, name } = event.target;
-    console.log(value, name);
     formik.setFieldValue(name, value);
   };
 
   return (
-    <Container border="1px solid white" borderRadius={10} mt={5}>
+    <Container border="1px solid white" borderRadius={10} mt={5} color="white">
       <Stack p={10}>
         <Heading>Make new account</Heading>
         <form>
@@ -92,11 +98,25 @@ const SignUpPage = () => {
 
             <FormControl isInvalid={formik.errors.password}>
               <FormLabel htmlFor="inputPassword">Password</FormLabel>
+              <InputGroup>
               <Input
                 id="inputPassword"
                 name="password"
+                type={passwordVisible ? "text" : "password"}
                 onChange={inputHandler}
               />
+              <InputRightElement
+                children={
+                  <Icon
+                    fontSize="lg"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                    sx={{ _hover: { cursor: "pointer" } }}
+                  />
+                }
+                backgroundColor="transparent"
+              />
+              </InputGroup>
               <FormHelperText>{formik.errors.password}</FormHelperText>
             </FormControl>
 
@@ -107,6 +127,7 @@ const SignUpPage = () => {
                 name="fullname"
                 onChange={inputHandler}
               />
+              
               <FormHelperText>{formik.errors.fullname}</FormHelperText>
             </FormControl>
 

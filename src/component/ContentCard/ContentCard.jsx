@@ -84,7 +84,7 @@ const ContentCard = ({
   return (
     <Box
       backgroundColor="black"
-      color="#3CFF00"
+      color="white"
       borderWidth="1px"
       borderRadius="lg"
       maxW="lg"

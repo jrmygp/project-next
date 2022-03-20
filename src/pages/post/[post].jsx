@@ -79,7 +79,7 @@ const Post = () => {
       <Flex>
         <Box
           backgroundColor="black"
-          color="#3CFF00"
+          color="white"
           borderWidth="1px"
           borderRadius="lg"
           maxW="lg"
@@ -131,7 +131,7 @@ const Post = () => {
 
         <Box
           backgroundColor="black"
-          color="#3CFF00"
+          color="white"
           borderWidth="1px"
           borderRadius="lg"
           maxW="lg"

@@ -1,25 +1,74 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Text, Avatar, Icon, Center, Image, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Avatar,
+  Icon,
+  Center,
+  Image,
+  Flex,
+  Stack,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalFooter,
+  Button,
+  FormHelperText
+} from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
-import { MdOutlinePhotoCamera } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegEdit } from "react-icons/fa";
+import { MdOutlinePhotoCamera, MdDeleteForever } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 import { useRouter } from "next/router";
+import { useFormik } from "formik"
+import * as yup from "yup"
 
 const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
-
   const router = useRouter();
+
+
+  const formik = useFormik({
+    initialValues: {
+      location: "",
+      image: "",
+      caption: "",
+    },
+    validationSchema: yup.object().shape({
+      location: yup.string().required("You must enter a specific location!"),
+      image: yup.string().required("You must attach a proper image url!"),
+      caption: yup.string().required("You must enter a caption for the post!")
+    }),
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      const newPost = {
+        location: values.location,
+        image_url: values.image,
+        caption: values.caption
+      }
+      await axiosInstance.patch(`/posts/${postId}`, newPost)
+      formik.setSubmitting(false)
+    }
+  })
 
   const fetchUserPosts = () => {
     axios
       .get(`http://localhost:2000/posts`, {
         params: {
-          userId: userSelector.id,
+          userId: user.id,
         },
       })
       .then((res) => {
@@ -32,6 +81,17 @@ const MyProfilePage = ({ user }) => {
       });
   };
 
+  const deletePost = async (postId) => {
+    await axiosInstance.delete(`/posts/${postId}`);
+    fetchUserPosts();
+  };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const inputHandler = (event) => {
+    const { value, name } = event.target;
+    formik.setFieldValue(name, value);
+  };
   useEffect(() => {
     fetchUserPosts();
   }, []);
@@ -39,13 +99,68 @@ const MyProfilePage = ({ user }) => {
   const renderPost = () => {
     return userPost.map((val) => {
       return (
-        <Image
-          src={val.image_url}
-          boxSize="245px"
-          margin="5px"
-          objectFit="cover"
-          border="1px solid white"
-        />
+        <Box>
+          <Image
+            src={val.image_url}
+            boxSize="245px"
+            marginTop="5px"
+            marginRight="5px"
+            marginBottom="5px"
+            marginLeft="6px"
+            objectFit="cover"
+            border="1px solid white"
+          />
+          <Flex mb={2} paddingLeft={2}>
+            <Icon
+              as={RiDeleteBin6Line}
+              color="gray.500"
+              onClick={() => deletePost(val.id)}
+              sx={{ _hover: { cursor: "pointer" } }}
+              marginRight={5}
+            />
+            <Icon
+              as={FaRegEdit}
+              color="gray.500"
+              onClick={onOpen}
+              sx={{ _hover: { cursor: "pointer" } }}
+            />
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent border="1px solid white" borderRadius={1}>
+                <ModalHeader color="white">Edit this post</ModalHeader>
+                <ModalCloseButton color="white" />
+                <ModalBody pb={6}>
+                  <FormControl color="white" mb={3} isInvalid={formik.errors.location}>
+                    <FormLabel>Location</FormLabel>
+                    <Input placeholder="Input new location" name="location" onChange={inputHandler}/>
+                    <FormHelperText>{formik.errors.location}</FormHelperText>
+                  </FormControl>
+
+                  <FormControl color="white" mb={3} isInvalid={formik.errors.image}>
+                    <FormLabel>Image</FormLabel>
+                    <Input placeholder="Input new image" name="image" onChange={inputHandler}/>
+                    <FormHelperText>{formik.errors.image}</FormHelperText>
+                  </FormControl>
+
+                  <FormControl color="white" mb={3} isInvalid={formik.errors.caption}>
+                    <FormLabel>Caption</FormLabel>
+                    <Input placeholder="Input new caption" name="caption" onChange={inputHandler}/>
+                    <FormHelperText>{formik.errors.caption}</FormHelperText>
+                  </FormControl>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button colorScheme="green" marginRight={5} onClick={formik.handleSubmit} type="submit">
+                    Save
+                  </Button>
+                  <Button colorScheme="red" onClick={onClose}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </Flex>
+        </Box>
       );
     });
   };
@@ -132,7 +247,9 @@ const MyProfilePage = ({ user }) => {
 };
 
 export const getServerSideProps = requiresAuth((context) => {
-  const userData = context.req.cookies.user_data;
+  let userData = context.req.cookies.user_data;
+
+  userData = JSON.parse(userData);
 
   return {
     props: {

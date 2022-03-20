@@ -6,19 +6,23 @@ import {
   Input,
   Text,
   Flex,
-  Grid,
+  Icon,
   Image,
   Link,
+  InputGroup,
+  InputRightElement
 } from "@chakra-ui/react";
 import { axiosInstance } from "../../configs/api";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
 import Cookies from "js-cookie";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const LoginPage = () => {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const userSelector = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -65,14 +69,15 @@ const LoginPage = () => {
 
   return (
     <Flex>
-      <Image 
-      src="https://wallpapercave.com/wp/wp8424243.png"
-      w="500px"
-      objectFit="cover"/>
+      <Image
+        src="https://wallpapercave.com/wp/wp8424243.png"
+        w="500px"
+        objectFit="cover"
+      />
 
       <Box
         maxWidth="lg"
-        color="#3CFF00"
+        color="white"
         border="1px solid white"
         w={400}
         borderRadius={10}
@@ -87,20 +92,33 @@ const LoginPage = () => {
         <FormLabel>Username</FormLabel>
         <Input onChange={(event) => inputHandler(event, "username")} mb={5} />
         <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          onChange={(event) => inputHandler(event, "password")}
-          mb={5}
-        />
+        <InputGroup>
+          <Input
+            onChange={(event) => inputHandler(event, "password")}
+            mb={5}
+            type={passwordVisible ? "text" : "password"}
+          />
+          <InputRightElement
+            children={
+              <Icon
+                fontSize="lg"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+                as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                sx={{ _hover: { cursor: "pointer" } }}
+              />
+            }
+            backgroundColor="transparent"
+          />
+        </InputGroup>
         <Center>
           <Flex>
             <Button onClick={loginBtnHandler} colorScheme="green" size="md">
               Login
             </Button>
             <Link href="/sign-up">
-            <Button colorScheme="green" ml={5} size="md">
-              Register
-            </Button>
+              <Button colorScheme="green" ml={5} size="md">
+                Register
+              </Button>
             </Link>
           </Flex>
         </Center>

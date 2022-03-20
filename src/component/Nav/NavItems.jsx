@@ -23,7 +23,7 @@ const NavItems = ({ navSize, icon, title, active, description, href = ""}) => {
         <Link href={href}>
           <MenuButton w="100%" marginBottom={10}>
             <Flex>
-              <Icon as={icon} fontSize="xl" color={active ? "#82AAAD" : "#3CFF00" }/>
+              <Icon as={icon} fontSize="xl" color={active ? "#82AAAD" : "#white" }/>
               <Text ml={3} display={navSize == "small" ? "none" : "flex"}>{title}</Text>
             </Flex>
           </MenuButton>
