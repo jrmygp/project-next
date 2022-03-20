@@ -33,7 +33,7 @@ const ContentCard = ({
   const [commentInput, setCommentInput] = useState("");
   const userSelector = useSelector((state) => state.user)
 
-  const [displayCommentInput, setDisplayCommentInput] = useState(false);
+  const [displayComment, setDisplayComment] = useState(false);
 
   const fetchComments = async () => {
     await axiosInstance
@@ -76,6 +76,10 @@ const ContentCard = ({
       setDisplayCommentInput(false);
     });
   };
+
+  useEffect (() => {
+    fetchComments()
+  },[])
 
   return (
     <Box
@@ -142,20 +146,17 @@ const ContentCard = ({
           marginRight="5"
         />
       </Box>
-      {/* // ) : null} */}
-
-      {comments.length === 0 ? (
+      {displayComment ? renderComments() : null}
+      
         <Button
-          onClick={fetchComments}
+          onClick={() => setDisplayComment(!displayComment)}
           size="xs"
           backgroundColor="black"
           marginLeft={2}
         >
-          See Comments
+          {!displayComment ? "See Comments" : "Hide Comments"}
         </Button>
-      ) : null}
 
-      {renderComments()}
     </Box>
   );
 };
