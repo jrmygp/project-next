@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import requiresAuth from "../../component/requiresAuth";
 import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs";
+import Link from "next/link";
 
 const UploadPage = () => {
   const userSelector = useSelector((state) => state.user);
@@ -99,9 +100,11 @@ const UploadPage = () => {
             onChange={handleLocationInput}
           />
           <Box p="5px">
+            <Link href="/home">
             <Button color="black" onClick={postNewPost} maxW="xs" mt={3} mr={5}>
               Upload
             </Button>
+            </Link>
             <Button
               color="black"
               maxW="xs"
