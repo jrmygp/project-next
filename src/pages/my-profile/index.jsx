@@ -22,7 +22,7 @@ import {
   Input,
   ModalFooter,
   Button,
-  FormHelperText
+  FormHelperText,
 } from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -34,8 +34,8 @@ import requiresAuth from "../../component/requiresAuth";
 import { useRouter } from "next/router";
 import { useFormik } from "formik"
 import * as yup from "yup"
-
-const MyProfilePage = ({ user }) => {
+import Link from "next/link"
+const MyProfilePage = ({ user, id }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
@@ -107,6 +107,7 @@ const MyProfilePage = ({ user }) => {
     return userPost.map((val) => {
       return (
         <Box>
+          <Link href={`/post/${id}`}>
           <Image
             src={val.image_url}
             boxSize="245px"
@@ -116,7 +117,9 @@ const MyProfilePage = ({ user }) => {
             marginLeft="6px"
             objectFit="cover"
             border="1px solid white"
-          />
+            sx={{ _hover: { cursor: "pointer" } }}
+            />
+            </Link>
           <Flex mb={2} paddingLeft={2}>
             <Icon
               as={RiDeleteBin6Line}
@@ -261,6 +264,7 @@ export const getServerSideProps = requiresAuth((context) => {
   return {
     props: {
       user: userData,
+      // id: postId
     },
   };
 });
