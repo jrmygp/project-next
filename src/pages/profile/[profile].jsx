@@ -5,6 +5,7 @@ import { GoVerified } from "react-icons/go";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useRouter } from "next/router";
 import requiresAuth from "../../component/requiresAuth";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState({});
@@ -50,13 +51,16 @@ const ProfilePage = () => {
   const renderPost = () => {
     return userPost.map((val) => {
       return (
+        <Link href={`/post/${val.id}`}>
         <Image
           src={val.image_url}
           boxSize="245px"
           margin="5px"
           objectFit="cover"
           border="1px solid white"
+          sx={{ _hover: { cursor: "pointer" } }}
         />
+        </Link>
       );
     });
   };
