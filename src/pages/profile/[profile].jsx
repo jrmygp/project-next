@@ -28,6 +28,8 @@ const ProfilePage = () => {
       .get(`http://localhost:2000/posts`, {
         params: {
           userId: router.query.profile,
+          _sort: "id",
+          _order: "desc"
         },
       })
       .then((res) => {

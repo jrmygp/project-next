@@ -64,6 +64,7 @@ const Post = () => {
         <SmallComment
           content={val.content}
           profile_picture={val?.user?.profile_picture}
+          user={val?.user?.id}
         />
       );
     });

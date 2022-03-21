@@ -32,15 +32,14 @@ import { useSelector } from "react-redux";
 import { axiosInstance } from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 import { useRouter } from "next/router";
-import { useFormik } from "formik"
-import * as yup from "yup"
-import Link from "next/link"
-const MyProfilePage = ({ user, id }) => {
+import { useFormik } from "formik";
+import * as yup from "yup";
+import Link from "next/link";
+const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
-  const [editPostId, setEditPostId] = useState(0)
-
+  const [editPostId, setEditPostId] = useState(0);
 
   const formik = useFormik({
     initialValues: {
@@ -51,26 +50,28 @@ const MyProfilePage = ({ user, id }) => {
     validationSchema: yup.object().shape({
       location: yup.string().required("You must enter a specific location!"),
       image: yup.string().required("You must attach a proper image url!"),
-      caption: yup.string().required("You must enter a caption for the post!")
+      caption: yup.string().required("You must enter a caption for the post!"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
       const newPost = {
         location: values.location,
         image_url: values.image,
-        caption: values.caption
-      }
-      await axiosInstance.patch(`/posts/${editPostId}`, newPost)
-      formik.setSubmitting(false)
-      onClose()
-    }
-  })
+        caption: values.caption,
+      };
+      await axiosInstance.patch(`/posts/${editPostId}`, newPost);
+      formik.setSubmitting(false);
+      onClose();
+    },
+  });
 
   const fetchUserPosts = () => {
     axios
       .get(`http://localhost:2000/posts`, {
         params: {
           userId: user.id,
+          _sort: "id",
+          _order: "desc"
         },
       })
       .then((res) => {
@@ -88,7 +89,11 @@ const MyProfilePage = ({ user, id }) => {
     fetchUserPosts();
   };
 
+  // edit modal
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // delete modal
+  const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure();
 
   const inputHandler = (event) => {
     const { value, name } = event.target;
@@ -99,35 +104,49 @@ const MyProfilePage = ({ user, id }) => {
   }, []);
 
   const openEditModal = (postId) => {
-    onOpen()
-    setEditPostId(postId)
-  }
+    onOpen();
+    setEditPostId(postId);
+  };
 
   const renderPost = () => {
     return userPost.map((val) => {
       return (
         <Box>
-          <Link href={`/post/${id}`}>
-          <Image
-            src={val.image_url}
-            boxSize="245px"
-            marginTop="5px"
-            marginRight="5px"
-            marginBottom="5px"
-            marginLeft="6px"
-            objectFit="cover"
-            border="1px solid white"
-            sx={{ _hover: { cursor: "pointer" } }}
+          <Link href={`/post/${val.id}`}>
+            <Image
+              src={val.image_url}
+              boxSize="245px"
+              marginTop="5px"
+              marginRight="5px"
+              marginBottom="5px"
+              marginLeft="6px"
+              objectFit="cover"
+              border="1px solid white"
+              sx={{ _hover: { cursor: "pointer" } }}
             />
-            </Link>
+          </Link>
           <Flex mb={2} paddingLeft={2}>
             <Icon
               as={RiDeleteBin6Line}
-              color="gray.500"
-              onClick={() => deletePost(val.id)}
+              color="gray.500" 
+              onClick={onOpenDelete}
               sx={{ _hover: { cursor: "pointer" } }}
               marginRight={5}
             />
+            <Modal isOpen={isOpenDelete} onClose={onCloseDelete}>
+              <ModalOverlay />
+              <ModalContent border="1px solid white">
+                <ModalHeader color="black">Delete Post</ModalHeader>
+                <ModalCloseButton color="black" />
+                <ModalBody pb={6}>
+                  <Text>Are you sure to delete this post?</Text>
+                </ModalBody>
+                <ModalFooter>
+                  <Button onClick={onCloseDelete} mr={5} variant="outline">Cancel</Button>
+                  <Button colorScheme="red" onClick={() => deletePost(val.id)}>Delete</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
             <Icon
               as={FaRegEdit}
               color="gray.500"
@@ -136,31 +155,60 @@ const MyProfilePage = ({ user, id }) => {
             />
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
-              <ModalContent border="1px solid white" borderRadius={1}>
-                <ModalHeader color="white">Edit this post</ModalHeader>
-                <ModalCloseButton color="white" />
+              <ModalContent border="1px solid white" borderRadius={3}>
+                <ModalHeader color="black">Edit this post</ModalHeader>
+                <ModalCloseButton color="black" />
                 <ModalBody pb={6}>
-                  <FormControl color="white" mb={3} isInvalid={formik.errors.location}>
+                  <FormControl
+                    color="black"
+                    mb={3}
+                    isInvalid={formik.errors.location}
+                  >
                     <FormLabel>Location</FormLabel>
-                    <Input placeholder="Input new location" name="location" onChange={inputHandler}/>
+                    <Input
+                      placeholder="Input new location"
+                      name="location"
+                      onChange={inputHandler}
+                    />
                     <FormHelperText>{formik.errors.location}</FormHelperText>
                   </FormControl>
 
-                  <FormControl color="white" mb={3} isInvalid={formik.errors.image}>
+                  <FormControl
+                    color="black"
+                    mb={3}
+                    isInvalid={formik.errors.image}
+                  >
                     <FormLabel>Image</FormLabel>
-                    <Input placeholder="Input new image" name="image" onChange={inputHandler}/>
+                    <Input
+                      placeholder="Input new image"
+                      name="image"
+                      onChange={inputHandler}
+                    />
                     <FormHelperText>{formik.errors.image}</FormHelperText>
                   </FormControl>
 
-                  <FormControl color="white" mb={3} isInvalid={formik.errors.caption}>
+                  <FormControl
+                    color="black"
+                    mb={3}
+                    isInvalid={formik.errors.caption}
+                  >
                     <FormLabel>Caption</FormLabel>
-                    <Input placeholder="Input new caption" name="caption" onChange={inputHandler}/>
+                    <Input
+                      placeholder="Input new caption"
+                      name="caption"
+                      onChange={inputHandler}
+                    />
                     <FormHelperText>{formik.errors.caption}</FormHelperText>
                   </FormControl>
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button colorScheme="green" marginRight={5} onClick={formik.handleSubmit} type="submit">
+                  <Button
+                    colorScheme="green"
+                    marginRight={5}
+                    onClick={formik.handleSubmit}
+                    type="submit"
+                  >
                     Save
                   </Button>
                   <Button colorScheme="red" onClick={onClose}>
