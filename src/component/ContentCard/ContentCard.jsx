@@ -18,6 +18,8 @@ import Comment from "../Comment-Section/Comment";
 import Link from "next/link";
 import { axiosInstance } from "../../configs/api";
 import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as yup from "yup"
 
 const ContentCard = ({
   username,
@@ -74,6 +76,8 @@ const ContentCard = ({
     axios.post(`http://localhost:2000/comments`, newData).then(() => {
       fetchComments();
     });
+
+    setDisplayComment(!displayComment)
   };
 
   useEffect (() => {
@@ -140,6 +144,7 @@ const ContentCard = ({
           onClick={postNewComment}
           marginLeft="5"
           marginRight="5"
+          sx={{ _hover: { cursor: "pointer" } }}
         />
       </Box>
       {displayComment ? renderComments() : null}

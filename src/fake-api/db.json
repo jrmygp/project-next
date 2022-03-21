@@ -127,6 +127,18 @@
       "content": "bruhhhh",
       "postId": 5,
       "id": 9
+    },
+    {
+      "userId": 5,
+      "content": "JAHAHAHA",
+      "postId": 9,
+      "id": 10
+    },
+    {
+      "userId": 5,
+      "content": "test",
+      "postId": 9,
+      "id": 11
     }
   ],
   "users": [
