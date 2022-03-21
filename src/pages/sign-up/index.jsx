@@ -85,7 +85,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <Container border="1px solid white" borderRadius={10} mt={5} color="white">
+    <Container border="1px solid white" borderRadius={10} mt={5} color="white" background="black">
       <Stack p={10}>
         <Heading>Make new account</Heading>
         <form>
