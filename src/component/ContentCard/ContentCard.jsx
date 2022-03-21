@@ -112,7 +112,7 @@ const ContentCard = ({
         </Box>
       </Box>
       <Link href={`/post/${id}`}>
-        <Image padding={2} src={imageUrl} sx={{ _hover: { cursor: "pointer" } }}/>
+        <Image padding={2} src={imageUrl} minW={510} sx={{ _hover: { cursor: "pointer" } }}/>
       </Link>
       <Box paddingX="3">
         <Text fontWeight="bold">

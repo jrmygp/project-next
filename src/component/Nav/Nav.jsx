@@ -88,7 +88,7 @@ const Nav = () => {
           navSize={navSize}
           icon={IoMdSettings}
           title="Settings"
-          href="/settings"
+          href="/test"
         />
       </Flex>
 

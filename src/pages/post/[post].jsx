@@ -107,7 +107,7 @@ const Post = () => {
             </Box>
           </Box>
           {/* <Link href={`/posts/${id}`}> */}
-          <Image padding={2} src={userPost?.image_url} />
+          <Image padding={2} src={userPost?.image_url} minW={510}/>
           {/* </Link> */}
           <Box paddingX="3">
             <Text fontWeight="bold">

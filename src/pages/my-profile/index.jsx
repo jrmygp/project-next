@@ -39,6 +39,7 @@ const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
+  const [editPostId, setEditPostId] = useState(0)
 
 
   const formik = useFormik({
@@ -59,8 +60,9 @@ const MyProfilePage = ({ user }) => {
         image_url: values.image,
         caption: values.caption
       }
-      await axiosInstance.patch(`/posts/${postId}`, newPost)
+      await axiosInstance.patch(`/posts/${editPostId}`, newPost)
       formik.setSubmitting(false)
+      onClose()
     }
   })
 
@@ -96,6 +98,11 @@ const MyProfilePage = ({ user }) => {
     fetchUserPosts();
   }, []);
 
+  const openEditModal = (postId) => {
+    onOpen()
+    setEditPostId(postId)
+  }
+
   const renderPost = () => {
     return userPost.map((val) => {
       return (
@@ -121,7 +128,7 @@ const MyProfilePage = ({ user }) => {
             <Icon
               as={FaRegEdit}
               color="gray.500"
-              onClick={onOpen}
+              onClick={() => openEditModal(val.id)}
               sx={{ _hover: { cursor: "pointer" } }}
             />
             <Modal isOpen={isOpen} onClose={onClose}>
