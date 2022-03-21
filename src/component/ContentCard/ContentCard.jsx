@@ -91,7 +91,7 @@ const ContentCard = ({
       marginY="4"
     >
       <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
-        <Link href={`/profile/${userId}`}>
+        <Link href={userSelector.id === userId ? `/my-profile` : `/profile/${userId}`}>
           <Avatar src={profile_picture} size="md" sx={{ _hover: { cursor: "pointer" } }}/>
         </Link>
         <Box
