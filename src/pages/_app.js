@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
           {router.query == "/login" ? null : (
             <NavTop position="sticky" zIndex="999" />
           )}
-          <Flex>
+          <Flex background="#23272A">
             <Nav />
             <Box flex={1}>
               <Component {...pageProps} />

@@ -85,6 +85,24 @@
       "content": "ANAK ANJING",
       "postId": 1,
       "id": 6
+    },
+    {
+      "userId": 3,
+      "content": "lmaoo wtf is gawk gawk combo 3000",
+      "postId": 6,
+      "id": 7
+    },
+    {
+      "userId": 3,
+      "content": "lmaoo wtf is gawk gawk combo 3000",
+      "postId": 6,
+      "id": 8
+    },
+    {
+      "userId": 3,
+      "content": "bruhhhh",
+      "postId": 5,
+      "id": 9
     }
   ],
   "users": [

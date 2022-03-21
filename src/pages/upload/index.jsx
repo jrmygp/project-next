@@ -8,6 +8,9 @@ import {
   Icon,
   InputGroup,
   InputRightElement,
+  Avatar,
+  Image,
+  Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -20,6 +23,8 @@ const UploadPage = () => {
   const [urlInput, setUrlInput] = useState("");
   const [captionInput, setCaptionInput] = useState("");
   const [locationInput, setLocationInput] = useState("");
+  const [preview, setPreview] = useState(false);
+  const toast = useToast();
 
   const handleUrlInput = (event) => {
     const { value } = event.target;
@@ -36,7 +41,6 @@ const UploadPage = () => {
     setLocationInput(value);
   };
 
-  const toast = useToast();
   const postNewPost = () => {
     const newPost = {
       userId: userSelector.id,
@@ -60,39 +64,103 @@ const UploadPage = () => {
 
   return (
     <Center>
-      <Box
-        w="50vh"
-        h="50vh"
-        display="flex"
-        flexDir="column"
-        justifyContent="center"
-        color="white"
-      >
-        <InputGroup>
+      <Stack>
+        <Box
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          color="white"
+          border="1px solid white"
+          mt={10}
+          maxW="lg"
+          p="10px"
+          borderRadius={8}
+          background="black"
+        >
+          <InputGroup>
+            <Input
+              // w="50vh"
+              marginBottom="10px"
+              placeholder="upload your link image here"
+              onChange={handleUrlInput}
+            />
+            {/* <InputRightElement children={<Icon as={BsImageFill}/>}/> */}
+          </InputGroup>
           <Input
-            w="50vh"
+            // w="50vh"
             marginBottom="10px"
-            placeholder="upload your link image here"
-            onChange={handleUrlInput}
+            placeholder="write your caption here"
+            onChange={handleCaptionInput}
           />
-          {/* <InputRightElement children={<Icon as={BsImageFill}/>}/> */}
-        </InputGroup>
-        <Input
-          w="50vh"
-          marginBottom="10px"
-          placeholder="write your caption here"
-          onChange={handleCaptionInput}
-        />
-        <Input
-          w="50vh"
-          marginBottom="10px"
-          placeholder="write your location here"
-          onChange={handleLocationInput}
-        />
-        <Button color="black" onClick={postNewPost}>
-          Upload
-        </Button>
-      </Box>
+          <Input
+            // w="50vh"
+            marginBottom="10px"
+            placeholder="write your location here"
+            onChange={handleLocationInput}
+          />
+          <Box p="5px">
+            <Button color="black" onClick={postNewPost} maxW="xs" mt={3} mr={5}>
+              Upload
+            </Button>
+            <Button
+              color="black"
+              maxW="xs"
+              mt={3}
+              onClick={() => setPreview(!preview)}
+            >
+              Preview
+            </Button>
+          </Box>
+        </Box>
+        {/* Post Preview */}
+        {preview ? (
+          <Box
+            backgroundColor="black"
+            color="white"
+            borderWidth="1px"
+            borderRadius="lg"
+            maxW="lg"
+            paddingY="2"
+            marginY="4"
+          >
+            <Box
+              paddingX="3"
+              display="flex"
+              alignItems="center"
+              marginBottom={1}
+            >
+              <Avatar size="md" src={userSelector.profile_picture} />
+              <Box
+                display="flex"
+                justifyContent="center"
+                flexDirection="column"
+                marginLeft={2}
+              >
+                <Box display="flex" alignItems="center">
+                  <Text fontWeight="bold">{userSelector.username}</Text>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <Text fontSize="xs">{locationInput}</Text>
+                </Box>
+              </Box>
+            </Box>
+            <Image
+              padding={2}
+              minW={510}
+              src={urlInput}
+            />
+            <Box paddingX="3">
+              <Text fontWeight="bold">
+                {(69420).toLocaleString()} People approve this.
+              </Text>
+              <Text>
+                <span className="fw-bold">{userSelector.username}</span>{" "}
+                <span>{captionInput}</span>
+              </Text>
+            </Box>
+          </Box>
+        ) : null}
+      </Stack>
     </Center>
   );
 };

@@ -73,7 +73,6 @@ const ContentCard = ({
 
     axios.post(`http://localhost:2000/comments`, newData).then(() => {
       fetchComments();
-      setDisplayCommentInput(false);
     });
   };
 
@@ -129,12 +128,9 @@ const ContentCard = ({
           <Icon boxSize={6} as={RiSkull2Line} marginLeft={2}></Icon>
         </Box>
       </Box>
-      {/* 
-      {displayCommentInput ? ( */}
       <Box marginTop={4} padding={3} display="flex" alignItems="center">
         <Input
           onChange={handleCommentInput}
-          onClick={() => setDisplayCommentInput(true)}
           type="text"
           placeholder="Insert flame comment here!"
         />
