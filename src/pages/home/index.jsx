@@ -4,16 +4,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Box, Center } from "@chakra-ui/react";
 import requiresAuth from "../../component/requiresAuth";
+import { axiosInstance } from "../../configs/api";
 
 function HomePage() {
   const [contentList, setContentList] = useState([]);
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({});
 
   const fetchContentList = () => {
-    axios
-      .get("http://localhost:2000/posts", { params: { _expand: "user", _sort: "id", _order: "desc" } })
+    // axios
+    //   .get("http://localhost:2000/posts", { params: { _expand: "user", _sort: "id", _order: "desc" } })
+    axiosInstance
+      .get("/post", {
+        params: { _expand: "user", _sort: "id", _order: "desc" },
+      })
       .then((res) => {
-        setContentList(res.data);
+        setContentList(res.data.result);
       });
   };
 
@@ -21,13 +26,13 @@ function HomePage() {
     return contentList.map((val) => {
       return (
         <ContentCard
-          username={val.user.username}
+          username={val?.user?.username}
           caption={val.caption}
           imageUrl={val.image_url}
           location={val.location}
           numberOfLikes={val.number_of_likes}
           id={val.id}
-          profile_picture = {val?.user?.profile_picture}
+          profile_picture={val?.user?.profile_picture}
           userId={val?.userId}
         />
       );
@@ -49,10 +54,10 @@ function HomePage() {
   );
 }
 
-export const getServerSideProps = requiresAuth((context) => {
-  return {
-    props: {},
-  };
-});
+// export const getServerSideProps = requiresAuth((context) => {
+//   return {
+//     props: {},
+//   };
+// });
 
 export default HomePage;
