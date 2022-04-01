@@ -10,7 +10,7 @@ import {
   Image,
   Link,
   InputGroup,
-  InputRightElement
+  InputRightElement,
 } from "@chakra-ui/react";
 import { axiosInstance } from "../../configs/api";
 import { useState } from "react";
@@ -36,31 +36,28 @@ const LoginPage = () => {
     }
   };
 
-  const loginBtnHandler = () => {
-    axiosInstance
-      .get("/users", {
-        params: {
-          username: usernameInput,
-          password: passwordInput,
-        },
-      })
-      .then((res) => {
-        const userData = res.data[0];
-
-        if (userData) {
-          dispatch({
-            type: "USER_LOGIN",
-            payload: userData,
-          });
-
-          const parsedData = JSON.stringify(userData);
-
-          Cookies.set("user_data", parsedData);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+  const loginBtnHandler = async () => {
+    try {
+      const userResponse = await axiosInstance.post("/user/login", {
+        username: usernameInput,
+        password: passwordInput,
       });
+ 
+      const userData = userResponse.data.result.user
+
+      if (userData) {
+        dispatch({
+          type: "USER_LOGIN",
+          payload: userData,
+        });
+
+        const parsedData = JSON.stringify(userData);
+
+        Cookies.set("user_data", parsedData);
+      }
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   if (userSelector.id) {

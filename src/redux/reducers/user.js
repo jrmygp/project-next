@@ -16,7 +16,7 @@ const userReducer = ( state = initial_state, action) => {
             full_name: action.payload.full_name,
             id: action.payload.id,
             profile_picture: action.payload.profile_picture,
-            usertag: action.payload.usertag,
+            usertag: action.payload.tag_name,
         }
     } else if (action.type === "USER_LOGOUT") {
         return initial_state

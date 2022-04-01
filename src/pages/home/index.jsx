@@ -10,16 +10,14 @@ function HomePage() {
   const [contentList, setContentList] = useState([]);
   const [userData, setUserData] = useState({});
 
-  const fetchContentList = () => {
+  const fetchContentList = async () => {
     // axios
     //   .get("http://localhost:2000/posts", { params: { _expand: "user", _sort: "id", _order: "desc" } })
-    axiosInstance
+    const res = await axiosInstance
       .get("/post", {
         params: { _expand: "user", _sort: "id", _order: "desc" },
       })
-      .then((res) => {
-        setContentList(res.data.result);
-      });
+
   };
 
   const renderContentList = () => {
@@ -54,10 +52,10 @@ function HomePage() {
   );
 }
 
-// export const getServerSideProps = requiresAuth((context) => {
-//   return {
-//     props: {},
-//   };
-// });
+export const getServerSideProps = requiresAuth((context) => {
+  return {
+    props: {},
+  };
+});
 
 export default HomePage;
