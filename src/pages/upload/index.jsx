@@ -18,6 +18,8 @@ import { useSelector } from "react-redux";
 import requiresAuth from "../../component/requiresAuth";
 import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs";
 import Link from "next/link";
+import { useRef } from "react";
+import { axiosInstance } from "../../configs/api";
 
 const UploadPage = () => {
   const userSelector = useSelector((state) => state.user);
@@ -26,6 +28,29 @@ const UploadPage = () => {
   const [locationInput, setLocationInput] = useState("");
   const [preview, setPreview] = useState(false);
   const toast = useToast();
+  const inputFileRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFile = (event) => {
+    setSelectedFile(event.target.files[0]);
+    alert(event.target.files[0].name);
+  };
+
+
+  const uploadContentHandler = async () => {
+    const formData = new FormData();
+
+    formData.append("caption", captionInput);
+    formData.append("location", locationInput);
+    formData.append("user_id", 2);
+    formData.append("post_image_file", selectedFile);
+
+    try {
+      await axiosInstance.post("/posts", formData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleUrlInput = (event) => {
     const { value } = event.target;
@@ -83,9 +108,27 @@ const UploadPage = () => {
               // w="50vh"
               marginBottom="10px"
               placeholder="upload your link image here"
-              onChange={handleUrlInput}
+              onChange={handleFile}
+              ref={inputFileRef}
+              type="file"
+              display="none"
             />
+            <Button
+              onClick={() => inputFileRef.current.click()}
+              colorScheme="green"
+              mb="10px"
+            >
+              Choose Image File
+            </Button>
             {/* <InputRightElement children={<Icon as={BsImageFill}/>}/> */}
+            <Button
+              colorScheme="facebook"
+              size="sm"
+              ml={2}
+              onClick={uploadContentHandler}
+            >
+              Upload File
+            </Button>
           </InputGroup>
           <Input
             // w="50vh"
@@ -101,9 +144,15 @@ const UploadPage = () => {
           />
           <Box p="5px">
             <Link href="/home">
-            <Button color="black" onClick={postNewPost} maxW="xs" mt={3} mr={5}>
-              Upload
-            </Button>
+              <Button
+                color="black"
+                onClick={uploadContentHandler}
+                maxW="xs"
+                mt={3}
+                mr={5}
+              >
+                Upload
+              </Button>
             </Link>
             <Button
               color="black"
@@ -147,11 +196,7 @@ const UploadPage = () => {
                 </Box>
               </Box>
             </Box>
-            <Image
-              padding={2}
-              minW={510}
-              src={urlInput}
-            />
+            <Image padding={2} minW={510} src={urlInput} />
             <Box paddingX="3">
               <Text fontWeight="bold">
                 {(69420).toLocaleString()} People approve this.
@@ -168,10 +213,10 @@ const UploadPage = () => {
   );
 };
 
-export const getServerSideProps = requiresAuth((context) => {
-  return {
-    props: {},
-  };
-});
+// export const getServerSideProps = requiresAuth((context) => {
+//   return {
+//     props: {},
+//   };
+// });
 
 export default UploadPage;
