@@ -1,6 +1,6 @@
 const requiresAuth = (gssp) => {
   return async (context) => {
-    const savedUserData = context.req.cookies.user_data;
+    const savedUserData = context.req.cookies.user_token;
 
     console.log(savedUserData)
 

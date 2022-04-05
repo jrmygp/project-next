@@ -11,59 +11,106 @@ import {
   Link,
   InputGroup,
   InputRightElement,
+  useToast
 } from "@chakra-ui/react";
+import { useRouter } from "next/router"
+import { userLogin } from "../../redux/actions/user";
 import { axiosInstance } from "../../configs/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
 import Cookies from "js-cookie";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import jsCookie from "js-cookie";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const LoginPage = () => {
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  // const [usernameInput, setUsernameInput] = useState("");
+  // const [passwordInput, setPasswordInput] = useState("");
+  // const [passwordVisible, setPasswordVisible] = useState(false);
+
+  // const userSelector = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
+
+  // const inputHandler = (event, field) => {
+  //   const { value } = event.target;
+  //   if (field === "username") {
+  //     setUsernameInput(value);
+  //   } else if (field === "password") {
+  //     setPasswordInput(value);
+  //   }
+  // };
+
+  // const loginBtnHandler = async () => {
+  //   try {
+  //     const userResponse = await axiosInstance.post("/user/login", {
+  //       username: usernameInput,
+  //       password: passwordInput,
+  //     });
+
+  //     const userData = userResponse.data.result.user
+
+  //     jsCookie.set("user_token", userResponse.token)
+
+  //     if (userData) {
+  //       dispatch({
+  //         type: "USER_LOGIN",
+  //         payload: userData,
+  //       });
+
+  //       const parsedData = JSON.stringify(userData);
+
+  //       Cookies.set("user_data", parsedData);
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // };
+
+  // if (userSelector.id) {
+  //   Router.push("/home");
+  // }
+
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const userSelector = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const inputHandler = (event, field) => {
-    const { value } = event.target;
-    if (field === "username") {
-      setUsernameInput(value);
-    } else if (field === "password") {
-      setPasswordInput(value);
-    }
+  const userSelector = useSelector((state) => state.user);
+
+  const router = useRouter();
+
+  const toast = useToast();
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object().shape({
+      username: Yup.string().required("This field is required"),
+      password: Yup.string().required("This field is required"),
+    }),
+    validateOnChange: false,
+    onSubmit: (values) => {
+      console.log(values)
+      setTimeout(() => {
+        dispatch(userLogin(values, formik.setSubmitting));
+      }, 2000);
+    },
+  });
+
+  const inputHandler = (event) => {
+    const { value, name } = event.target;
+
+    formik.setFieldValue(name, value);
   };
 
-  const loginBtnHandler = async () => {
-    try {
-      const userResponse = await axiosInstance.post("/user/login", {
-        username: usernameInput,
-        password: passwordInput,
-      });
- 
-      const userData = userResponse.data.result.user
-
-      if (userData) {
-        dispatch({
-          type: "USER_LOGIN",
-          payload: userData,
-        });
-
-        const parsedData = JSON.stringify(userData);
-
-        Cookies.set("user_data", parsedData);
-      }
-    } catch (err) {
-      console.log(err)
+  useEffect(() => {
+    if (userSelector.id) {
+      router.push("/home");
     }
-  };
-
-  if (userSelector.id) {
-    Router.push("/home");
-  }
-
+  }, [userSelector.id]);
   return (
     <Flex background="black">
       <Image
@@ -87,13 +134,14 @@ const LoginPage = () => {
           <Text>Welcome to Weebsgram™</Text>
         </Center>
         <FormLabel>Username</FormLabel>
-        <Input onChange={(event) => inputHandler(event, "username")} mb={5} />
+        <Input onChange={inputHandler} mb={5} name="username"/>
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
-            onChange={(event) => inputHandler(event, "password")}
+            onChange={inputHandler}
             mb={5}
             type={passwordVisible ? "text" : "password"}
+            name="password"
           />
           <InputRightElement
             children={
@@ -109,7 +157,7 @@ const LoginPage = () => {
         </InputGroup>
         <Center>
           <Flex>
-            <Button onClick={loginBtnHandler} colorScheme="green" size="md">
+            <Button onClick={formik.handleSubmit} disabled={formik.isSubmitting} colorScheme="green" size="md">
               Login
             </Button>
             <Link href="/sign-up">

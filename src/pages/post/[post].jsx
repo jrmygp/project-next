@@ -21,50 +21,43 @@ import { axiosInstance } from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 
 const Post = () => {
-  const [userPost, setUserPost] = useState([]);
+  const [userPost, setUserPost] = useState({});
   const [comments, setComments] = useState([]);
 
   const router = useRouter();
 
   const fetchUserPost = async () => {
-    await axiosInstance
-      .get(`/posts/${router.query.post}`, {
+    try {
+      const postData = await axiosInstance.get(`/posts`, {
         params: {
-          _expand: "user",
+          id: router.query.post,
         },
-      })
-      .then((res) => {
-        setUserPost(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Terjadi kesalahan pada server");
       });
-  };
 
+      setUserPost(postData.data.result.rows[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const fetchComments = async () => {
-    await axiosInstance
-      .get(`/comments`, {
+    try {
+      const commentData = await axiosInstance.get(`/comments`, {
         params: {
-          postId: router.query.post,
-          _expand: "user",
+          post_id: router.query.post,
         },
-      })
-      .then((res) => {
-        setComments(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Terjadi kesalahan pada server");
       });
+      setComments(commentData.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const renderComments = () => {
     return comments.map((val) => {
       return (
         <SmallComment
           content={val.content}
-          profile_picture={val?.user?.profile_picture}
-          user={val?.user?.id}
+          profile_picture={val?.User?.profile_picture}
+          user={val?.User?.id}
         />
       );
     });
@@ -89,7 +82,7 @@ const Post = () => {
         >
           <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
             {/* <Link href={`/profile/${userId}`}> */}
-            <Avatar src={userPost?.user?.profile_picture} size="md" />
+            <Avatar src={userPost?.User?.profile_picture} size="md" />
             {/* </Link> */}
             <Box
               display="flex"
@@ -98,7 +91,7 @@ const Post = () => {
               marginLeft={2}
             >
               <Box display="flex" alignItems="center">
-                <Text>{userPost?.user?.username}</Text>{" "}
+                <Text>{userPost?.User?.username}</Text>{" "}
                 <Icon boxSize={3.5} as={GoVerified} marginLeft={1} />
               </Box>
               <Box display="flex" alignItems="center">
@@ -108,19 +101,19 @@ const Post = () => {
             </Box>
           </Box>
           {/* <Link href={`/posts/${id}`}> */}
-          <Image padding={2} src={userPost?.image_url} minW={510}/>
+          <Image padding={2} src={userPost?.image_url} minW={510} />
           {/* </Link> */}
           <Box paddingX="3">
             <Text fontWeight="bold">
               {userPost?.number_of_likes?.toLocaleString()} People approve this.
             </Text>
-          <Text>
-            <span className="fw-bold">{userPost?.user?.username}</span>{" "}
-            <span>
-              {userPost?.caption?.length > 140
-                ? userPost?.caption?.slice(0, 140) + "..."
-                : userPost?.caption}
-            </span>
+            <Text>
+              <span className="fw-bold">{userPost?.User?.username}</span>{" "}
+              <span>
+                {userPost?.caption?.length > 140
+                  ? userPost?.caption?.slice(0, 140) + "..."
+                  : userPost?.caption}
+              </span>
             </Text>
 
             <Box display="flex" marginTop={4} paddingBottom={2}>

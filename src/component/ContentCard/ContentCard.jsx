@@ -16,10 +16,10 @@ import { GoVerified } from "react-icons/go";
 import { HiLocationMarker } from "react-icons/hi";
 import Comment from "../Comment-Section/Comment";
 import Link from "next/link";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
-import * as yup from "yup"
+import * as yup from "yup";
 
 const ContentCard = ({
   username,
@@ -33,30 +33,33 @@ const ContentCard = ({
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
-  const userSelector = useSelector((state) => state.user)
+  const userSelector = useSelector((state) => state.user);
 
   const [displayComment, setDisplayComment] = useState(false);
 
   const fetchComments = async () => {
-    await axiosInstance
-      .get(`/comments`, {
+    try {
+      const dataResult = await axiosInstance.get(`/comments`, {
         params: {
-          postId: id,
-          _expand: "user",
+          post_id: id,
         },
-      })
-      .then((res) => {
-        setComments(res.data);
-      })
-      .catch((err) => {
-        console.log(err)
-        alert("Terjadi kesalahan pada server")
-      })
+      });
+      setComments(dataResult.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
+    // .then((res) => {
+    //   setComments(res.data);
+    // })
+    // .catch((err) => {
+    //   console.log(err)
+    //   alert("Terjadi kesalahan pada server")
+    // })
   };
 
   const renderComments = () => {
     return comments.map((val) => {
-      return <Comment content={val.content} username={val?.user?.username} />;
+      return <Comment content={val?.content} username={val?.User?.username} />;
     });
   };
 
@@ -66,23 +69,25 @@ const ContentCard = ({
     setCommentInput(value);
   };
 
-  const postNewComment = () => {
-    const newData = {
-      userId: userSelector.id,
-      content: commentInput,
-      postId: id,
-    };
-
-    axios.post(`http://localhost:2000/comments`, newData).then(() => {
+  const postNewComment = async () => {
+    try {
+      const newData = {
+        user_id: userSelector.id,
+        content: commentInput,
+        post_id: id,
+      };
+      const result = await axiosInstance.post("/comments", newData);
       fetchComments();
-    });
+      setDisplayComment(!displayComment);
 
-    setDisplayComment(!displayComment)
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  useEffect (() => {
-    fetchComments()
-  },[])
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   return (
     <Box
@@ -95,8 +100,16 @@ const ContentCard = ({
       marginY="4"
     >
       <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
-        <Link href={userSelector.id === userId ? `/my-profile` : `/profile/${userId}`}>
-          <Avatar src={profile_picture} size="md" sx={{ _hover: { cursor: "pointer" } }}/>
+        <Link
+          href={
+            userSelector.id == userId ? `/my-profile` : `/profile/${userId}`
+          }
+        >
+          <Avatar
+            src={profile_picture}
+            size="md"
+            sx={{ _hover: { cursor: "pointer" } }}
+          />
         </Link>
         <Box
           display="flex"
@@ -115,7 +128,12 @@ const ContentCard = ({
         </Box>
       </Box>
       <Link href={`/post/${id}`}>
-        <Image padding={2} src={imageUrl} minW={510} sx={{ _hover: { cursor: "pointer" } }}/>
+        <Image
+          padding={2}
+          src={imageUrl}
+          minW={510}
+          sx={{ _hover: { cursor: "pointer" } }}
+        />
       </Link>
       <Box paddingX="3">
         <Text fontWeight="bold">
@@ -148,16 +166,15 @@ const ContentCard = ({
         />
       </Box>
       {displayComment ? renderComments() : null}
-      
-        <Button
-          onClick={() => setDisplayComment(!displayComment)}
-          size="xs"
-          backgroundColor="black"
-          marginLeft={2}
-        >
-          {!displayComment ? "See Comments" : "Hide Comments"}
-        </Button>
 
+      <Button
+        onClick={() => setDisplayComment(!displayComment)}
+        size="xs"
+        backgroundColor="black"
+        marginLeft={2}
+      >
+        {!displayComment ? "See Comments" : "Hide Comments"}
+      </Button>
     </Box>
   );
 };

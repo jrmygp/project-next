@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -14,6 +14,7 @@ import {
   Icon,
   InputRightElement,
   InputGroup,
+  Flex,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -33,7 +34,6 @@ const SignUpPage = () => {
       fullname: "",
       username: "",
       usertag: "",
-      profilepicture: "",
     },
     validationSchema: yup.object().shape({
       email: yup
@@ -50,7 +50,7 @@ const SignUpPage = () => {
         .string()
         .max(8, "Usertag should not be 8 or more characters!")
         .required("This field is required!"),
-      profilepicture: yup.string().required("This field is required!"),
+      // profilepicture: yup.string().required("This field is required!"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
@@ -59,11 +59,10 @@ const SignUpPage = () => {
         password: values.password,
         full_name: values.fullname,
         username: values.username,
-        usertag: values.usertag,
-        profile_picture: values.profilepicture,
+        tag_name: values.usertag,
       };
 
-      await axiosInstance.post(`/users`, newUser);
+      await axiosInstance.post(`/user/register`, newUser);
       formik.setSubmitting(false);
       Router.push("/login");
       toast({
@@ -85,11 +84,18 @@ const SignUpPage = () => {
   };
 
   return (
-    <Container border="1px solid white" borderRadius={10} mt={5} color="white" background="black">
-      <Stack p={10}>
+    <Container
+    border="1px solid white"
+    borderRadius={10}
+    mt={5}
+    color="white"
+    background="black"
+    >
+      <Stack p={10} maxW="900px">
         <Heading>Make new account</Heading>
         <form>
-          <Box maxW="lg" p="5">
+      <Flex flexDir="column" alignItems="center">
+          <Box>
             <FormControl isInvalid={formik.errors.email}>
               <FormLabel htmlFor="inputEmail">Email</FormLabel>
               <Input id="inputEmail" name="email" onChange={inputHandler} />
@@ -99,23 +105,23 @@ const SignUpPage = () => {
             <FormControl isInvalid={formik.errors.password}>
               <FormLabel htmlFor="inputPassword">Password</FormLabel>
               <InputGroup>
-              <Input
-                id="inputPassword"
-                name="password"
-                type={passwordVisible ? "text" : "password"}
-                onChange={inputHandler}
-              />
-              <InputRightElement
-                children={
-                  <Icon
-                    fontSize="lg"
-                    onClick={() => setPasswordVisible(!passwordVisible)}
-                    as={passwordVisible ? IoMdEyeOff : IoMdEye}
-                    sx={{ _hover: { cursor: "pointer" } }}
-                  />
-                }
-                backgroundColor="transparent"
-              />
+                <Input
+                  id="inputPassword"
+                  name="password"
+                  type={passwordVisible ? "text" : "password"}
+                  onChange={inputHandler}
+                />
+                <InputRightElement
+                  children={
+                    <Icon
+                      fontSize="lg"
+                      onClick={() => setPasswordVisible(!passwordVisible)}
+                      as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                      sx={{ _hover: { cursor: "pointer" } }}
+                    />
+                  }
+                  backgroundColor="transparent"
+                />
               </InputGroup>
               <FormHelperText>{formik.errors.password}</FormHelperText>
             </FormControl>
@@ -127,7 +133,7 @@ const SignUpPage = () => {
                 name="fullname"
                 onChange={inputHandler}
               />
-              
+
               <FormHelperText>{formik.errors.fullname}</FormHelperText>
             </FormControl>
 
@@ -146,29 +152,22 @@ const SignUpPage = () => {
               <Input id="inputUsertag" name="usertag" onChange={inputHandler} />
               <FormHelperText>{formik.errors.usertag}</FormHelperText>
             </FormControl>
-
-            <FormControl isInvalid={formik.errors.profilepicture}>
-              <FormLabel htmlFor="inputProfilePict">Profile Picture</FormLabel>
-              <Input
-                id="inputProfilePict"
-                name="profilepicture"
-                onChange={inputHandler}
-              />
-              <FormHelperText>{formik.errors.profilepicture}</FormHelperText>
-            </FormControl>
           </Box>
-          <Box paddingLeft={5}>
+          <Box>
             <Link href="/login">
               <Button
                 colorScheme="green"
                 w={200}
                 onClick={formik.handleSubmit}
                 type="submit"
+                mt={2}
               >
                 Make your account
               </Button>
             </Link>
           </Box>
+
+          </Flex>
         </form>
       </Stack>
     </Container>

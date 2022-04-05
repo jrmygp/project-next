@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import {
   Box,
   Text,
@@ -65,35 +64,37 @@ const MyProfilePage = ({ user }) => {
     },
   });
 
-  const fetchUserPosts = () => {
-    axios
-      .get(`http://localhost:2000/posts`, {
+  const fetchUserPosts = async () => {
+    try {
+      const userData = await axiosInstance.get("/posts", {
         params: {
-          userId: user.id,
-          _sort: "id",
-          _order: "desc"
+          user_id: userSelector.id,
+          _sortBy: "id",
+          _sortDir: "DESC"
         },
-      })
-      .then((res) => {
-        setUserPost(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Terjadi kesalahan di server");
       });
+      setUserPost(userData.data.result.rows)
+      console.log(userData.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const deletePost = async (postId) => {
     await axiosInstance.delete(`/posts/${postId}`);
     fetchUserPosts();
+    onCloseDelete()
   };
 
   // edit modal
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // delete modal
-  const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure();
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
 
   const inputHandler = (event) => {
     const { value, name } = event.target;
@@ -128,7 +129,7 @@ const MyProfilePage = ({ user }) => {
           <Flex mb={2} paddingLeft={2}>
             <Icon
               as={RiDeleteBin6Line}
-              color="gray.500" 
+              color="gray.500"
               onClick={onOpenDelete}
               sx={{ _hover: { cursor: "pointer" } }}
               marginRight={5}
@@ -142,8 +143,12 @@ const MyProfilePage = ({ user }) => {
                   <Text>Are you sure to delete this post?</Text>
                 </ModalBody>
                 <ModalFooter>
-                  <Button onClick={onCloseDelete} mr={5} variant="outline">Cancel</Button>
-                  <Button colorScheme="red" onClick={() => deletePost(val.id)}>Delete</Button>
+                  <Button onClick={onCloseDelete} mr={5} variant="outline">
+                    Cancel
+                  </Button>
+                  <Button colorScheme="red" onClick={() => deletePost(val.id)}>
+                    Delete
+                  </Button>
                 </ModalFooter>
               </ModalContent>
             </Modal>

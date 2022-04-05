@@ -42,7 +42,7 @@ const UploadPage = () => {
 
     formData.append("caption", captionInput);
     formData.append("location", locationInput);
-    formData.append("user_id", 2);
+    formData.append("user_id", userSelector.id);
     formData.append("post_image_file", selectedFile);
 
     try {
@@ -117,17 +117,9 @@ const UploadPage = () => {
               onClick={() => inputFileRef.current.click()}
               colorScheme="green"
               mb="10px"
+              maxW="500px"
             >
               Choose Image File
-            </Button>
-            {/* <InputRightElement children={<Icon as={BsImageFill}/>}/> */}
-            <Button
-              colorScheme="facebook"
-              size="sm"
-              ml={2}
-              onClick={uploadContentHandler}
-            >
-              Upload File
             </Button>
           </InputGroup>
           <Input
@@ -196,7 +188,7 @@ const UploadPage = () => {
                 </Box>
               </Box>
             </Box>
-            <Image padding={2} minW={510} src={urlInput} />
+            <Image padding={2} minW={510} src={URL.createObjectURL(selectedFile)} />
             <Box paddingX="3">
               <Text fontWeight="bold">
                 {(69420).toLocaleString()} People approve this.

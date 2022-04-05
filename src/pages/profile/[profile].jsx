@@ -6,41 +6,37 @@ import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useRouter } from "next/router";
 import requiresAuth from "../../component/requiresAuth";
 import Link from "next/link";
+import { axiosInstance } from "../../configs/api";
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState({});
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
 
-  const fetchUserData = () => {
-    axios
-      .get(`http://localhost:2000/users/${router.query.profile}`)
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Terjadi kesalahan di server");
-      });
+  const fetchUserData = async () => {
+    try {
+      const userData = await axiosInstance.get(`/user/${router.query.profile}`);
+      console.log(userData);
+      setUserData(userData.data.result);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const fetchUserPosts = () => {
-    axios
-      .get(`http://localhost:2000/posts`, {
+  const fetchUserPosts = async () => {
+    try {
+      const postData = await axiosInstance.get("/posts", {
         params: {
-          userId: router.query.profile,
-          _sort: "id",
-          _order: "desc"
+          user_id: router.query.profile,
+          _sortBy: "id",
+          _sortDir: "DESC"
         },
-      })
-      .then((res) => {
-        setUserPost(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Terjadi kesalahan di server");
       });
+      console.log(postData)
+      setUserPost(postData.data.result.rows);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -52,14 +48,14 @@ const ProfilePage = () => {
     return userPost.map((val) => {
       return (
         <Link href={`/post/${val.id}`}>
-        <Image
-          src={val.image_url}
-          boxSize="245px"
-          margin="5px"
-          objectFit="cover"
-          border="1px solid white"
-          sx={{ _hover: { cursor: "pointer" } }}
-        />
+          <Image
+            src={val.image_url}
+            boxSize="245px"
+            margin="5px"
+            objectFit="cover"
+            border="1px solid white"
+            sx={{ _hover: { cursor: "pointer" } }}
+          />
         </Link>
       );
     });
@@ -86,7 +82,7 @@ const ProfilePage = () => {
           borderRadius="lg"
           backgroundColor="black"
         >
-          <Avatar src={userData.profile_picture} size="xl" />
+          <Avatar src={userData?.profile_picture} size="xl" />
 
           <Box
             display="flex"
@@ -96,11 +92,11 @@ const ProfilePage = () => {
             backgroundColor="black"
           >
             <Box display="flex" alignItems="center" backgroundColor="black">
-              <Text backgroundColor="black">{userData.username}</Text>
+              <Text backgroundColor="black">{userData?.username}</Text>
               <Icon as={GoVerified} ml={2} boxSize={4} />
             </Box>
             <Text fontSize="lg" backgroundColor="black">
-              {userData.usertag}
+              {userData?.usertag}
             </Text>
             <Box
               display="flex"
