@@ -132,6 +132,7 @@ const ContentCard = ({
           padding={2}
           src={imageUrl}
           minW={510}
+          maxH={500}
           sx={{ _hover: { cursor: "pointer" } }}
         />
       </Link>

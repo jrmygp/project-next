@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router"
 import { userLogin } from "../../redux/actions/user";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";

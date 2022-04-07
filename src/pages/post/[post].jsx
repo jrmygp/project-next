@@ -17,7 +17,7 @@ import { RiSkull2Fill, RiSkull2Line } from "react-icons/ri";
 import Link from "next/link";
 import SmallComment from "../../component/CommentSmall";
 import { useRouter } from "next/router";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 
 const Post = () => {
@@ -143,7 +143,7 @@ const Post = () => {
 };
 
 export const getServerSideProps = requiresAuth((context) => {
-  const userData = context.req.cookies.user_data;
+  const userData = context.req.cookies.user_token;
 
   return {
     props: {

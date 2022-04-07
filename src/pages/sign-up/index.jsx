@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 import Link from "next/link";
 import Router from "next/router";
 import { BsFillCheckCircleFill } from "react-icons/bs";

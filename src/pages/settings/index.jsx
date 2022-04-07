@@ -6,8 +6,11 @@ const Settings = () => {
 };
 
 export const getServerSideProps = requiresAuth((context) => {
+  const userData = context.req.cookies.user_token;
   return {
-    props: {},
+    props: {
+      user: userData,
+    },
   };
 });
 

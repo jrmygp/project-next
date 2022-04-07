@@ -28,7 +28,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlinePhotoCamera, MdDeleteForever } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
@@ -74,7 +74,7 @@ const MyProfilePage = ({ user }) => {
         },
       });
       setUserPost(userData.data.result.rows)
-      console.log(userData.data.result.rows);
+      console.log(userData);
     } catch (err) {
       console.log(err);
     }
@@ -249,18 +249,19 @@ const MyProfilePage = ({ user }) => {
           borderRadius="lg"
           backgroundColor="black"
         >
+          <Flex>
           <Avatar src={userSelector.profile_picture} size="xl" />
 
           <Box
             display="flex"
             flexDirection="column"
-            marginLeft={50}
+            marginLeft={5}
             fontSize="3xl"
             backgroundColor="black"
           >
             <Box display="flex" alignItems="center" backgroundColor="black">
               <Text backgroundColor="black">{userSelector.username}</Text>
-              <Icon as={GoVerified} ml={2} boxSize={4} />
+              <Icon as={GoVerified} ml={1} boxSize={4} />
             </Box>
             <Text fontSize="lg" backgroundColor="black">
               {userSelector.usertag}
@@ -282,6 +283,12 @@ const MyProfilePage = ({ user }) => {
               </Text>
             </Box>
           </Box>
+
+          <Box ml={5} mr={5} mt={2}>
+            <Text>{userSelector.bio}</Text>
+          </Box>
+
+          </Flex>
         </Box>
         <Box
           display="flex"
@@ -310,14 +317,11 @@ const MyProfilePage = ({ user }) => {
 };
 
 export const getServerSideProps = requiresAuth((context) => {
-  let userData = context.req.cookies.user_data;
-
-  userData = JSON.parse(userData);
+  const userData = context.req.cookies.user_token;
 
   return {
     props: {
       user: userData,
-      // id: postId
     },
   };
 });

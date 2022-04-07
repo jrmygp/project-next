@@ -19,7 +19,7 @@ import requiresAuth from "../../component/requiresAuth";
 import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs";
 import Link from "next/link";
 import { useRef } from "react";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 
 const UploadPage = () => {
   const userSelector = useSelector((state) => state.user);
@@ -188,7 +188,9 @@ const UploadPage = () => {
                 </Box>
               </Box>
             </Box>
-            <Image padding={2} minW={510} src={URL.createObjectURL(selectedFile)} />
+            <Image padding={2} minW={510} src={
+              URL.createObjectURL(selectedFile)
+              } />
             <Box paddingX="3">
               <Text fontWeight="bold">
                 {(69420).toLocaleString()} People approve this.
@@ -205,10 +207,10 @@ const UploadPage = () => {
   );
 };
 
-// export const getServerSideProps = requiresAuth((context) => {
-//   return {
-//     props: {},
-//   };
-// });
+export const getServerSideProps = requiresAuth((context) => {
+  return {
+    props: {},
+  };
+});
 
 export default UploadPage;

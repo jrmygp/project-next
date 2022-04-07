@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Text, Avatar, Icon, Center, Image, Flex } from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useRouter } from "next/router";
 import requiresAuth from "../../component/requiresAuth";
 import Link from "next/link";
-import { axiosInstance } from "../../configs/api";
+import  axiosInstance  from "../../configs/api";
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState({});
@@ -82,6 +81,8 @@ const ProfilePage = () => {
           borderRadius="lg"
           backgroundColor="black"
         >
+          <Flex>
+
           <Avatar src={userData?.profile_picture} size="xl" />
 
           <Box
@@ -93,7 +94,7 @@ const ProfilePage = () => {
           >
             <Box display="flex" alignItems="center" backgroundColor="black">
               <Text backgroundColor="black">{userData?.username}</Text>
-              <Icon as={GoVerified} ml={2} boxSize={4} />
+              <Icon as={GoVerified} ml={1} boxSize={4} />
             </Box>
             <Text fontSize="lg" backgroundColor="black">
               {userData?.usertag}
@@ -115,6 +116,10 @@ const ProfilePage = () => {
               </Text>
             </Box>
           </Box>
+          <Box ml={5} mr={5} mt={2}>
+            <Text>{userData?.bio}</Text>
+          </Box>
+          </Flex>
         </Box>
         <Box
           display="flex"
