@@ -16,7 +16,7 @@ import { GoVerified } from "react-icons/go";
 import { HiLocationMarker } from "react-icons/hi";
 import Comment from "../Comment-Section/Comment";
 import Link from "next/link";
-import  axiosInstance  from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -31,10 +31,12 @@ const ContentCard = ({
   profile_picture,
   userId,
   addLike,
-  disLike
+  disLike,
+  likeStatus,
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [like_status, setlike_status] = useState(likeStatus);
   const userSelector = useSelector((state) => state.user);
 
   const [displayComment, setDisplayComment] = useState(false);
@@ -74,7 +76,6 @@ const ContentCard = ({
       const result = await axiosInstance.post("/comments", newData);
       fetchComments();
       setDisplayComment(!displayComment);
-
     } catch (err) {
       console.log(err);
     }
@@ -142,9 +143,29 @@ const ContentCard = ({
           </span>
         </Text>
         <Box display="flex" marginTop={4} borderBottom="1px" paddingBottom={2}>
-          <Icon 
-          onClick={addLike}
-          boxSize={6} as={HiOutlineEmojiHappy}  sx={{ _hover: { cursor: "pointer" } }}></Icon>
+          {like_status ? (
+            <Icon
+              onClick={() => {
+                addLike();
+                setlike_status(!like_status);
+              }}
+              boxSize={6}
+              as={HiOutlineEmojiHappy}
+              sx={{ _hover: { cursor: "pointer" } }}
+            ></Icon>
+          ) : (
+            <Icon
+              onClick={() => {
+                disLike();
+                setlike_status(!like_status);
+              }}
+              boxSize={6}
+              color="pink.500"
+              as={HiOutlineEmojiHappy}
+              sx={{ _hover: { cursor: "pointer" } }}
+            ></Icon>
+          )}
+
           <Icon boxSize={6} as={RiSkull2Line} marginLeft={2}></Icon>
         </Box>
       </Box>

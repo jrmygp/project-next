@@ -35,6 +35,7 @@ const Post = () => {
       });
 
       setUserPost(postData.data.result.rows[0]);
+      console.log(postData.data.result.rows[0])
     } catch (err) {
       console.log(err);
     }
@@ -46,6 +47,7 @@ const Post = () => {
           post_id: router.query.post,
         },
       });
+      console.log(commentData)
       setComments(commentData.data.result.rows);
     } catch (err) {
       console.log(err);
@@ -57,7 +59,7 @@ const Post = () => {
         <SmallComment
           content={val.content}
           profile_picture={val?.User?.profile_picture}
-          user={val?.User?.id}
+          user={val?.Comments?.User?.id}
         />
       );
     });
@@ -82,7 +84,7 @@ const Post = () => {
         >
           <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
             {/* <Link href={`/profile/${userId}`}> */}
-            <Avatar src={userPost?.User?.profile_picture} size="md" />
+            <Avatar src={userPost?.post_user?.profile_picture} size="md" />
             {/* </Link> */}
             <Box
               display="flex"
@@ -91,7 +93,7 @@ const Post = () => {
               marginLeft={2}
             >
               <Box display="flex" alignItems="center">
-                <Text>{userPost?.User?.username}</Text>{" "}
+                <Text>{userPost?.post_user?.username}</Text>{" "}
                 <Icon boxSize={3.5} as={GoVerified} marginLeft={1} />
               </Box>
               <Box display="flex" alignItems="center">

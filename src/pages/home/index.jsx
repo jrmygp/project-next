@@ -19,6 +19,7 @@ function HomePage() {
           _sortDir : "DESC"
         }
       });
+      console.log(postData.data.result.rows)
       setContentList(postData.data.result.rows);
     } catch (err) {
       console.log(err);
@@ -40,6 +41,7 @@ function HomePage() {
     }
   }
 
+  
   // dislike
   const disLike = async (postId, idx) => {
     try {
@@ -58,16 +60,23 @@ function HomePage() {
 
   const renderContentList = () => {
     return contentList.map((val, idx) => {
+      let likeStatus
+      if (val?.user_like?.length){
+        likeStatus = true 
+      } else {
+        likeStatus = false
+      }
       return (
         <ContentCard
-          username={val?.User?.username}
+          username={val?.post_user?.username}
           caption={val.caption}
           imageUrl={val.image_url}
           location={val.location}
           numberOfLikes={val.like_count}
           id={val.id}
-          profile_picture={val?.User?.profile_picture}
+          profile_picture={val?.post_user?.profile_picture}
           userId={val?.user_id}
+          likeStatus={likeStatus}
           addLike={()=>addLike(val.id, idx)}
           disLike={()=>disLike(val.id, idx)}
         />
