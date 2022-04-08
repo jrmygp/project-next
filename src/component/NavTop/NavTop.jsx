@@ -4,10 +4,12 @@ import { Box, Button, Icon, Input, useToast } from "@chakra-ui/react";
 import { BsSearch } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { BsFillCheckCircleFill } from "react-icons/bs"
+import { useRouter } from "next/router";
 
 const NavTop = () => {
   const userSelector = useSelector((state) => state.user);
   const toast = useToast()
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -16,7 +18,7 @@ const NavTop = () => {
       type: "USER_LOGOUT",
     });
 
-    Cookies.remove("user_data");
+    Cookies.remove("user_token");
 
     toast({
       position: "top-right",
@@ -26,6 +28,8 @@ const NavTop = () => {
         </Box> )
     })
   };
+
+  if (router.asPath == "/login" || router.asPath == "/sign-up") return null
 
   return (
     <Box

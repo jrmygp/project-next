@@ -30,6 +30,8 @@ const ContentCard = ({
   id,
   profile_picture,
   userId,
+  addLike,
+  disLike
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
@@ -48,13 +50,6 @@ const ContentCard = ({
     } catch (err) {
       console.log(err);
     }
-    // .then((res) => {
-    //   setComments(res.data);
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    //   alert("Terjadi kesalahan pada server")
-    // })
   };
 
   const renderComments = () => {
@@ -147,7 +142,9 @@ const ContentCard = ({
           </span>
         </Text>
         <Box display="flex" marginTop={4} borderBottom="1px" paddingBottom={2}>
-          <Icon boxSize={6} as={HiOutlineEmojiHappy}></Icon>
+          <Icon 
+          onClick={addLike}
+          boxSize={6} as={HiOutlineEmojiHappy}  sx={{ _hover: { cursor: "pointer" } }}></Icon>
           <Icon boxSize={6} as={RiSkull2Line} marginLeft={2}></Icon>
         </Box>
       </Box>

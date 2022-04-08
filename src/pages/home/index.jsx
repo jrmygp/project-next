@@ -5,18 +5,13 @@ import axios from "axios";
 import { Box, Center } from "@chakra-ui/react";
 import requiresAuth from "../../component/requiresAuth";
 import  axiosInstance  from "../../configs/api";
+import { useSelector } from "react-redux";
 
 function HomePage() {
   const [contentList, setContentList] = useState([]);
-  const [userData, setUserData] = useState({});
+  const userSelector = useSelector((state) => state.user);
 
   const fetchContentList = async () => {
-    // axios
-    //   .get("http://localhost:2000/posts", { params: { _expand: "user", _sort: "id", _order: "desc" } })
-    // const res = await axiosInstance
-    //   .get("/post", {
-    //     params: { _expand: "user", _sort: "id", _order: "desc" },
-    //   })
     try {
       const postData = await axiosInstance.get("/posts", {
         params: {
@@ -24,15 +19,45 @@ function HomePage() {
           _sortDir : "DESC"
         }
       });
-      console.log(postData)
       setContentList(postData.data.result.rows);
     } catch (err) {
       console.log(err);
     }
   };
 
+  // add like
+  const addLike = async (postId, idx) => {
+    try {
+      await axiosInstance.post(`/posts/${postId}/likes/${userSelector.id}`)
+
+      const newData = [...contentList]
+
+      newData[idx].like_count++
+
+      setContentList(newData)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // dislike
+  const disLike = async (postId, idx) => {
+    try {
+      await axiosInstance.delete(`/posts/${postId}/likes/${userSelector.id}`)
+
+      const newData = [...contentList]
+
+      newData[idx].like_count--
+
+      setContentList(newData)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
   const renderContentList = () => {
-    return contentList.map((val) => {
+    return contentList.map((val, idx) => {
       return (
         <ContentCard
           username={val?.User?.username}
@@ -43,15 +68,15 @@ function HomePage() {
           id={val.id}
           profile_picture={val?.User?.profile_picture}
           userId={val?.user_id}
+          addLike={()=>addLike(val.id, idx)}
+          disLike={()=>disLike(val.id, idx)}
         />
       );
     });
   };
 
-  // componentDidMount
   useEffect(() => {
     fetchContentList();
-    // fetchUserData()
   }, []);
 
   return (

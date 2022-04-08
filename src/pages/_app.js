@@ -8,18 +8,14 @@ import { Flex, Center, Box } from "@chakra-ui/react";
 import "../assets/Background.css";
 import { useRouter } from "next/router";
 import AuthProvider from "../component/AuthProvider";
-import store from "../redux/store"
-
+import store from "../redux/store";
 
 function MyApp({ Component, pageProps }) {
-
   return (
     <Provider store={store}>
       <AuthProvider>
         <ChakraProvider>
-          {/* {router.query == "/login" ? null : ( */}
-            <NavTop position="sticky" zIndex="999" />
-          {/* // )} */}
+          <NavTop />
           <Flex background="#23272A">
             <Nav />
             <Box flex={1}>

@@ -50,7 +50,6 @@ const SignUpPage = () => {
         .string()
         .max(8, "Usertag should not be 8 or more characters!")
         .required("This field is required!"),
-      // profilepicture: yup.string().required("This field is required!"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {

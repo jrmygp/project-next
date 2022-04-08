@@ -11,11 +11,11 @@ import {
   Link,
   InputGroup,
   InputRightElement,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 import { userLogin } from "../../redux/actions/user";
-import  axiosInstance  from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
@@ -26,52 +26,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const LoginPage = () => {
-  // const [usernameInput, setUsernameInput] = useState("");
-  // const [passwordInput, setPasswordInput] = useState("");
-  // const [passwordVisible, setPasswordVisible] = useState(false);
-
-  // const userSelector = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-
-  // const inputHandler = (event, field) => {
-  //   const { value } = event.target;
-  //   if (field === "username") {
-  //     setUsernameInput(value);
-  //   } else if (field === "password") {
-  //     setPasswordInput(value);
-  //   }
-  // };
-
-  // const loginBtnHandler = async () => {
-  //   try {
-  //     const userResponse = await axiosInstance.post("/user/login", {
-  //       username: usernameInput,
-  //       password: passwordInput,
-  //     });
-
-  //     const userData = userResponse.data.result.user
-
-  //     jsCookie.set("user_token", userResponse.token)
-
-  //     if (userData) {
-  //       dispatch({
-  //         type: "USER_LOGIN",
-  //         payload: userData,
-  //       });
-
-  //       const parsedData = JSON.stringify(userData);
-
-  //       Cookies.set("user_data", parsedData);
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // };
-
-  // if (userSelector.id) {
-  //   Router.push("/home");
-  // }
-
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -93,7 +47,6 @@ const LoginPage = () => {
     }),
     validateOnChange: false,
     onSubmit: (values) => {
-      console.log(values)
       setTimeout(() => {
         dispatch(userLogin(values, formik.setSubmitting));
       }, 2000);
@@ -134,7 +87,7 @@ const LoginPage = () => {
           <Text>Welcome to Weebsgram™</Text>
         </Center>
         <FormLabel>Username</FormLabel>
-        <Input onChange={inputHandler} mb={5} name="username"/>
+        <Input onChange={inputHandler} mb={5} name="username" />
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
@@ -157,7 +110,12 @@ const LoginPage = () => {
         </InputGroup>
         <Center>
           <Flex>
-            <Button onClick={formik.handleSubmit} disabled={formik.isSubmitting} colorScheme="green" size="md">
+            <Button
+              onClick={formik.handleSubmit}
+              disabled={formik.isSubmitting}
+              colorScheme="green"
+              size="md"
+            >
               Login
             </Button>
             <Link href="/sign-up">

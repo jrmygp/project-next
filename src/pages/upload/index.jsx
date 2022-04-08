@@ -13,7 +13,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import requiresAuth from "../../component/requiresAuth";
 import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs";
@@ -189,7 +189,8 @@ const UploadPage = () => {
               </Box>
             </Box>
             <Image padding={2} minW={510} src={
-              URL.createObjectURL(selectedFile)
+              URL.createObjectURL
+              (selectedFile)
               } />
             <Box paddingX="3">
               <Text fontWeight="bold">

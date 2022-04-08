@@ -25,6 +25,8 @@ const Nav = () => {
 
   const userSelector = useSelector((state) => state.user);
 
+  if (!userSelector.id) return null
+
   return (
     <Flex
       position="sticky"
