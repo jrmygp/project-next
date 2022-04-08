@@ -43,19 +43,19 @@ const MyProfilePage = ({ user }) => {
   const formik = useFormik({
     initialValues: {
       location: "",
-      image: "",
+      // image: "",
       caption: "",
     },
     validationSchema: yup.object().shape({
       location: yup.string().required("You must enter a specific location!"),
-      image: yup.string().required("You must attach a proper image url!"),
+      // image: yup.string().required("You must attach a proper image url!"),
       caption: yup.string().required("You must enter a caption for the post!"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
       const newPost = {
         location: values.location,
-        image_url: values.image,
+        // image_url: values.image,
         caption: values.caption,
       };
       await axiosInstance.patch(`/posts/${editPostId}`, newPost);
@@ -74,7 +74,8 @@ const MyProfilePage = ({ user }) => {
         },
       });
       setUserPost(userData.data.result.rows)
-      console.log(userData);
+      console.log(userSelector, "FETCHHHH");
+      console.log(userData.data.result.rows);
     } catch (err) {
       console.log(err);
     }
@@ -101,8 +102,11 @@ const MyProfilePage = ({ user }) => {
     formik.setFieldValue(name, value);
   };
   useEffect(() => {
-    fetchUserPosts();
-  }, []);
+    if (userSelector.id) {
+      fetchUserPosts();
+    }
+
+  }, [userSelector.id]);
 
   const openEditModal = (postId) => {
     onOpen();
@@ -178,7 +182,7 @@ const MyProfilePage = ({ user }) => {
                     <FormHelperText>{formik.errors.location}</FormHelperText>
                   </FormControl>
 
-                  <FormControl
+                  {/* <FormControl
                     color="black"
                     mb={3}
                     isInvalid={formik.errors.image}
@@ -190,7 +194,7 @@ const MyProfilePage = ({ user }) => {
                       onChange={inputHandler}
                     />
                     <FormHelperText>{formik.errors.image}</FormHelperText>
-                  </FormControl>
+                  </FormControl> */}
 
                   <FormControl
                     color="black"

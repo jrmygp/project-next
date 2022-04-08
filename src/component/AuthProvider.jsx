@@ -16,10 +16,20 @@ const AuthProvider = ({ children }) => {
         // const parsedUserData = JSON.parse(savedUserData);
        const dataResponse = await axiosInstance.get("/user/refresh-token")
        console.log(dataResponse, "TESTING", userToken)
-        jsCookie.set("user_token", dataResponse?.data?.result?.token || "")
+        jsCookie.set("user_token", dataResponse?.data?.token || "")
+        const userData = dataResponse?.data?.result
+        console.log(userData.id);
         dispatch({
           type: "USER_LOGIN",
-          payload: dataResponse?.data?.result,
+          payload: {
+            username: userData.username,
+            id: userData.id,
+            email: userData.email,
+            full_name: userData.full_name,
+            profile_picture: userData.profile_picture,
+            user_tag: userData.tag_name,
+            bio: userData.bio
+          }
         });
       
       } catch (err) {
