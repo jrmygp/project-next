@@ -119,7 +119,7 @@ const LoginPage = () => {
               Login
             </Button>
             <Link href="/sign-up">
-              <Button colorScheme="green" ml={5} size="md">
+              <Button colorScheme="blue" ml={5} size="md">
                 Register
               </Button>
             </Link>

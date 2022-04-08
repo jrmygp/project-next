@@ -39,6 +39,8 @@ const MyProfilePage = ({ user }) => {
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
   const [editPostId, setEditPostId] = useState(0);
+  const [deletePostId, setDeletePostId] = useState(0)
+  const [postCount, setPostCount] = useState("")
 
   const formik = useFormik({
     initialValues: {
@@ -60,7 +62,7 @@ const MyProfilePage = ({ user }) => {
       };
       await axiosInstance.patch(`/posts/${editPostId}`, newPost);
       formik.setSubmitting(false);
-      onClose();
+      setEditPostId(0)
     },
   });
 
@@ -74,28 +76,18 @@ const MyProfilePage = ({ user }) => {
         },
       });
       setUserPost(userData.data.result.rows)
-      console.log(userSelector, "FETCHHHH");
-      console.log(userData.data.result.rows);
+      console.log(userData.data.result.count);
+      setPostCount(userData.data.result.count)
     } catch (err) {
       console.log(err);
     }
   };
 
-  const deletePost = async (postId) => {
-    await axiosInstance.delete(`/posts/${postId}`);
+  const deletePost = async () => {
+    await axiosInstance.delete(`/posts/${deletePostId}`);
     fetchUserPosts();
-    onCloseDelete()
+    setDeletePostId(0)
   };
-
-  // edit modal
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // delete modal
-  const {
-    isOpen: isOpenDelete,
-    onOpen: onOpenDelete,
-    onClose: onCloseDelete,
-  } = useDisclosure();
 
   const inputHandler = (event) => {
     const { value, name } = event.target;
@@ -109,9 +101,13 @@ const MyProfilePage = ({ user }) => {
   }, [userSelector.id]);
 
   const openEditModal = (postId) => {
-    onOpen();
     setEditPostId(postId);
   };
+
+  const openDeleteModal = (postId) => {
+    setDeletePostId(postId)
+  }
+ 
 
   const renderPost = () => {
     return userPost.map((val) => {
@@ -134,11 +130,11 @@ const MyProfilePage = ({ user }) => {
             <Icon
               as={RiDeleteBin6Line}
               color="gray.500"
-              onClick={onOpenDelete}
+              onClick={() => openDeleteModal(val.id)}
               sx={{ _hover: { cursor: "pointer" } }}
               marginRight={5}
             />
-            <Modal isOpen={isOpenDelete} onClose={onCloseDelete}>
+            <Modal isOpen={val.id == deletePostId} onClose={() => setDeletePostId(0)}>
               <ModalOverlay />
               <ModalContent border="1px solid white">
                 <ModalHeader color="black">Delete Post</ModalHeader>
@@ -147,7 +143,7 @@ const MyProfilePage = ({ user }) => {
                   <Text>Are you sure to delete this post?</Text>
                 </ModalBody>
                 <ModalFooter>
-                  <Button onClick={onCloseDelete} mr={5} variant="outline">
+                  <Button onClick={() => setDeletePostId(0)} mr={5} variant="outline">
                     Cancel
                   </Button>
                   <Button colorScheme="red" onClick={() => deletePost(val.id)}>
@@ -162,7 +158,7 @@ const MyProfilePage = ({ user }) => {
               onClick={() => openEditModal(val.id)}
               sx={{ _hover: { cursor: "pointer" } }}
             />
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={val.id == editPostId} onClose={() => setEditPostId(0)}>
               <ModalOverlay />
               <ModalContent border="1px solid white" borderRadius={3}>
                 <ModalHeader color="black">Edit this post</ModalHeader>
@@ -181,21 +177,6 @@ const MyProfilePage = ({ user }) => {
                     />
                     <FormHelperText>{formik.errors.location}</FormHelperText>
                   </FormControl>
-
-                  {/* <FormControl
-                    color="black"
-                    mb={3}
-                    isInvalid={formik.errors.image}
-                  >
-                    <FormLabel>Image</FormLabel>
-                    <Input
-                      placeholder="Input new image"
-                      name="image"
-                      onChange={inputHandler}
-                    />
-                    <FormHelperText>{formik.errors.image}</FormHelperText>
-                  </FormControl> */}
-
                   <FormControl
                     color="black"
                     mb={3}
@@ -220,7 +201,7 @@ const MyProfilePage = ({ user }) => {
                   >
                     Save
                   </Button>
-                  <Button colorScheme="red" onClick={onClose}>
+                  <Button colorScheme="red" onClick={() => setEditPostId(0)}>
                     Cancel
                   </Button>
                 </ModalFooter>
@@ -277,7 +258,7 @@ const MyProfilePage = ({ user }) => {
               backgroundColor="black"
             >
               <Text marginRight={2} backgroundColor="black">
-                0 Post
+                {postCount} Post
               </Text>
               <Text marginRight={2} backgroundColor="black">
                 0 Followers

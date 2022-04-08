@@ -103,7 +103,6 @@ const UploadPage = () => {
           borderRadius={8}
           background="black"
         >
-          <InputGroup>
             <Input
               // w="50vh"
               marginBottom="10px"
@@ -118,10 +117,11 @@ const UploadPage = () => {
               colorScheme="green"
               mb="10px"
               maxW="500px"
+              
             >
-              Choose Image File
+              Upload Image
             </Button>
-          </InputGroup>
+          
           <Input
             // w="50vh"
             marginBottom="10px"

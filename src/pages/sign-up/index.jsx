@@ -15,6 +15,7 @@ import {
   InputRightElement,
   InputGroup,
   Flex,
+  Image
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -83,14 +84,22 @@ const SignUpPage = () => {
   };
 
   return (
-    <Container
+    <Flex background="black">
+      <Image
+        src="https://wallpapercave.com/wp/wp8424243.png"
+        w="500px"
+        objectFit="cover"
+      />
+    <Box
     border="1px solid white"
     borderRadius={10}
-    mt={5}
+    mt={40}
+    mb={40}
     color="white"
     background="black"
+    
     >
-      <Stack p={10} maxW="900px">
+      <Stack p={10}>
         <Heading>Make new account</Heading>
         <form>
       <Flex flexDir="column" alignItems="center">
@@ -154,6 +163,16 @@ const SignUpPage = () => {
           </Box>
           <Box>
             <Link href="/login">
+            <Button
+            colorScheme="blue"
+            w={200}
+            mt={2}
+            mr={2}
+            >
+              Back
+            </Button>
+            </Link>
+            <Link href="/login">
               <Button
                 colorScheme="green"
                 w={200}
@@ -169,7 +188,8 @@ const SignUpPage = () => {
           </Flex>
         </form>
       </Stack>
-    </Container>
+    </Box>
+    </Flex>
   );
 };
 
