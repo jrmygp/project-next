@@ -37,6 +37,7 @@ const ContentCard = ({
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [like_status, setlike_status] = useState(likeStatus);
+  console.log(likeStatus)
   const userSelector = useSelector((state) => state.user);
 
   const [displayComment, setDisplayComment] = useState(false);
@@ -46,6 +47,7 @@ const ContentCard = ({
       const dataResult = await axiosInstance.get(`/comments`, {
         params: {
           post_id: id,
+          _limit: 5
         },
       });
       setComments(dataResult.data.result.rows);
@@ -143,26 +145,26 @@ const ContentCard = ({
           </span>
         </Text>
         <Box display="flex" marginTop={4} borderBottom="1px" paddingBottom={2}>
-          {like_status ? (
+          {!like_status ? (
             <Icon
               onClick={() => {
                 addLike();
-                setlike_status(!like_status);
+                setlike_status(true);
               }}
               boxSize={6}
               as={HiOutlineEmojiHappy}
               sx={{ _hover: { cursor: "pointer" } }}
-            ></Icon>
-          ) : (
-            <Icon
-              onClick={() => {
-                disLike();
-                setlike_status(!like_status);
-              }}
-              boxSize={6}
-              color="pink.500"
-              as={HiOutlineEmojiHappy}
-              sx={{ _hover: { cursor: "pointer" } }}
+              ></Icon>
+              ) : (
+                <Icon
+                onClick={() => {
+                  disLike();
+                  setlike_status(false);
+                }}
+                boxSize={6}
+                as={HiOutlineEmojiHappy}
+                sx={{ _hover: { cursor: "pointer" } }}
+                color="pink.500"
             ></Icon>
           )}
 

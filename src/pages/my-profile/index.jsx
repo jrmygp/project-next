@@ -26,45 +26,105 @@ import {
 import { GoVerified } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
-import { MdOutlinePhotoCamera, MdDeleteForever } from "react-icons/md";
+import { FiEdit2 } from "react-icons/fi";
+import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useSelector } from "react-redux";
-import  axiosInstance  from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
+import { useRef } from "react";
+
 const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
   const [editPostId, setEditPostId] = useState(0);
-  const [deletePostId, setDeletePostId] = useState(0)
-  const [postCount, setPostCount] = useState("")
+  const [deletePostId, setDeletePostId] = useState(0);
+  const [postCount, setPostCount] = useState("");
+
+  // Avatar file handler
+  const inputFileRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFile = (event) => {
+    setSelectedFile(event.target.files[0]);
+    alert(event.target.files[0].name);
+  };
+
+  const uploadAvatarHandler = async () => {
+    const formData = new FormData();
+
+    formData.append("profile_picture", selectedFile);
+    formData.append("username", userSelector.username)
+    console.log(formData)
+
+    try {
+      await axiosInstance.patch(`user/${userSelector.id}`, formData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
       location: "",
-      // image: "",
       caption: "",
     },
     validationSchema: yup.object().shape({
       location: yup.string().required("You must enter a specific location!"),
-      // image: yup.string().required("You must attach a proper image url!"),
       caption: yup.string().required("You must enter a caption for the post!"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
       const newPost = {
         location: values.location,
-        // image_url: values.image,
         caption: values.caption,
       };
       await axiosInstance.patch(`/posts/${editPostId}`, newPost);
       formik.setSubmitting(false);
-      setEditPostId(0)
+      setEditPostId(0);
     },
   });
+  // EDIT USER DATA
+
+  const userFormik = useFormik({
+    initialValues: {
+      username: `${userSelector.username}`,
+      full_name: `${userSelector.full_name}`,
+      bio: `${userSelector.bio}`,
+    },
+    validationSchema: yup.object().shape({
+      username: yup
+        .string()
+        .min(8, "8 characters min")
+        .max(16, "16 characters max"),
+      full_name: yup.string().max(20, "20 characters max"),
+      bio: yup.string().max(50, "50 characters max"),
+    }),
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      const newUserData = {
+        username: values.username,
+        full_name: values.full_name,
+        bio: values.bio,
+      };
+      await axiosInstance.patch(`user/${userSelector.id}`, newUserData);
+      userFormik.setSubmitting(false);
+      onClose();
+      
+    },
+  });
+
+  const inputUserHandler = (event) => {
+    const { value, name } = event.target;
+    userFormik.setFieldValue(name, value);
+  };
+
+  // EDIT USER DARA MODAL
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchUserPosts = async () => {
     try {
@@ -72,12 +132,11 @@ const MyProfilePage = ({ user }) => {
         params: {
           user_id: userSelector.id,
           _sortBy: "id",
-          _sortDir: "DESC"
+          _sortDir: "DESC",
         },
       });
-      setUserPost(userData.data.result.rows)
-      console.log(userData.data.result.count);
-      setPostCount(userData.data.result.count)
+      setUserPost(userData.data.result.rows);
+      setPostCount(userData.data.result.count);
     } catch (err) {
       console.log(err);
     }
@@ -86,7 +145,7 @@ const MyProfilePage = ({ user }) => {
   const deletePost = async () => {
     await axiosInstance.delete(`/posts/${deletePostId}`);
     fetchUserPosts();
-    setDeletePostId(0)
+    setDeletePostId(0);
   };
 
   const inputHandler = (event) => {
@@ -97,7 +156,6 @@ const MyProfilePage = ({ user }) => {
     if (userSelector.id) {
       fetchUserPosts();
     }
-
   }, [userSelector.id]);
 
   const openEditModal = (postId) => {
@@ -105,9 +163,8 @@ const MyProfilePage = ({ user }) => {
   };
 
   const openDeleteModal = (postId) => {
-    setDeletePostId(postId)
-  }
- 
+    setDeletePostId(postId);
+  };
 
   const renderPost = () => {
     return userPost.map((val) => {
@@ -134,7 +191,10 @@ const MyProfilePage = ({ user }) => {
               sx={{ _hover: { cursor: "pointer" } }}
               marginRight={5}
             />
-            <Modal isOpen={val.id == deletePostId} onClose={() => setDeletePostId(0)}>
+            <Modal
+              isOpen={val.id == deletePostId}
+              onClose={() => setDeletePostId(0)}
+            >
               <ModalOverlay />
               <ModalContent border="1px solid white">
                 <ModalHeader color="black">Delete Post</ModalHeader>
@@ -143,7 +203,11 @@ const MyProfilePage = ({ user }) => {
                   <Text>Are you sure to delete this post?</Text>
                 </ModalBody>
                 <ModalFooter>
-                  <Button onClick={() => setDeletePostId(0)} mr={5} variant="outline">
+                  <Button
+                    onClick={() => setDeletePostId(0)}
+                    mr={5}
+                    variant="outline"
+                  >
                     Cancel
                   </Button>
                   <Button colorScheme="red" onClick={() => deletePost(val.id)}>
@@ -158,7 +222,10 @@ const MyProfilePage = ({ user }) => {
               onClick={() => openEditModal(val.id)}
               sx={{ _hover: { cursor: "pointer" } }}
             />
-            <Modal isOpen={val.id == editPostId} onClose={() => setEditPostId(0)}>
+            <Modal
+              isOpen={val.id == editPostId}
+              onClose={() => setEditPostId(0)}
+            >
               <ModalOverlay />
               <ModalContent border="1px solid white" borderRadius={3}>
                 <ModalHeader color="black">Edit this post</ModalHeader>
@@ -234,45 +301,112 @@ const MyProfilePage = ({ user }) => {
           borderRadius="lg"
           backgroundColor="black"
         >
-          <Flex>
-          <Avatar src={userSelector.profile_picture} size="xl" />
+          <Flex flexDir="column">
+            <Avatar
+              src={userSelector.profile_picture}
+              size="xl"
+              sx={{ _hover: { cursor: "pointer" } }}
+              onClick={() => inputFileRef.current.click()}
+            />
 
-          <Box
-            display="flex"
-            flexDirection="column"
-            marginLeft={5}
-            fontSize="3xl"
-            backgroundColor="black"
-          >
-            <Box display="flex" alignItems="center" backgroundColor="black">
-              <Text backgroundColor="black">{userSelector.username}</Text>
-              <Icon as={GoVerified} ml={1} boxSize={4} />
-            </Box>
-            <Text fontSize="lg" backgroundColor="black">
-              {userSelector.usertag}
-            </Text>
+            <Button colorScheme="blue" mt={2} size="xs" onClick={uploadAvatarHandler}>
+              Change Avatar
+            </Button>
+            <Input
+              onChange={handleFile}
+              ref={inputFileRef}
+              type="file"
+              display="none"
+            />
+          </Flex>
+          <Flex>
             <Box
               display="flex"
-              fontSize="sm"
-              marginTop={5}
+              flexDirection="column"
+              marginLeft={5}
+              fontSize="3xl"
               backgroundColor="black"
             >
-              <Text marginRight={2} backgroundColor="black">
-                {postCount} Post
+              <Box display="flex" alignItems="center" backgroundColor="black">
+                <Text backgroundColor="black">{userSelector.username}</Text>
+                <Icon as={GoVerified} ml={1} boxSize={4} />
+              </Box>
+              <Text fontSize="lg" backgroundColor="black">
+                {userSelector.usertag}
               </Text>
-              <Text marginRight={2} backgroundColor="black">
-                0 Followers
-              </Text>
-              <Text marginRight={2} backgroundColor="black">
-                0 Ratings
-              </Text>
+              <Box
+                display="flex"
+                fontSize="sm"
+                marginTop={5}
+                backgroundColor="black"
+              >
+                <Text marginRight={2} backgroundColor="black">
+                  {postCount} Post
+                </Text>
+                <Text marginRight={2} backgroundColor="black">
+                  0 Followers
+                </Text>
+                <Text marginRight={2} backgroundColor="black">
+                  0 Ratings
+                </Text>
+              </Box>
             </Box>
-          </Box>
 
-          <Box ml={5} mr={5} mt={2}>
-            <Text>{userSelector.bio}</Text>
-          </Box>
-
+            <Box ml={5} mr={5} mt={2}>
+              <Flex>
+                <Text>{userSelector.bio}</Text>
+                <Icon
+                  as={FiEdit2}
+                  onClick={onOpen}
+                  sx={{ _hover: { cursor: "pointer" } }}
+                  ml={2}
+                />
+                <Modal isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>Edit User</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      {/* EDIT USERNAME */}
+                      <FormControl isInvalid={userFormik.errors.username}>
+                        <FormLabel>Username</FormLabel>
+                        <Input name="username" onChange={inputUserHandler} />
+                        <FormHelperText>
+                          {userFormik.errors.username}
+                        </FormHelperText>
+                      </FormControl>
+                      {/* EDIT FULL NAME */}
+                      <FormControl isInvalid={userFormik.errors.full_name}>
+                        <FormLabel>Full Name</FormLabel>
+                        <Input name="full_name" onChange={inputUserHandler} />
+                        <FormHelperText>
+                          {userFormik.errors.full_name}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl isInvalid={userFormik.errors.bio}>
+                        <FormLabel>Bio</FormLabel>
+                        <Input name="bio" onChange={inputUserHandler} />
+                        <FormHelperText>{userFormik.errors.bio}</FormHelperText>
+                      </FormControl>
+                    </ModalBody>
+                    <ModalFooter>
+                    {/* <Link href="/ny-profile"> */}
+                      <Button
+                        colorScheme="green"
+                        onClick={userFormik.handleSubmit}
+                        mr={3}
+                      >
+                        Save
+                      </Button>
+                      {/* </Link> */}
+                      <Button colorScheme="red" onClick={onClose}>
+                        Cancel
+                      </Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
+              </Flex>
+            </Box>
           </Flex>
         </Box>
         <Box

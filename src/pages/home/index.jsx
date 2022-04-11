@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import ContentCard from "../../component/ContentCard/ContentCard";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 import { Box, Center } from "@chakra-ui/react";
 import requiresAuth from "../../component/requiresAuth";
 import  axiosInstance  from "../../configs/api";
@@ -66,6 +65,7 @@ function HomePage() {
       } else {
         likeStatus = false
       }
+      console.log(val?.user_like)
       return (
         <ContentCard
           username={val?.post_user?.username}

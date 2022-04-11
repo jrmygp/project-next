@@ -45,6 +45,7 @@ const Post = () => {
       const commentData = await axiosInstance.get(`/comments`, {
         params: {
           post_id: router.query.post,
+          _limit: 5
         },
       });
       console.log(commentData)

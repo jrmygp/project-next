@@ -12,7 +12,6 @@ import {
   Image,
   Stack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import requiresAuth from "../../component/requiresAuth";
@@ -45,11 +44,21 @@ const UploadPage = () => {
     formData.append("user_id", userSelector.id);
     formData.append("post_image_file", selectedFile);
 
+    console.log(formData)
+
     try {
       await axiosInstance.post("/posts", formData);
     } catch (err) {
       console.log(err);
     }
+    toast({
+      position: "bottom",
+      render: () => (
+        <Box color="white" p={3} bg="green.500" borderRadius={5}>
+          Upload successful <Icon bg="green.500" as={BsFillCheckCircleFill} />
+        </Box>
+      ),
+    });
   };
 
   const handleUrlInput = (event) => {
@@ -67,26 +76,19 @@ const UploadPage = () => {
     setLocationInput(value);
   };
 
-  const postNewPost = () => {
-    const newPost = {
-      userId: userSelector.id,
-      location: locationInput,
-      caption: captionInput,
-      image_url: urlInput,
-      number_of_likes: 0,
-    };
+  // const postNewPost = () => {
+  //   const newPost = {
+  //     userId: userSelector.id,
+  //     location: locationInput,
+  //     caption: captionInput,
+  //     image_url: urlInput,
+  //     number_of_likes: 0,
+  //   };
 
-    axios.post(`http://localhost:2000/posts`, newPost);
+  //   axios.post(`http://localhost:2000/posts`, newPost);
 
-    toast({
-      position: "bottom",
-      render: () => (
-        <Box color="white" p={3} bg="green.500" borderRadius={5}>
-          Upload successful <Icon bg="green.500" as={BsFillCheckCircleFill} />
-        </Box>
-      ),
-    });
-  };
+    
+  // };
 
   return (
     <Center>
