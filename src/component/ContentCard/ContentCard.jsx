@@ -7,6 +7,7 @@ import {
   Button,
   Icon,
   Input,
+  Flex
 } from "@chakra-ui/react";
 import axios from "axios";
 import { HiEmojiHappy, HiOutlineEmojiHappy } from "react-icons/hi";
@@ -33,11 +34,11 @@ const ContentCard = ({
   addLike,
   disLike,
   likeStatus,
+  date
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [like_status, setlike_status] = useState(likeStatus);
-  console.log(likeStatus)
   const userSelector = useSelector((state) => state.user);
 
   const [displayComment, setDisplayComment] = useState(false);
@@ -134,10 +135,15 @@ const ContentCard = ({
           sx={{ _hover: { cursor: "pointer" } }}
         />
       </Link>
-      <Box paddingX="3">
+      <Box paddingX="3"
+      >
+        <Flex justifyContent="space-between">
         <Text fontWeight="bold">
           {numberOfLikes.toLocaleString()} People approve this.
         </Text>
+        <Text fontWeight="bold">Posted at {date}</Text>
+
+        </Flex>
         <Text>
           <span className="fw-bold">{username} </span>{" "}
           <span>

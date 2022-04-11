@@ -1,29 +1,36 @@
 import { useState, useEffect } from "react";
 import ContentCard from "../../component/ContentCard/ContentCard";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, Spinner } from "@chakra-ui/react";
 import requiresAuth from "../../component/requiresAuth";
 import  axiosInstance  from "../../configs/api";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function HomePage() {
   const [contentList, setContentList] = useState([]);
   const userSelector = useSelector((state) => state.user);
+  const [page, setPage] = useState(1)
 
   const fetchContentList = async () => {
     try {
       const postData = await axiosInstance.get("/posts", {
         params: {
           _sortBy : "id",
-          _sortDir : "DESC"
+          _sortDir : "DESC",
+          _limit : 3,
+          _page : page
         }
       });
-      console.log(postData.data.result.rows)
-      setContentList(postData.data.result.rows);
+      setContentList((prevPost) => [...prevPost, ...postData.data.result.rows]);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const fetchNextPage = () => {
+    setPage(page + 1)
+  }
 
   // add like
   const addLike = async (postId, idx) => {
@@ -65,7 +72,7 @@ function HomePage() {
       } else {
         likeStatus = false
       }
-      console.log(val?.user_like)
+      console.log(val)
       return (
         <ContentCard
           username={val?.post_user?.username}
@@ -79,6 +86,8 @@ function HomePage() {
           likeStatus={likeStatus}
           addLike={()=>addLike(val.id, idx)}
           disLike={()=>disLike(val.id, idx)}
+          date={val.createdAt}
+          // createdDate={val}
         />
       );
     });
@@ -86,13 +95,21 @@ function HomePage() {
 
   useEffect(() => {
     fetchContentList();
-  }, []);
+  }, [page]);
 
   return (
     <Center>
+      <InfiniteScroll
+      dataLength={contentList.length}
+      next={fetchNextPage}
+      hasMore={true}
+      loader={<Spinner />}
+      >
+
       <Box paddingY="1" marginLeft={20}>
         {renderContentList()}
       </Box>
+      </InfiniteScroll>
     </Center>
   );
 }
