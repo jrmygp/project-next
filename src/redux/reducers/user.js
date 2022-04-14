@@ -10,6 +10,7 @@ const initial_state = {
 
 const userReducer = ( state = initial_state, action) => {
     if (action.type === "USER_LOGIN") {
+        // console.log(action.payload)
         return {
             ...state,
             username: action.payload.username,

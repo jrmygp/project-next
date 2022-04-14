@@ -97,7 +97,7 @@ const ProfilePage = () => {
               <Icon as={GoVerified} ml={1} boxSize={4} />
             </Box>
             <Text fontSize="lg" backgroundColor="black">
-              {userData?.usertag}
+              {userData?.tag_name}
             </Text>
             <Box
               display="flex"

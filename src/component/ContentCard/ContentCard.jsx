@@ -141,7 +141,7 @@ const ContentCard = ({
         <Text fontWeight="bold">
           {numberOfLikes.toLocaleString()} People approve this.
         </Text>
-        <Text fontWeight="bold">Posted at {date}</Text>
+        <Text fontWeight="bold" fontSize="xs">Posted at {date}</Text>
 
         </Flex>
         <Text>

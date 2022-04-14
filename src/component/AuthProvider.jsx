@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
        console.log(dataResponse, "TESTING", userToken)
         jsCookie.set("user_token", dataResponse?.data?.token || "")
         const userData = dataResponse?.data?.result
-        console.log(userData.id);
+        // console.log(userData);
         dispatch({
           type: "USER_LOGIN",
           payload: {
@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
             email: userData.email,
             full_name: userData.full_name,
             profile_picture: userData.profile_picture,
-            user_tag: userData.tag_name,
+            usertag: userData.tag_name,
             bio: userData.bio
           }
         });

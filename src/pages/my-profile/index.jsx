@@ -31,7 +31,6 @@ import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
-import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
@@ -40,7 +39,6 @@ import { useRef } from "react";
 const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([]);
-  const router = useRouter();
   const [editPostId, setEditPostId] = useState(0);
   const [deletePostId, setDeletePostId] = useState(0);
   const [postCount, setPostCount] = useState("");
@@ -57,9 +55,9 @@ const MyProfilePage = ({ user }) => {
   const uploadAvatarHandler = async () => {
     const formData = new FormData();
 
-    formData.append("profile_picture", selectedFile);
-    formData.append("username", userSelector.username)
-    console.log(formData)
+    formData.append("avatar_image_file", selectedFile);
+
+    // console.log(formData);
 
     try {
       await axiosInstance.patch(`user/${userSelector.id}`, formData);
@@ -102,7 +100,7 @@ const MyProfilePage = ({ user }) => {
         .min(8, "8 characters min")
         .max(16, "16 characters max"),
       full_name: yup.string().max(20, "20 characters max"),
-      bio: yup.string().max(50, "50 characters max"),
+      bio: yup.string().max(100, "100 characters max"),
     }),
     validateOnChange: false,
     onSubmit: async (values) => {
@@ -111,13 +109,12 @@ const MyProfilePage = ({ user }) => {
         full_name: values.full_name,
         bio: values.bio,
       };
-      await axiosInstance.patch(`user/${userSelector.id}`, newUserData);
+      await axiosInstance.patch(`/user/${userSelector.id}`, newUserData);
       userFormik.setSubmitting(false);
       onClose();
-      
     },
   });
-
+// console.log(userSelector)
   const inputUserHandler = (event) => {
     const { value, name } = event.target;
     userFormik.setFieldValue(name, value);
@@ -308,10 +305,16 @@ const MyProfilePage = ({ user }) => {
               sx={{ _hover: { cursor: "pointer" } }}
               onClick={() => inputFileRef.current.click()}
             />
-
-            <Button colorScheme="blue" mt={2} size="xs" onClick={uploadAvatarHandler}>
-              Change Avatar
-            </Button>
+            {selectedFile ? (
+              <Button
+                colorScheme="blue"
+                mt={2}
+                size="xs"
+                onClick={uploadAvatarHandler}
+              >
+                Save Avatar
+              </Button>
+            ) : null}
             <Input
               onChange={handleFile}
               ref={inputFileRef}
@@ -331,7 +334,7 @@ const MyProfilePage = ({ user }) => {
                 <Text backgroundColor="black">{userSelector.username}</Text>
                 <Icon as={GoVerified} ml={1} boxSize={4} />
               </Box>
-              <Text fontSize="lg" backgroundColor="black">
+              <Text fontSize="lg" backgroundColor="black" color="white">
                 {userSelector.usertag}
               </Text>
               <Box
@@ -370,7 +373,7 @@ const MyProfilePage = ({ user }) => {
                       {/* EDIT USERNAME */}
                       <FormControl isInvalid={userFormik.errors.username}>
                         <FormLabel>Username</FormLabel>
-                        <Input name="username" onChange={inputUserHandler} />
+                        <Input value={userFormik.values.username} name="username" onChange={inputUserHandler} />
                         <FormHelperText>
                           {userFormik.errors.username}
                         </FormHelperText>
@@ -378,19 +381,19 @@ const MyProfilePage = ({ user }) => {
                       {/* EDIT FULL NAME */}
                       <FormControl isInvalid={userFormik.errors.full_name}>
                         <FormLabel>Full Name</FormLabel>
-                        <Input name="full_name" onChange={inputUserHandler} />
+                        <Input value={userFormik.values.full_name} name="full_name" onChange={inputUserHandler} />
                         <FormHelperText>
                           {userFormik.errors.full_name}
                         </FormHelperText>
                       </FormControl>
                       <FormControl isInvalid={userFormik.errors.bio}>
                         <FormLabel>Bio</FormLabel>
-                        <Input name="bio" onChange={inputUserHandler} />
+                        <Input value={userFormik.values.bio} name="bio" onChange={inputUserHandler} />
                         <FormHelperText>{userFormik.errors.bio}</FormHelperText>
                       </FormControl>
                     </ModalBody>
                     <ModalFooter>
-                    {/* <Link href="/ny-profile"> */}
+                      {/* <Link href="/ny-profile"> */}
                       <Button
                         colorScheme="green"
                         onClick={userFormik.handleSubmit}

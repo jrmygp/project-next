@@ -108,21 +108,16 @@ const Post = () => {
           {/* </Link> */}
           <Box paddingX="3">
             <Text fontWeight="bold">
-              {userPost?.number_of_likes?.toLocaleString()} People approve this.
+              {userPost?.like_count?.toLocaleString()} People approve this.
             </Text>
-            <Text>
-              <span className="fw-bold">{userPost?.User?.username}</span>{" "}
+            <Flex>
+              <Text fontWeight="bold" mr={2}>{userPost?.post_user?.username}</Text>
               <span>
                 {userPost?.caption?.length > 140
                   ? userPost?.caption?.slice(0, 140) + "..."
                   : userPost?.caption}
               </span>
-            </Text>
-
-            <Box display="flex" marginTop={4} paddingBottom={2}>
-              <Icon boxSize={6} as={HiOutlineEmojiHappy}></Icon>
-              <Icon boxSize={6} as={RiSkull2Line} marginLeft={2}></Icon>
-            </Box>
+            </Flex>
           </Box>
         </Box>
 
