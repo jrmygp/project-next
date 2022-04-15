@@ -23,6 +23,7 @@ import requiresAuth from "../../component/requiresAuth";
 const Post = () => {
   const [userPost, setUserPost] = useState({});
   const [comments, setComments] = useState([]);
+  // const [moreComments, setMoreComments] = useState([])
 
   const router = useRouter();
 
@@ -45,15 +46,27 @@ const Post = () => {
       const commentData = await axiosInstance.get(`/comments`, {
         params: {
           post_id: router.query.post,
-          _limit: 5
         },
       });
-      console.log(commentData)
+      // console.log(commentData)
       setComments(commentData.data.result.rows);
     } catch (err) {
       console.log(err);
     }
   };
+
+  // const fetchMoreComments = async () => {
+  //   try {
+  //     const moreCommentData = await axiosInstance.get(`/comments`, {
+  //       params: {
+  //         post_id: router.query.post,
+  //       }
+  //     })
+  //     setMoreComments(moreCommentData.data.result.rows)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
   const renderComments = () => {
     return comments.map((val) => {
       return (
@@ -66,9 +79,21 @@ const Post = () => {
     });
   };
 
+  // const renderMoreComments = () => {
+  //   return moreComments.map((val) => {
+  //     return (
+  //       <SmallComment
+  //       content={val.content}
+  //       profile_picture={val?.User?.profile_picture}
+  //       user={val?.Comments?.User?.id} />
+  //     )
+  //   })
+  // }
+
   useEffect(() => {
     fetchUserPost();
     fetchComments();
+    // fetchMoreComments()
   }, []);
 
   return (
@@ -134,6 +159,7 @@ const Post = () => {
             Comment Section
           </Text>
           {renderComments()}
+          {/* <Button ml={2} colorScheme="green" size="xs" onClick={() => renderMoreComments()}>See more comments</Button> */}
         </Box>
       </Flex>
     </Center>
