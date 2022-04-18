@@ -15,11 +15,11 @@ import {
   InputRightElement,
   InputGroup,
   Flex,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import  axiosInstance  from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import Link from "next/link";
 import Router from "next/router";
 import { BsFillCheckCircleFill } from "react-icons/bs";
@@ -64,17 +64,21 @@ const SignUpPage = () => {
 
       await axiosInstance.post(`/user/register`, newUser);
       formik.setSubmitting(false);
-      Router.push("/login");
-      toast({
-        position: "bottom",
-        render: () => (
-          <Box color="white" p={3} bg="green.500" borderRadius={5}>
-            <Text bg="green.500">Successfully created new account!</Text>
-            An email has been sent to your mail, please click the link to verify your account.{" "}
-            <Icon bg="green.500" as={BsFillCheckCircleFill} />
-          </Box>
-        ),
-      });
+
+      // setTimeout(() => {
+        Router.push("/login");
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" p={3} bg="green.500" borderRadius={5}>
+              <Text bg="green.500">Successfully created new account!</Text>
+              An email has been sent to your mail, please click the link to
+              verify your account.{" "}
+              <Icon bg="green.500" as={BsFillCheckCircleFill} />
+            </Box>
+          ),
+        });
+      // }, 2000);
     },
   });
 
@@ -90,105 +94,103 @@ const SignUpPage = () => {
         w="500px"
         objectFit="cover"
       />
-    <Box
-    border="1px solid white"
-    borderRadius={10}
-    mt={40}
-    mb={40}
-    color="white"
-    background="black"
-    
-    >
-      <Stack p={10}>
-        <Heading>Make new account</Heading>
-        <form>
-      <Flex flexDir="column" alignItems="center">
-          <Box>
-            <FormControl isInvalid={formik.errors.email}>
-              <FormLabel htmlFor="inputEmail">Email</FormLabel>
-              <Input id="inputEmail" name="email" onChange={inputHandler} />
-              <FormHelperText>{formik.errors.email}</FormHelperText>
-            </FormControl>
+      <Box
+        border="1px solid white"
+        borderRadius={10}
+        mt={40}
+        mb={40}
+        color="white"
+        background="black"
+      >
+        <Stack p={10}>
+          <Heading>Make new account</Heading>
+          <form>
+            <Flex flexDir="column" alignItems="center">
+              <Box>
+                <FormControl isInvalid={formik.errors.email}>
+                  <FormLabel htmlFor="inputEmail">Email</FormLabel>
+                  <Input id="inputEmail" name="email" onChange={inputHandler} />
+                  <FormHelperText>{formik.errors.email}</FormHelperText>
+                </FormControl>
 
-            <FormControl isInvalid={formik.errors.password}>
-              <FormLabel htmlFor="inputPassword">Password</FormLabel>
-              <InputGroup>
-                <Input
-                  id="inputPassword"
-                  name="password"
-                  type={passwordVisible ? "text" : "password"}
-                  onChange={inputHandler}
-                />
-                <InputRightElement
-                  children={
-                    <Icon
-                      fontSize="lg"
-                      onClick={() => setPasswordVisible(!passwordVisible)}
-                      as={passwordVisible ? IoMdEyeOff : IoMdEye}
-                      sx={{ _hover: { cursor: "pointer" } }}
+                <FormControl isInvalid={formik.errors.password}>
+                  <FormLabel htmlFor="inputPassword">Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      id="inputPassword"
+                      name="password"
+                      type={passwordVisible ? "text" : "password"}
+                      onChange={inputHandler}
                     />
-                  }
-                  backgroundColor="transparent"
-                />
-              </InputGroup>
-              <FormHelperText>{formik.errors.password}</FormHelperText>
-            </FormControl>
+                    <InputRightElement
+                      children={
+                        <Icon
+                          fontSize="lg"
+                          onClick={() => setPasswordVisible(!passwordVisible)}
+                          as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                          sx={{ _hover: { cursor: "pointer" } }}
+                        />
+                      }
+                      backgroundColor="transparent"
+                    />
+                  </InputGroup>
+                  <FormHelperText>{formik.errors.password}</FormHelperText>
+                </FormControl>
 
-            <FormControl isInvalid={formik.errors.fullname}>
-              <FormLabel htmlFor="inputFullname">Full Name</FormLabel>
-              <Input
-                id="inputFullname"
-                name="fullname"
-                onChange={inputHandler}
-              />
+                <FormControl isInvalid={formik.errors.fullname}>
+                  <FormLabel htmlFor="inputFullname">Full Name</FormLabel>
+                  <Input
+                    id="inputFullname"
+                    name="fullname"
+                    onChange={inputHandler}
+                  />
 
-              <FormHelperText>{formik.errors.fullname}</FormHelperText>
-            </FormControl>
+                  <FormHelperText>{formik.errors.fullname}</FormHelperText>
+                </FormControl>
 
-            <FormControl isInvalid={formik.errors.username}>
-              <FormLabel htmlFor="inputUsername">Username</FormLabel>
-              <Input
-                id="inputUsername"
-                name="username"
-                onChange={inputHandler}
-              />
-              <FormHelperText>{formik.errors.username}</FormHelperText>
-            </FormControl>
+                <FormControl isInvalid={formik.errors.username}>
+                  <FormLabel htmlFor="inputUsername">Username</FormLabel>
+                  <Input
+                    id="inputUsername"
+                    name="username"
+                    onChange={inputHandler}
+                  />
+                  <FormHelperText>{formik.errors.username}</FormHelperText>
+                </FormControl>
 
-            <FormControl isInvalid={formik.errors.usertag}>
-              <FormLabel htmlFor="inputUsertag">User Tag</FormLabel>
-              <Input id="inputUsertag" name="usertag" onChange={inputHandler} />
-              <FormHelperText>{formik.errors.usertag}</FormHelperText>
-            </FormControl>
-          </Box>
-          <Box>
-            <Link href="/login">
-            <Button
-            colorScheme="blue"
-            w={200}
-            mt={2}
-            mr={2}
-            >
-              Back
-            </Button>
-            </Link>
-            <Link href="/login">
-              <Button
-                colorScheme="green"
-                w={200}
-                onClick={formik.handleSubmit}
-                type="submit"
-                mt={2}
-              >
-                Make your account
-              </Button>
-            </Link>
-          </Box>
-
-          </Flex>
-        </form>
-      </Stack>
-    </Box>
+                <FormControl isInvalid={formik.errors.usertag}>
+                  <FormLabel htmlFor="inputUsertag">User Tag</FormLabel>
+                  <Input
+                    id="inputUsertag"
+                    name="usertag"
+                    onChange={inputHandler}
+                  />
+                  <FormHelperText>{formik.errors.usertag}</FormHelperText>
+                </FormControl>
+              </Box>
+              <Box>
+                <Link href="/login">
+                  <Button colorScheme="blue" w={200} mt={2} mr={2}>
+                    Back
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button
+                    colorScheme="green"
+                    w={200}
+                    onClick={formik.handleSubmit}
+                    disabled={formik.isSubmitting}
+                    type="submit"
+                    mt={2}
+                  >
+                    Make your account
+                  </Button>
+                </Link>
+              </Box>
+            </Flex>
+          </form>
+        </Stack>
+      </Box>
     </Flex>
   );
 };
