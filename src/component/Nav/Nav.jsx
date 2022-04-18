@@ -112,7 +112,7 @@ const Nav = () => {
             <Heading as="h3" size="sm">
               {userSelector.username}
             </Heading>
-            <Text color="gray">{userSelector.usertag}</Text>
+            <Text color="gray">{userSelector.tag_name}</Text>
           </Flex>
         </Flex>
       </Flex>

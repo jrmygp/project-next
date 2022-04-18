@@ -4,8 +4,9 @@ const initial_state = {
     email: "",
     full_name: "",
     profile_picture: "",
-    usertag: "",
-    bio: ""
+    tag_name: "",
+    bio: "",
+    is_verified: false
 }
 
 const userReducer = ( state = initial_state, action) => {
@@ -18,8 +19,9 @@ const userReducer = ( state = initial_state, action) => {
             full_name: action.payload.full_name,
             id: action.payload.id,
             profile_picture: action.payload.profile_picture,
-            usertag: action.payload.tag_name,
-            bio: action.payload.bio
+            tag_name: action.payload.tag_name,
+            bio: action.payload.bio,
+            is_verified: action.payload.is_verified
         }
     } else if (action.type === "USER_LOGOUT") {
         return initial_state

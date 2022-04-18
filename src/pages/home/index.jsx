@@ -87,7 +87,7 @@ function HomePage() {
           addLike={()=>addLike(val.id, idx)}
           disLike={()=>disLike(val.id, idx)}
           date={val.createdAt}
-          // createdDate={val}
+          verified={val?.post_user?.is_verified}
         />
       );
     });

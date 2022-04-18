@@ -163,6 +163,8 @@ const MyProfilePage = ({ user }) => {
     setDeletePostId(postId);
   };
 
+  console.log(userSelector)
+
   const renderPost = () => {
     return userPost.map((val) => {
       return (
@@ -332,10 +334,13 @@ const MyProfilePage = ({ user }) => {
             >
               <Box display="flex" alignItems="center" backgroundColor="black">
                 <Text backgroundColor="black">{userSelector.username}</Text>
-                <Icon as={GoVerified} ml={1} boxSize={4} />
+                {userSelector.is_verified == true ? 
+                <Icon as={GoVerified} ml={1} boxSize={4} /> 
+                : null} 
+                
               </Box>
               <Text fontSize="lg" backgroundColor="black" color="white">
-                {userSelector.usertag}
+                {userSelector.tag_name}
               </Text>
               <Box
                 display="flex"

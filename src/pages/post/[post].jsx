@@ -23,7 +23,8 @@ import requiresAuth from "../../component/requiresAuth";
 const Post = () => {
   const [userPost, setUserPost] = useState({});
   const [comments, setComments] = useState([]);
-  // const [moreComments, setMoreComments] = useState([])
+
+
 
   const router = useRouter();
 
@@ -120,7 +121,8 @@ const Post = () => {
             >
               <Box display="flex" alignItems="center">
                 <Text>{userPost?.post_user?.username}</Text>{" "}
-                <Icon boxSize={3.5} as={GoVerified} marginLeft={1} />
+                {userPost?.post_user?.is_verified == true ? <Icon boxSize={3.5} as={GoVerified} marginLeft={1} /> : null}
+                
               </Box>
               <Box display="flex" alignItems="center">
                 <Icon boxSize={3} as={HiLocationMarker} marginRight="1" />

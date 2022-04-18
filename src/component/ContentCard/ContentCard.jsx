@@ -34,7 +34,8 @@ const ContentCard = ({
   addLike,
   disLike,
   likeStatus,
-  date
+  date,
+  verified
 }) => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
@@ -118,7 +119,8 @@ const ContentCard = ({
         >
           <Box display="flex" alignItems="center">
             <Text>{username}</Text>{" "}
-            <Icon boxSize={3.5} as={GoVerified} marginLeft={1} />
+            {verified == true ? <Icon boxSize={3.5} as={GoVerified} marginLeft={1} /> : null}
+            
           </Box>
           <Box display="flex" alignItems="center">
             <Icon boxSize={3} as={HiLocationMarker} marginRight="1" />

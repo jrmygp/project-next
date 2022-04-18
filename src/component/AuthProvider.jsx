@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
       try {
         // const parsedUserData = JSON.parse(savedUserData);
        const dataResponse = await axiosInstance.get("/user/refresh-token")
-       console.log(dataResponse, "TESTING", userToken)
+      //  console.log(dataResponse, "TESTING", userToken)
         jsCookie.set("user_token", dataResponse?.data?.token || "")
         const userData = dataResponse?.data?.result
         // console.log(userData);
@@ -27,8 +27,9 @@ const AuthProvider = ({ children }) => {
             email: userData.email,
             full_name: userData.full_name,
             profile_picture: userData.profile_picture,
-            usertag: userData.tag_name,
-            bio: userData.bio
+            tag_name: userData.tag_name,
+            bio: userData.bio,
+            is_verified: userData.is_verified
           }
         });
       
