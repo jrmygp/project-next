@@ -70,7 +70,7 @@ const SignUpPage = () => {
         render: () => (
           <Box color="white" p={3} bg="green.500" borderRadius={5}>
             <Text bg="green.500">Successfully created new account!</Text>
-            Now please log in to your new account.{" "}
+            An email has been sent to your mail, please click the link to verify your account.{" "}
             <Icon bg="green.500" as={BsFillCheckCircleFill} />
           </Box>
         ),
