@@ -68,7 +68,7 @@ const LoginPage = () => {
     <Flex background="black">
       <Image
         src="https://wallpapercave.com/wp/wp8424243.png"
-        w="500px"
+        w="510px"
         objectFit="cover"
       />
 

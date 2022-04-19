@@ -27,11 +27,13 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const SignUpPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
   const toast = useToast();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      confirm_password: "",
       fullname: "",
       username: "",
       usertag: "",
@@ -43,8 +45,12 @@ const SignUpPage = () => {
         .required("This field is required!"),
       password: yup
         .string()
-        .min(8, "Password should be 8 or more characters!")
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "Password must contain atleast one uppercase alphabet, number, and special character!")
         .required("This field is required!"),
+      confirm_password: yup
+        .string()
+        .required("Please repeat your password")
+        .oneOf([yup.ref("password"), null], "Your password does not match!"),
       fullname: yup.string().required("This field is required!"),
       username: yup.string().required("This field is required!"),
       usertag: yup
@@ -64,21 +70,17 @@ const SignUpPage = () => {
 
       await axiosInstance.post(`/user/register`, newUser);
       formik.setSubmitting(false);
-
-      // setTimeout(() => {
-        Router.push("/login");
-        toast({
-          position: "bottom",
-          render: () => (
-            <Box color="white" p={3} bg="green.500" borderRadius={5}>
-              <Text bg="green.500">Successfully created new account!</Text>
-              An email has been sent to your mail, please click the link to
-              verify your account.{" "}
-              <Icon bg="green.500" as={BsFillCheckCircleFill} />
-            </Box>
-          ),
-        });
-      // }, 2000);
+      Router.push("/login");
+      toast({
+        position: "bottom",
+        render: () => (
+          <Box color="white" p={3} bg="green.500" borderRadius={5}>
+            <Text bg="green.500">Successfully created new account!</Text>
+            An email has been sent to your mail, please click the link to verify
+            your account. <Icon bg="green.500" as={BsFillCheckCircleFill} />
+          </Box>
+        ),
+      });
     },
   });
 
@@ -97,10 +99,11 @@ const SignUpPage = () => {
       <Box
         border="1px solid white"
         borderRadius={10}
-        mt={40}
+        mt={10}
         mb={40}
         color="white"
         background="black"
+        maxW="600px"
       >
         <Stack p={10}>
           <Heading>Make new account</Heading>
@@ -135,6 +138,36 @@ const SignUpPage = () => {
                     />
                   </InputGroup>
                   <FormHelperText>{formik.errors.password}</FormHelperText>
+                </FormControl>
+
+                <FormControl
+                isInvalid={formik.errors.confirm_password}
+                >
+                  <FormLabel htmlFor="inputPassword">
+                    Confirm Your Password
+                  </FormLabel>
+                  <InputGroup>
+                    <Input
+                      id="inputPassword"
+                      name="confirm_password"
+                      type={confirmPasswordVisible ? "text" : "password"}
+                      onChange={inputHandler}
+                    />
+                    <InputRightElement
+                      children={
+                        <Icon
+                          fontSize="lg"
+                          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                          as={confirmPasswordVisible ? IoMdEyeOff : IoMdEye}
+                          sx={{ _hover: { cursor: "pointer" } }}
+                        />
+                      }
+                      backgroundColor="transparent"
+                    />
+                  </InputGroup>
+                  <FormHelperText>
+                    {formik.errors.confirm_password}
+                  </FormHelperText>
                 </FormControl>
 
                 <FormControl isInvalid={formik.errors.fullname}>

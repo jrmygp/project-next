@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import {
   Box,
   Text,
@@ -35,6 +34,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 
 const MyProfilePage = ({ user }) => {
   const userSelector = useSelector((state) => state.user);
@@ -42,6 +42,7 @@ const MyProfilePage = ({ user }) => {
   const [editPostId, setEditPostId] = useState(0);
   const [deletePostId, setDeletePostId] = useState(0);
   const [postCount, setPostCount] = useState("");
+  const router = useRouter();
 
   // Avatar file handler
   const inputFileRef = useRef(null);
@@ -49,7 +50,6 @@ const MyProfilePage = ({ user }) => {
 
   const handleFile = (event) => {
     setSelectedFile(event.target.files[0]);
-    alert(event.target.files[0].name);
   };
 
   const uploadAvatarHandler = async () => {
@@ -114,7 +114,7 @@ const MyProfilePage = ({ user }) => {
       onClose();
     },
   });
-// console.log(userSelector)
+  // console.log(userSelector)
   const inputUserHandler = (event) => {
     const { value, name } = event.target;
     userFormik.setFieldValue(name, value);
@@ -163,7 +163,7 @@ const MyProfilePage = ({ user }) => {
     setDeletePostId(postId);
   };
 
-  console.log(userSelector)
+  console.log(userSelector);
 
   const renderPost = () => {
     return userPost.map((val) => {
@@ -301,18 +301,31 @@ const MyProfilePage = ({ user }) => {
           backgroundColor="black"
         >
           <Flex flexDir="column">
-            <Avatar
-              src={userSelector.profile_picture}
-              size="xl"
-              sx={{ _hover: { cursor: "pointer" } }}
-              onClick={() => inputFileRef.current.click()}
-            />
+            {!selectedFile ? (
+              <Avatar
+                src={userSelector.profile_picture}
+                size="xl"
+                sx={{ _hover: { cursor: "pointer" } }}
+                onClick={() => inputFileRef.current.click()}
+              />
+            ) : (
+              <Avatar
+                src={URL.createObjectURL(selectedFile)}
+                size="xl"
+                sx={{ _hover: { cursor: "pointer" } }}
+                onClick={() => inputFileRef.current.click()}
+              />
+            )}
+
             {selectedFile ? (
               <Button
                 colorScheme="blue"
                 mt={2}
                 size="xs"
-                onClick={uploadAvatarHandler}
+                onClick={() => {
+                  uploadAvatarHandler();
+                  router.reload(window.location.pathname);
+                }}
               >
                 Save Avatar
               </Button>
@@ -334,10 +347,9 @@ const MyProfilePage = ({ user }) => {
             >
               <Box display="flex" alignItems="center" backgroundColor="black">
                 <Text backgroundColor="black">{userSelector.username}</Text>
-                {userSelector.is_verified == true ? 
-                <Icon as={GoVerified} ml={1} boxSize={4} /> 
-                : null} 
-                
+                {userSelector.is_verified == true ? (
+                  <Icon as={GoVerified} ml={1} boxSize={4} />
+                ) : null}
               </Box>
               <Text fontSize="lg" backgroundColor="black" color="white">
                 {userSelector.tag_name}
@@ -378,7 +390,11 @@ const MyProfilePage = ({ user }) => {
                       {/* EDIT USERNAME */}
                       <FormControl isInvalid={userFormik.errors.username}>
                         <FormLabel>Username</FormLabel>
-                        <Input value={userFormik.values.username} name="username" onChange={inputUserHandler} />
+                        <Input
+                          value={userFormik.values.username}
+                          name="username"
+                          onChange={inputUserHandler}
+                        />
                         <FormHelperText>
                           {userFormik.errors.username}
                         </FormHelperText>
@@ -386,14 +402,22 @@ const MyProfilePage = ({ user }) => {
                       {/* EDIT FULL NAME */}
                       <FormControl isInvalid={userFormik.errors.full_name}>
                         <FormLabel>Full Name</FormLabel>
-                        <Input value={userFormik.values.full_name} name="full_name" onChange={inputUserHandler} />
+                        <Input
+                          value={userFormik.values.full_name}
+                          name="full_name"
+                          onChange={inputUserHandler}
+                        />
                         <FormHelperText>
                           {userFormik.errors.full_name}
                         </FormHelperText>
                       </FormControl>
                       <FormControl isInvalid={userFormik.errors.bio}>
                         <FormLabel>Bio</FormLabel>
-                        <Input value={userFormik.values.bio} name="bio" onChange={inputUserHandler} />
+                        <Input
+                          value={userFormik.values.bio}
+                          name="bio"
+                          onChange={inputUserHandler}
+                        />
                         <FormHelperText>{userFormik.errors.bio}</FormHelperText>
                       </FormControl>
                     </ModalBody>

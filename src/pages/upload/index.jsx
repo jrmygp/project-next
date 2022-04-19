@@ -18,11 +18,10 @@ import requiresAuth from "../../component/requiresAuth";
 import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs";
 import Link from "next/link";
 import { useRef } from "react";
-import  axiosInstance  from "../../configs/api";
+import axiosInstance from "../../configs/api";
 
 const UploadPage = () => {
   const userSelector = useSelector((state) => state.user);
-  const [urlInput, setUrlInput] = useState("");
   const [captionInput, setCaptionInput] = useState("");
   const [locationInput, setLocationInput] = useState("");
   const [preview, setPreview] = useState(false);
@@ -32,9 +31,7 @@ const UploadPage = () => {
 
   const handleFile = (event) => {
     setSelectedFile(event.target.files[0]);
-    alert(event.target.files[0].name);
   };
-
 
   const uploadContentHandler = async () => {
     const formData = new FormData();
@@ -43,8 +40,6 @@ const UploadPage = () => {
     formData.append("location", locationInput);
     formData.append("user_id", userSelector.id);
     formData.append("post_image_file", selectedFile);
-
-    console.log(formData)
 
     try {
       await axiosInstance.post("/posts", formData);
@@ -61,11 +56,6 @@ const UploadPage = () => {
     });
   };
 
-  const handleUrlInput = (event) => {
-    const { value } = event.target;
-    setUrlInput(value);
-  };
-
   const handleCaptionInput = (event) => {
     const { value } = event.target;
     setCaptionInput(value);
@@ -76,20 +66,6 @@ const UploadPage = () => {
     setLocationInput(value);
   };
 
-  // const postNewPost = () => {
-  //   const newPost = {
-  //     userId: userSelector.id,
-  //     location: locationInput,
-  //     caption: captionInput,
-  //     image_url: urlInput,
-  //     number_of_likes: 0,
-  //   };
-
-  //   axios.post(`http://localhost:2000/posts`, newPost);
-
-    
-  // };
-
   return (
     <Center>
       <Stack>
@@ -99,31 +75,30 @@ const UploadPage = () => {
           justifyContent="center"
           color="white"
           border="1px solid white"
-          mt={10}
+          mt={5}
           maxW="lg"
           p="10px"
           borderRadius={8}
           background="black"
         >
-            <Input
-              // w="50vh"
-              marginBottom="10px"
-              placeholder="upload your link image here"
-              onChange={handleFile}
-              ref={inputFileRef}
-              type="file"
-              display="none"
-            />
-            <Button
-              onClick={() => inputFileRef.current.click()}
-              colorScheme="green"
-              mb="10px"
-              maxW="500px"
-              
-            >
-              Upload Image
-            </Button>
-          
+          <Input
+            // w="50vh"
+            marginBottom="10px"
+            placeholder="upload your link image here"
+            onChange={handleFile}
+            ref={inputFileRef}
+            type="file"
+            display="none"
+          />
+          <Button
+            onClick={() => inputFileRef.current.click()}
+            colorScheme="green"
+            mb="10px"
+            maxW="500px"
+          >
+            Upload Image
+          </Button>
+
           <Input
             // w="50vh"
             marginBottom="10px"
@@ -148,14 +123,16 @@ const UploadPage = () => {
                 Upload
               </Button>
             </Link>
-            <Button
-              color="black"
-              maxW="xs"
-              mt={3}
-              onClick={() => setPreview(!preview)}
-            >
-              Preview
-            </Button>
+            {selectedFile ? (
+              <Button
+                color="black"
+                maxW="xs"
+                mt={3}
+                onClick={() => setPreview(!preview)}
+              >
+                Preview
+              </Button>
+            ) : null}
           </Box>
         </Box>
         {/* Post Preview */}
@@ -190,10 +167,12 @@ const UploadPage = () => {
                 </Box>
               </Box>
             </Box>
-            <Image padding={2} minW={510} src={
-              URL.createObjectURL
-              (selectedFile)
-              } />
+            <Image
+              padding={2}
+              minW={510}
+              maxH={500}
+              src={URL.createObjectURL(selectedFile)}
+            />
             <Box paddingX="3">
               <Text fontWeight="bold">
                 {(69420).toLocaleString()} People approve this.
