@@ -57,8 +57,6 @@ const MyProfilePage = ({ user }) => {
 
     formData.append("avatar_image_file", selectedFile);
 
-    // console.log(formData);
-
     try {
       await axiosInstance.patch(`user/${userSelector.id}`, formData);
     } catch (err) {
