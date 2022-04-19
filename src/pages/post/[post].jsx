@@ -11,20 +11,15 @@ import {
 } from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
 import { HiLocationMarker } from "react-icons/hi";
-import { HiEmojiHappy, HiOutlineEmojiHappy } from "react-icons/hi";
-import { IoIosPaperPlane } from "react-icons/io";
-import { RiSkull2Fill, RiSkull2Line } from "react-icons/ri";
-import Link from "next/link";
 import SmallComment from "../../component/CommentSmall";
 import { useRouter } from "next/router";
-import  axiosInstance  from "../../configs/api";
+import axiosInstance from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
 
 const Post = () => {
   const [userPost, setUserPost] = useState({});
   const [comments, setComments] = useState([]);
-
-
+  const [page, setPage] = useState(1);
 
   const router = useRouter();
 
@@ -37,7 +32,7 @@ const Post = () => {
       });
 
       setUserPost(postData.data.result.rows[0]);
-      console.log(postData.data.result.rows[0])
+      console.log(postData.data.result.rows[0]);
     } catch (err) {
       console.log(err);
     }
@@ -47,27 +42,21 @@ const Post = () => {
       const commentData = await axiosInstance.get(`/comments`, {
         params: {
           post_id: router.query.post,
+          _limit: 3,
+          _page: page,
         },
       });
       // console.log(commentData)
-      setComments(commentData.data.result.rows);
+      setComments([...comments, ...commentData.data.result.rows]);
     } catch (err) {
       console.log(err);
     }
   };
 
-  // const fetchMoreComments = async () => {
-  //   try {
-  //     const moreCommentData = await axiosInstance.get(`/comments`, {
-  //       params: {
-  //         post_id: router.query.post,
-  //       }
-  //     })
-  //     setMoreComments(moreCommentData.data.result.rows)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  const fetchNextComments = () => {
+    setPage(page + 1)
+  }
+
   const renderComments = () => {
     return comments.map((val) => {
       return (
@@ -80,22 +69,10 @@ const Post = () => {
     });
   };
 
-  // const renderMoreComments = () => {
-  //   return moreComments.map((val) => {
-  //     return (
-  //       <SmallComment
-  //       content={val.content}
-  //       profile_picture={val?.User?.profile_picture}
-  //       user={val?.Comments?.User?.id} />
-  //     )
-  //   })
-  // }
-
   useEffect(() => {
     fetchUserPost();
     fetchComments();
-    // fetchMoreComments()
-  }, []);
+  }, [page]);
 
   return (
     <Center>
@@ -121,8 +98,9 @@ const Post = () => {
             >
               <Box display="flex" alignItems="center">
                 <Text>{userPost?.post_user?.username}</Text>{" "}
-                {userPost?.post_user?.is_verified == true ? <Icon boxSize={3.5} as={GoVerified} marginLeft={1} /> : null}
-                
+                {userPost?.post_user?.is_verified == true ? (
+                  <Icon boxSize={3.5} as={GoVerified} marginLeft={1} />
+                ) : null}
               </Box>
               <Box display="flex" alignItems="center">
                 <Icon boxSize={3} as={HiLocationMarker} marginRight="1" />
@@ -138,7 +116,9 @@ const Post = () => {
               {userPost?.like_count?.toLocaleString()} People approve this.
             </Text>
             <Flex>
-              <Text fontWeight="bold" mr={2}>{userPost?.post_user?.username}</Text>
+              <Text fontWeight="bold" mr={2}>
+                {userPost?.post_user?.username}
+              </Text>
               <span>
                 {userPost?.caption?.length > 140
                   ? userPost?.caption?.slice(0, 140) + "..."
@@ -156,12 +136,14 @@ const Post = () => {
           maxW="lg"
           paddingY="2"
           marginY="4"
+          maxH="500px"
+          overflow="scroll"
         >
           <Text mb={6} padding={5}>
             Comment Section
           </Text>
           {renderComments()}
-          {/* <Button ml={2} colorScheme="green" size="xs" onClick={() => renderMoreComments()}>See more comments</Button> */}
+          <Button ml={2} colorScheme="green" size="xs" onClick={() => fetchNextComments()}>See more comments</Button>
         </Box>
       </Flex>
     </Center>
