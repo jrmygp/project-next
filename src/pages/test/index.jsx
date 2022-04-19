@@ -1,15 +1,26 @@
-import { Flex, Button, Center, Tex, Text, Box } from "@chakra-ui/react"
+import { Flex, Button, Center, Tex, Text, Box, useToast } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
 import axiosInstance from "../../configs/api"
+import { BsFillCheckCircleFill, BsImageFill } from "react-icons/bs";
 
 const ResendToken = () => {
   const userSelector = useSelector((state) => state.user)
+  const toast = useToast();
+
   const resendToken = async () => {
     try {
       await axiosInstance.post(`/user/resend-verification`)
     } catch (err) {
       console.log(err)
     }
+    toast({
+      position: "bottom",
+      render: () => (
+        <Box color="white" p={3} bg="green.500" borderRadius={5}>
+          Email sent <Icon bg="green.500" as={BsFillCheckCircleFill} />
+        </Box>
+      ),
+    });
   }
     return (
       <Center mt={20}>
