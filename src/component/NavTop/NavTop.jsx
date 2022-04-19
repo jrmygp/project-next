@@ -1,14 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import { Box, Button, Icon, Input, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Input, useToast } from "@chakra-ui/react";
 import { BsSearch } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { BsFillCheckCircleFill } from "react-icons/bs"
+import { BsFillCheckCircleFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 
 const NavTop = () => {
   const userSelector = useSelector((state) => state.user);
-  const toast = useToast()
+  const toast = useToast();
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -23,13 +23,14 @@ const NavTop = () => {
     toast({
       position: "top-right",
       render: () => (
-        <Box color='white' p={3} bg='green.500' borderRadius={5}>
-          Log out successful <Icon bg="green.500" as={BsFillCheckCircleFill}/>
-        </Box> )
-    })
+        <Box color="white" p={3} bg="green.500" borderRadius={5}>
+          Log out successful <Icon bg="green.500" as={BsFillCheckCircleFill} />
+        </Box>
+      ),
+    });
   };
 
-  if (router.asPath == "/login" || router.asPath == "/sign-up") return null
+  if (router.asPath == "/login" || router.asPath == "/sign-up") return null;
 
   return (
     <Box
@@ -50,7 +51,7 @@ const NavTop = () => {
         </Link>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Input w="50" marginRight="10px" placeholder="search"/>
+        <Input w="50" marginRight="10px" placeholder="search" />
         <Icon as={BsSearch} fontSize="xl" />
       </Box>
       <Box paddingRight="50px">

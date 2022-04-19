@@ -15,6 +15,7 @@ import { IoMdSettings } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { HiLogout } from "react-icons/hi";
 import { BsPlusSquareFill } from "react-icons/bs";
+import { MdGeneratingTokens } from "react-icons/md";
 import { axiosInstance } from "../../configs/api";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -25,7 +26,7 @@ const Nav = () => {
 
   const userSelector = useSelector((state) => state.user);
 
-  if (!userSelector.id) return null
+  if (!userSelector.id) return null;
 
   return (
     <Flex
@@ -85,13 +86,14 @@ const Nav = () => {
           title="Upload Memes"
           href="/upload"
         />
-
-        <NavItems
-          navSize={navSize}
-          icon={IoMdSettings}
-          title="Settings"
-          href="/test"
-        />
+        {userSelector.is_verified == false ? (
+          <NavItems
+            navSize={navSize}
+            icon={MdGeneratingTokens}
+            title="Resend Token"
+            href="/test"
+          />
+        ) : null}
       </Flex>
 
       <Flex
