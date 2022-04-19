@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Box,
   Icon,
@@ -14,12 +15,15 @@ import { HiLocationMarker } from "react-icons/hi";
 import SmallComment from "../../component/CommentSmall";
 import { useRouter } from "next/router";
 import axiosInstance from "../../configs/api";
+import Link from "next/link";
 import requiresAuth from "../../component/requiresAuth";
 
 const Post = () => {
+  const userSelector = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState({});
   const [comments, setComments] = useState([]);
   const [page, setPage] = useState(1);
+  const [commentData, setCommentData] = useState([])
 
   const router = useRouter();
 
@@ -46,6 +50,7 @@ const Post = () => {
           _page: page,
         },
       });
+      setCommentData(commentData.data.result.rows)
       // console.log(commentData)
       setComments([...comments, ...commentData.data.result.rows]);
     } catch (err) {
@@ -54,8 +59,8 @@ const Post = () => {
   };
 
   const fetchNextComments = () => {
-    setPage(page + 1)
-  }
+    setPage(page + 1);
+  };
 
   const renderComments = () => {
     return comments.map((val) => {
@@ -87,9 +92,7 @@ const Post = () => {
           marginY="4"
         >
           <Box paddingX="3" display="flex" alignItems="center" marginBottom={1}>
-            {/* <Link href={`/profile/${userId}`}> */}
-            <Avatar src={userPost?.post_user?.profile_picture} size="md" />
-            {/* </Link> */}
+              <Avatar src={userPost?.post_user?.profile_picture} size="md" />
             <Box
               display="flex"
               justifyContent="center"
@@ -109,7 +112,7 @@ const Post = () => {
             </Box>
           </Box>
           {/* <Link href={`/posts/${id}`}> */}
-          <Image padding={2} src={userPost?.image_url} minW={510} />
+          <Image padding={2} src={userPost?.image_url} minW={510} maxH="500px" />
           {/* </Link> */}
           <Box paddingX="3">
             <Text fontWeight="bold">
@@ -136,14 +139,23 @@ const Post = () => {
           maxW="lg"
           paddingY="2"
           marginY="4"
-          maxH="500px"
+          maxH="629px"
           overflow="scroll"
         >
           <Text mb={6} padding={5}>
             Comment Section
           </Text>
           {renderComments()}
-          <Button ml={2} colorScheme="green" size="xs" onClick={() => fetchNextComments()}>See more comments</Button>
+          {commentData.length ? 
+          <Button
+            ml={2}
+            colorScheme="green"
+            size="xs"
+            onClick={() => fetchNextComments()}
+          >
+            See more comments
+          </Button> 
+          : null}
         </Box>
       </Flex>
     </Center>

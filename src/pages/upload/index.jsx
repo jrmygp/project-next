@@ -96,7 +96,7 @@ const UploadPage = () => {
             mb="10px"
             maxW="500px"
           >
-            Upload Image
+            Choose Image
           </Button>
 
           <Input
