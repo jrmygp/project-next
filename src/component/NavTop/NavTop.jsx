@@ -30,7 +30,7 @@ const NavTop = () => {
     });
   };
 
-  if (router.asPath == "/login" || router.asPath == "/sign-up" || router.asPath == "/forgot-password") return null;
+  if (router.asPath == "/login" || router.asPath == "/sign-up" || router.asPath == "/forgot-password" || router.asPath == "/reset-password") return null;
 
   return (
     <Box
