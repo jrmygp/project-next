@@ -108,6 +108,11 @@ const LoginPage = () => {
             backgroundColor="transparent"
           />
         </InputGroup>
+        <Box mb={3}>
+          <Link href={"/forgot-password"}>
+          <Text>Forgot your password?</Text>
+          </Link>
+        </Box>
         <Center>
           <Flex>
             <Button
