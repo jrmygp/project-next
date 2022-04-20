@@ -133,14 +133,14 @@ const ForgotPassword = () => {
               name="confirm_password"
               onChange={inputHandler}
               color="white"
-              type={passwordVisible ? "text" : "password"}
+              type={confirmPasswordVisible ? "text" : "password"}
             />
             <InputRightElement
               children={
                 <Icon
                   fontSize="lg"
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                  onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                  as={confirmPasswordVisible ? IoMdEyeOff : IoMdEye}
                   sx={{ _hover: { cursor: "pointer" } }}
                 />
               }
