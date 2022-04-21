@@ -7,20 +7,10 @@ import requiresAuth from "../../component/requiresAuth";
 import Link from "next/link";
 import  axiosInstance  from "../../configs/api";
 
-const ProfilePage = () => {
-  const [userData, setUserData] = useState({});
+const ProfilePage = ({ userProfileData }) => {
+  const [postCount, setPostCount] = useState("");
   const [userPost, setUserPost] = useState([]);
   const router = useRouter();
-
-  const fetchUserData = async () => {
-    try {
-      const userData = await axiosInstance.get(`/user/${router.query.profile}`);
-      console.log(userData);
-      setUserData(userData.data.result);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const fetchUserPosts = async () => {
     try {
@@ -32,6 +22,7 @@ const ProfilePage = () => {
         },
       });
       console.log(postData)
+      setPostCount(postData.data.result.count)
       setUserPost(postData.data.result.rows);
     } catch (err) {
       console.log(err);
@@ -39,7 +30,6 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    fetchUserData();
     fetchUserPosts();
   }, []);
 
@@ -59,6 +49,7 @@ const ProfilePage = () => {
       );
     });
   };
+  console.log(userProfileData)
   return (
     <Center>
       <Box
@@ -83,7 +74,7 @@ const ProfilePage = () => {
         >
           <Flex>
 
-          <Avatar src={userData?.profile_picture} size="xl" />
+          <Avatar src={userProfileData?.profile_picture} size="xl" />
 
           <Box
             display="flex"
@@ -93,12 +84,12 @@ const ProfilePage = () => {
             backgroundColor="black"
           >
             <Box display="flex" alignItems="center" backgroundColor="black">
-              <Text backgroundColor="black">{userData?.username}</Text>
-              {userData?.is_verified == true ? <Icon as={GoVerified} ml={1} boxSize={4} color="#1DA1F2"/> : null}
+              <Text backgroundColor="black">{userProfileData?.username}</Text>
+              {userProfileData?.is_verified == true ? <Icon as={GoVerified} ml={1} boxSize={4} color="#1DA1F2"/> : null}
               
             </Box>
             <Text fontSize="lg" backgroundColor="black">
-              {userData?.tag_name}
+              {userProfileData?.tag_name}
             </Text>
             <Box
               display="flex"
@@ -107,7 +98,7 @@ const ProfilePage = () => {
               backgroundColor="black"
             >
               <Text marginRight={2} backgroundColor="black">
-                0 Post
+                {postCount} Post
               </Text>
               <Text marginRight={2} backgroundColor="black">
                 0 Followers
@@ -118,7 +109,7 @@ const ProfilePage = () => {
             </Box>
           </Box>
           <Box ml={5} mr={5} mt={2}>
-            <Text>{userData?.bio}</Text>
+            <Text>{userProfileData?.bio}</Text>
           </Box>
           </Flex>
         </Box>
@@ -148,9 +139,13 @@ const ProfilePage = () => {
   );
 };
 
-export const getServerSideProps = requiresAuth((context) => {
+export const getServerSideProps = requiresAuth( async (context) => {
+
+  const res = await axiosInstance.get(`/user/${context.query.profile}`)
   return {
-    props: {},
+    props: {
+      userProfileData: res.data.result
+    },
   };
 });
 
