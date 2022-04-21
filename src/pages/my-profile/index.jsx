@@ -64,6 +64,15 @@ const MyProfilePage = ({ user }) => {
     }
   };
 
+  const fetchUserData = async () => {
+    try {
+      const userData = await axiosInstance.get(`/user/${userSelector.id}`)
+      console.log(userData)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       location: "",
@@ -150,6 +159,7 @@ const MyProfilePage = ({ user }) => {
   useEffect(() => {
     if (userSelector.id) {
       fetchUserPosts();
+      fetchUserData()
     }
   }, [userSelector.id]);
 
@@ -460,6 +470,7 @@ const MyProfilePage = ({ user }) => {
         >
           {renderPost()}
         </Flex>
+      <Button>See user's liked posts</Button>
       </Box>
     </Center>
   );
