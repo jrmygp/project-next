@@ -72,7 +72,7 @@ function HomePage() {
       } else {
         likeStatus = false
       }
-      console.log(val)
+      // console.log(val)
       return (
         <ContentCard
           username={val?.post_user?.username}

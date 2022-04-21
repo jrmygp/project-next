@@ -94,7 +94,7 @@ const ProfilePage = () => {
           >
             <Box display="flex" alignItems="center" backgroundColor="black">
               <Text backgroundColor="black">{userData?.username}</Text>
-              {userData?.is_verified == true ? <Icon as={GoVerified} ml={1} boxSize={4} /> : null}
+              {userData?.is_verified == true ? <Icon as={GoVerified} ml={1} boxSize={4} color="#1DA1F2"/> : null}
               
             </Box>
             <Text fontSize="lg" backgroundColor="black">
