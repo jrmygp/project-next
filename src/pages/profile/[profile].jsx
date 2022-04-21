@@ -49,7 +49,7 @@ const ProfilePage = ({ userProfileData }) => {
       );
     });
   };
-  console.log(userProfileData)
+
   return (
     <Center>
       <Box

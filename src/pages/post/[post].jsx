@@ -65,7 +65,6 @@ const Post = ({ postDetailData }) => {
         },
       });
       setCommentData(commentData.data.result.rows);
-      // console.log(commentData)
       setComments([...comments, ...commentData.data.result.rows]);
     } catch (err) {
       console.log(err);

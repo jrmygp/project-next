@@ -112,7 +112,7 @@ const MyProfilePage = ({ user }) => {
       onClose();
     },
   });
-  // console.log(userSelector)
+ 
   const inputUserHandler = (event) => {
     const { value, name } = event.target;
     userFormik.setFieldValue(name, value);
