@@ -99,7 +99,7 @@ const ContentCard = ({
   };
 
   const copyLinkBtnHandler = () => {
-    navigator.clipboard.writeText(`https://pretty-bear-52.loca.lt/post/${id}`);
+    navigator.clipboard.writeText(`https://proud-lizard-0.loca.lt/post/${id}`);
 
     toast({
       position: "top-right",
