@@ -34,6 +34,9 @@ import { useSelector } from "react-redux";
 import { WEB_URL } from "../../configs/url";
 import { useRouter } from "next/router";
 import Page from "../Page";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
 
 const ContentCard = ({
   username,
@@ -51,12 +54,31 @@ const ContentCard = ({
   verified,
 }) => {
   const [comments, setComments] = useState([]);
-  const [commentInput, setCommentInput] = useState("");
+  // const [commentInput, setCommentInput] = useState("");
   const [like_status, setlike_status] = useState(likeStatus);
   const userSelector = useSelector((state) => state.user);
   const [displayComment, setDisplayComment] = useState(false);
   const toast = useToast();
   const router = useRouter()
+  const formik = useFormik({
+    initialValues: {
+      comment: "",
+    },
+    validationSchema: yup.object().shape({
+      comment: yup.string().max(200, "Maximum 200 characters per comment!")
+    }),
+    validateOnChange: false,
+    onSubmit: async (values) => {
+      const newComment = {
+        user_id: userSelector.id,
+        content: values.comment,
+        post_id: id
+      }
+      await axiosInstance.post("/comments", newComment)
+      fetchComments()
+      setDisplayComment(!displayComment)
+    }
+  })
   const fetchComments = async () => {
     try {
       const dataResult = await axiosInstance.get(`/comments`, {
@@ -78,25 +100,25 @@ const ContentCard = ({
   };
 
   const handleCommentInput = (event) => {
-    const { value } = event.target;
+    const { value, name } = event.target;
 
-    setCommentInput(value);
+    formik.setFieldValue(name, value);
   };
 
-  const postNewComment = async () => {
-    try {
-      const newData = {
-        user_id: userSelector.id,
-        content: commentInput,
-        post_id: id,
-      };
-      const result = await axiosInstance.post("/comments", newData);
-      fetchComments();
-      setDisplayComment(!displayComment);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const postNewComment = async () => {
+  //   try {
+  //     const newData = {
+  //       user_id: userSelector.id,
+  //       content: commentInput,
+  //       post_id: id,
+  //     };
+  //     const result = await axiosInstance.post("/comments", newData);
+  //     fetchComments();
+  //     setDisplayComment(!displayComment);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const copyLinkBtnHandler = () => {
     navigator.clipboard.writeText(`https://proud-lizard-0.loca.lt/post/${id}`);
@@ -247,12 +269,13 @@ const ContentCard = ({
         <Input
           onChange={handleCommentInput}
           type="text"
-          placeholder="Insert flame comment here!"
+          placeholder="Insert your comment here!"
+          name="comment"
         />
         <Icon
           boxSize={6}
           as={IoIosPaperPlane}
-          onClick={postNewComment}
+          onClick={formik.handleSubmit}
           marginLeft="5"
           marginRight="5"
           sx={{ _hover: { cursor: "pointer" } }}
