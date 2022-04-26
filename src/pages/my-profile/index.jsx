@@ -66,12 +66,12 @@ const MyProfilePage = ({ user }) => {
 
   const fetchUserData = async () => {
     try {
-      const userData = await axiosInstance.get(`/user/${userSelector.id}`)
-      console.log(userData)
+      const userData = await axiosInstance.get(`/user/${userSelector.id}`);
+      console.log(userData);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -121,7 +121,7 @@ const MyProfilePage = ({ user }) => {
       onClose();
     },
   });
- 
+
   const inputUserHandler = (event) => {
     const { value, name } = event.target;
     userFormik.setFieldValue(name, value);
@@ -159,7 +159,7 @@ const MyProfilePage = ({ user }) => {
   useEffect(() => {
     if (userSelector.id) {
       fetchUserPosts();
-      fetchUserData()
+      fetchUserData();
     }
   }, [userSelector.id]);
 
@@ -352,11 +352,12 @@ const MyProfilePage = ({ user }) => {
               marginLeft={5}
               fontSize="3xl"
               backgroundColor="black"
+              justifyContent="center"
             >
               <Box display="flex" alignItems="center" backgroundColor="black">
                 <Text backgroundColor="black">{userSelector.username}</Text>
                 {userSelector.is_verified == true ? (
-                  <Icon as={GoVerified} ml={1} boxSize={4} color="#1DA1F2"/>
+                  <Icon as={GoVerified} ml={1} boxSize={4} color="#1DA1F2" />
                 ) : null}
               </Box>
               <Text fontSize="lg" backgroundColor="black" color="white">
@@ -449,6 +450,13 @@ const MyProfilePage = ({ user }) => {
             </Box>
           </Flex>
         </Box>
+        <Box>
+          <Link href={`/liked/${userSelector.id}`}>
+          <Button bgColor="white" mt={5} color="black" size="xs" ml={9} mb={3}>
+            Liked Posts
+          </Button>
+          </Link>
+        </Box>
         <Box
           display="flex"
           alignItems="center"
@@ -470,7 +478,6 @@ const MyProfilePage = ({ user }) => {
         >
           {renderPost()}
         </Flex>
-      <Button>See user's liked posts</Button>
       </Box>
     </Center>
   );

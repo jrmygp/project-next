@@ -65,9 +65,10 @@ function HomePage() {
 
 
   const renderContentList = () => {
-    return contentList.map((val, idx) => {
+    return contentList?.map((val, idx) => {
       let likeStatus
-      if (val?.user_like?.length){
+      let isLiked = val?.user_like
+      if (isLiked?.length){
         likeStatus = true 
       } else {
         likeStatus = false
