@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Router from "next/router";
 import Cookies from "js-cookie";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { ImCross } from "react-icons/im"
 import jsCookie from "js-cookie";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -64,6 +65,19 @@ const LoginPage = () => {
       router.push("/home");
     }
   }, [userSelector.id]);
+
+  useEffect(() => {
+    if (userSelector.err_message) {
+      toast ({
+        position: "bottom",
+        render: () => (
+          <Box color="white" p={3} bg="red.500" borderRadius={5}>
+            {userSelector.err_message} <Icon bg="red.500" as={ImCross} />
+          </Box>
+        ),
+      })
+    }
+  }, [userSelector.err_message])
   return (
     <Flex background="black">
       <Image
@@ -110,7 +124,7 @@ const LoginPage = () => {
         </InputGroup>
         <Box mb={3}>
           <Link href={"/forgot-password"}>
-          <Text>Forgot your password?</Text>
+            <Text>Forgot your password?</Text>
           </Link>
         </Box>
         <Center>

@@ -1,3 +1,4 @@
+// import { useToast } from "@chakra-ui/react";
 import jsCookie from "js-cookie";
 import api from "../../configs/api";
 
@@ -20,7 +21,12 @@ export const userLogin = (values, setSubmitting) => {
 
       setSubmitting(false)
     } catch (err) {
-      console.log(err)
+      console.log(err.response.data)
+      dispatch({
+        type: "USER_ERROR",
+        payload: err.response.data.message
+      })
+
       setSubmitting(false)
     }
   }

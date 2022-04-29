@@ -6,7 +6,8 @@ const initial_state = {
     profile_picture: "",
     tag_name: "",
     bio: "",
-    is_verified: false
+    is_verified: false,
+    err_message: ""
 }
 
 const userReducer = ( state = initial_state, action) => {
@@ -25,6 +26,11 @@ const userReducer = ( state = initial_state, action) => {
         }
     } else if (action.type === "USER_LOGOUT") {
         return initial_state
+    } else if (action.type === "USER_ERROR") {
+        return {
+            ...state,
+            err_message: action.payload
+        }
     }
     return state
 }
