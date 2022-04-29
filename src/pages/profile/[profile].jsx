@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Text, Avatar, Icon, Center, Image, Flex } from "@chakra-ui/react";
+import { Box, Text, Avatar, Icon, Center, Image, Flex, Button } from "@chakra-ui/react";
 import { GoVerified } from "react-icons/go";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { useRouter } from "next/router";
@@ -112,6 +112,13 @@ const ProfilePage = ({ userProfileData }) => {
             <Text>{userProfileData?.bio}</Text>
           </Box>
           </Flex>
+        </Box>
+        <Box>
+          <Link href={`/liked/${userProfileData?.id}`}>
+          <Button bgColor="white" color="black" size="xs" ml={8} mb={3}>
+            Liked Posts
+          </Button>
+          </Link>
         </Box>
         <Box
           display="flex"

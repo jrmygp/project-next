@@ -452,7 +452,7 @@ const MyProfilePage = ({ user }) => {
         </Box>
         <Box>
           <Link href={`/liked/${userSelector.id}`}>
-          <Button bgColor="white" mt={5} color="black" size="xs" ml={9} mb={3}>
+          <Button bgColor="white" color="black" size="xs" ml={8} mb={3}>
             Liked Posts
           </Button>
           </Link>

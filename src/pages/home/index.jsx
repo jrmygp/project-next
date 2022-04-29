@@ -66,6 +66,7 @@ function HomePage() {
 
   const renderContentList = () => {
     return contentList?.map((val, idx) => {
+      console.log(val)
       let likeStatus
       let isLiked = val?.user_like
       if (isLiked?.length){
@@ -73,7 +74,12 @@ function HomePage() {
       } else {
         likeStatus = false
       }
-      // console.log(val)
+
+    // return contentList.map((val, idx) => {
+
+    // })
+   
+  
       return (
         <ContentCard
           username={val?.post_user?.username}

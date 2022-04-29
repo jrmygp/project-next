@@ -216,17 +216,7 @@ const ContentCard = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          {!like_status ? (
-            <Icon
-              onClick={() => {
-                addLike();
-                setlike_status(true);
-              }}
-              boxSize={6}
-              as={HiOutlineEmojiHappy}
-              sx={{ _hover: { cursor: "pointer" } }}
-            ></Icon>
-          ) : (
+          {like_status ? (
             <Icon
               onClick={() => {
                 disLike();
@@ -236,6 +226,16 @@ const ContentCard = ({
               as={HiOutlineEmojiHappy}
               sx={{ _hover: { cursor: "pointer" } }}
               color="pink.500"
+            ></Icon>
+          ) : (
+            <Icon
+              onClick={() => {
+                addLike();
+                setlike_status(true);
+              }}
+              boxSize={6}
+              as={HiOutlineEmojiHappy}
+              sx={{ _hover: { cursor: "pointer" } }}
             ></Icon>
           )}
           <Box display="flex" alignItems="center">
