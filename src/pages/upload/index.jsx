@@ -111,14 +111,12 @@ const UploadPage = () => {
             placeholder="write your location here"
             onChange={handleLocationInput}
           />
-          <Box p="5px">
+          <Box p="5px" display="flex" flexDir="column" w="100%">
             <Link href="/home">
               <Button
                 color="black"
                 onClick={uploadContentHandler}
-                maxW="xs"
                 mt={3}
-                mr={5}
               >
                 Upload
               </Button>
@@ -126,7 +124,6 @@ const UploadPage = () => {
             {selectedFile ? (
               <Button
                 color="black"
-                maxW="xs"
                 mt={3}
                 onClick={() => setPreview(!preview)}
               >
@@ -150,7 +147,7 @@ const UploadPage = () => {
               paddingX="3"
               display="flex"
               alignItems="center"
-              marginBottom={1}
+              marginBottom={4}
             >
               <Avatar size="md" src={userSelector.profile_picture} />
               <Box
