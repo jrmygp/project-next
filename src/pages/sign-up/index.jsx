@@ -70,7 +70,7 @@ const SignUpPage = () => {
 
       await axiosInstance.post(`/user/register`, newUser);
       formik.setSubmitting(false);
-      Router.push("/login");
+      Router.push("/");
       toast({
         position: "bottom",
         render: () => (
@@ -90,6 +90,9 @@ const SignUpPage = () => {
   };
 
   return (
+    
+    // LEFT SIDE
+
     <Flex background="black">
       <Image
         src="https://wallpapercave.com/wp/wp8424243.png"
@@ -202,12 +205,12 @@ const SignUpPage = () => {
                 </FormControl>
               </Box>
               <Box>
-                <Link href="/login">
+                <Link href="/">
                   <Button colorScheme="blue" w={200} mt={2} mr={2}>
                     Back
                   </Button>
                 </Link>
-                <Link href="/login">
+                <Link href="/">
                   <Button
                     colorScheme="green"
                     w={200}
