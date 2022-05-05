@@ -54,12 +54,13 @@ const ProfilePage = ({ userProfileData }) => {
     <Center>
       <Box
         w="95vh"
-        h="95vh"
+        h="100%"
         backgroundColor="black"
         marginLeft={5}
         marginTop={5}
         borderRadius="lg"
         border="1px solid white"
+        mb="2px"
       >
         <Box
           paddingTop={5}
@@ -138,6 +139,7 @@ const ProfilePage = ({ userProfileData }) => {
           backgroundColor="black"
           flexWrap="wrap"
           marginLeft={1}
+          mb={2}
         >
           {renderPost()}
         </Flex>

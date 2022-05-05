@@ -44,7 +44,7 @@ const NavTop = () => {
       display="flex"
       flexDir="row"
       justifyContent="space-between"
-      borderBottom="1px solid white"
+      // borderBottom="1px solid white"
       padding="7px"
       position="sticky"
       top="0"
@@ -64,7 +64,7 @@ const NavTop = () => {
       <Box paddingRight="50px">
         {userSelector.id ? (
           <Link href="/">
-            <Button onClick={logoutBtnHandler} colorScheme="red">
+            <Button onClick={logoutBtnHandler} bgColor="#F08080" borderRadius="17px">
               Logout
             </Button>
           </Link>

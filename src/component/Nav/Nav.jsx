@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { GoVerified } from "react-icons/go";
 import { BsPlusSquareFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +45,6 @@ const Nav = () => {
       w={navSize === "small" ? "75px" : "200px"}
       flexDir="column"
       justifyContent="space-between"
-      border="1px solid white"
     >
       <Flex
         p="5%"
@@ -59,7 +58,7 @@ const Nav = () => {
           marginBottom={3}
           mt={5}
           _hover={{ background: "none" }}
-          icon={<BsThreeDotsVertical />}
+          icon={<GiHamburgerMenu />}
           onClick={() => {
             if (navSize === "small") {
               changeNavSize("large");

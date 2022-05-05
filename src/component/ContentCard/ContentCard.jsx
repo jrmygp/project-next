@@ -144,7 +144,6 @@ const ContentCard = ({
     <Box
       backgroundColor="black"
       color="white"
-      borderWidth="1px"
       borderRadius="lg"
       maxW="lg"
       paddingY="2"
