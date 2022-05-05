@@ -20,7 +20,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ImCross } from "react-icons/im"
+import { ImCross } from "react-icons/im";
 
 const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -64,27 +64,33 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (userSelector.err_message) {
-      toast ({
+      toast({
         position: "bottom",
         render: () => (
-          <Box color="white" p={3} bg="red.500" borderRadius={5} display="flex" alignItems="center">
-            {userSelector.err_message} <Icon bg="red.500" as={ImCross} ml={3}/>
+          <Box
+            color="white"
+            p={3}
+            bg="red.500"
+            borderRadius={5}
+            display="flex"
+            alignItems="center"
+          >
+            {userSelector.err_message} <Icon bg="red.500" as={ImCross} ml={3} />
           </Box>
         ),
-      })
+      });
     }
-  }, [userSelector.err_message])
+  }, [userSelector.err_message]);
   return (
-
     // LEFT SIDE
 
     <Flex background="black">
       <Box display="flex" justifyContent="center">
-      <Image
-        src="https://images.unsplash.com/photo-1650477733936-06fa48166e5c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-        w="700px"
-        m={2}
-      />
+        <Image
+          src="https://images.unsplash.com/photo-1650477733936-06fa48166e5c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          w="700px"
+          m={2}
+        />
         <Flex flexDir="column" position="absolute" color="white" top={60}>
           <Text fontSize="5xl">New Here?</Text>
           <Box
@@ -113,69 +119,71 @@ const LoginPage = () => {
       </Box>
 
       {/* RIGHT SIDE */}
-
-      <Box
-       border="1px solid white"
-       borderRadius="5px"
-       w="450px"
-       display="flex"
-       flexDir="column"
-       alignItems="center"
-       justifyContent="center"
-       ml={4}
-       position="absolute"
-       bg="white"
-       color="black"
-       mt={10}
-       top={40}
-       right={60}
-      >
-        <Box width="100%" p={5}>
-        <Center mb={5}>
-          <Text fontSize="2xl">Welcome to Konekt.</Text>
-        </Center>
-        <FormLabel>Username</FormLabel>
-        <Input onChange={inputHandler} mb={5} name="username" />
-        <FormLabel>Password</FormLabel>
-        <InputGroup>
-          <Input
-            onChange={inputHandler}
-            mb={2}
-            type={passwordVisible ? "text" : "password"}
-            name="password"
-          />
-          <InputRightElement
-            children={
-              <Icon
-                fontSize="lg"
-                onClick={() => setPasswordVisible(!passwordVisible)}
-                as={passwordVisible ? IoMdEyeOff : IoMdEye}
-                sx={{ _hover: { cursor: "pointer" } }}
+      <form>
+        <Box
+          border="1px solid white"
+          borderRadius="5px"
+          w="450px"
+          display="flex"
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          ml={4}
+          position="absolute"
+          bg="white"
+          color="black"
+          mt={10}
+          top={40}
+          right={60}
+        >
+          <Box width="100%" p={5}>
+            <Center mb={5}>
+              <Text fontSize="2xl">Welcome to Konekt.</Text>
+            </Center>
+            <FormLabel>Username</FormLabel>
+            <Input onChange={inputHandler} mb={5} name="username" />
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <Input
+                onChange={inputHandler}
+                mb={2}
+                type={passwordVisible ? "text" : "password"}
+                name="password"
               />
-            }
-            backgroundColor="transparent"
-          />
-        </InputGroup>
+              <InputRightElement
+                children={
+                  <Icon
+                    fontSize="lg"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    as={passwordVisible ? IoMdEyeOff : IoMdEye}
+                    sx={{ _hover: { cursor: "pointer" } }}
+                  />
+                }
+                backgroundColor="transparent"
+              />
+            </InputGroup>
+          </Box>
+          <Box mb={3}>
+            <Link href={"/forgot-password"}>
+              <Text>Forgot your password?</Text>
+            </Link>
+          </Box>
+          <Center mb={2}>
+            <Flex>
+              <Button
+                onClick={formik.handleSubmit}
+                disabled={formik.isSubmitting}
+                bgColor="black"
+                color="white"
+                w={100}
+                type="submit"
+              >
+                Login
+              </Button>
+            </Flex>
+          </Center>
         </Box>
-        <Box mb={3}>
-          <Link href={"/forgot-password"}>
-          <Text>Forgot your password?</Text>
-          </Link>
-        </Box>
-        <Center mb={2}>
-          <Flex>
-            <Button
-              onClick={formik.handleSubmit}
-              disabled={formik.isSubmitting}
-              bgColor="black"
-              color="white"
-              w={100}
-            >
-              Login
-            </Button>
-          </Flex>
-        </Center>
-      </Box>
+      </form>
     </Flex>
   );
 };
