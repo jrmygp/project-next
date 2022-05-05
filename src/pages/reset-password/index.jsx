@@ -77,25 +77,31 @@ const ForgotPassword = () => {
   return (
     <Flex background="black">
       <Image
-        src="https://wallpapercave.com/wp/wp8424243.png"
-        w="500px"
-        objectFit="cover"
+        src="https://images.unsplash.com/photo-1597402483906-5ef5ff9bdf51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+        w="600px"
+        m={2}
       />
       <Flex
         border="1px solid white"
-        borderRadius={10}
-        mt={40}
-        height="350px"
-        color="white"
-        background="black"
+        borderRadius="5px"
+        w="450px"
+        display="flex"
         flexDir="column"
         alignItems="center"
+        ml={4}
+        position="absolute"
+        bg="black"
+        color="white"
+        mt={10}
+        top={40}
+        right={60}
+        p={5}
       >
-        <Box p={5}>
-          <Text color="white">Reset your password</Text>
+        <Box p={2} mb={2}>
+          <Text color="white" fontSize="2xl">Reset your password</Text>
         </Box>
         {/* password */}
-        <FormControl paddingX={20} isInvalid={formik.errors.password}>
+        <FormControl isInvalid={formik.errors.password} mb={2}>
           <FormLabel htmlFor="inputPassword" color="white">
             Password
           </FormLabel>
@@ -123,7 +129,7 @@ const ForgotPassword = () => {
         </FormControl>
 
         {/* confirm password */}
-        <FormControl paddingX={20} isInvalid={formik.errors.confirm_password}>
+        <FormControl isInvalid={formik.errors.confirm_password}>
           <FormLabel htmlFor="inputConfirm_Password" color="white">
             Confirm Password
           </FormLabel>
@@ -139,7 +145,9 @@ const ForgotPassword = () => {
               children={
                 <Icon
                   fontSize="lg"
-                  onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                  onClick={() =>
+                    setConfirmPasswordVisible(!confirmPasswordVisible)
+                  }
                   as={confirmPasswordVisible ? IoMdEyeOff : IoMdEye}
                   sx={{ _hover: { cursor: "pointer" } }}
                 />
@@ -151,7 +159,7 @@ const ForgotPassword = () => {
         </FormControl>
         <Box paddingX="20px" marginTop={5}>
           <Link href={"/login"}>
-            <Button colorScheme="green" onClick={formik.handleSubmit}>
+            <Button bgColor="white" color="black" onClick={formik.handleSubmit}>
               Set New Password
             </Button>
           </Link>
