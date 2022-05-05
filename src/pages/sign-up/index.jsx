@@ -228,8 +228,8 @@ const SignUpPage = () => {
               </Box>
               <Box display="flex" p="10px">
                 <Link href="/">
-                  <Button colorScheme="blue" w={200} mt={2} mr={2}>
-                    Back
+                  <Button bgColor="#00BFFF" color="white" w={200} mt={2} mr={2}>
+                    Already have account
                   </Button>
                 </Link>
                 <Link href="/">
