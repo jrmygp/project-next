@@ -16,6 +16,7 @@ import {
   InputGroup,
   Flex,
   Image,
+  Center,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -27,7 +28,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const SignUpPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const toast = useToast();
   const formik = useFormik({
     initialValues: {
@@ -45,7 +46,10 @@ const SignUpPage = () => {
         .required("This field is required!"),
       password: yup
         .string()
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "Password must contain atleast one uppercase alphabet, number, and special character!")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          "Password must contain atleast one uppercase alphabet, number, and special character!"
+        )
         .required("This field is required!"),
       confirm_password: yup
         .string()
@@ -90,29 +94,47 @@ const SignUpPage = () => {
   };
 
   return (
-    
     // LEFT SIDE
 
     <Flex background="black">
+      <Box display="flex" justifyContent="center">
       <Image
-        src="https://wallpapercave.com/wp/wp8424243.png"
-        w="500px"
-        objectFit="cover"
+        src="https://images.unsplash.com/photo-1602803056945-ebac8ae8fd00?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+        w="600px"
+        m={2}
       />
+
+      <Flex flexDir="column" position="absolute" color="white" top={40}>
+        <Text fontSize="6xl">Register to Konekt.</Text>
+        <Text fontSize="2xl">so you can make new great friends all over the world!</Text>
+      </Flex>
+
+      </Box>
+
+      {/* RIGHT SIDE */}
+
       <Box
         border="1px solid white"
-        borderRadius={10}
-        mt={10}
-        mb={40}
+        borderRadius="5px"
+        w="450px"
+        display="flex"
+        flexDir="column"
+        alignItems="center"
+        justifyContent="center"
+        ml={4}
+        position="absolute"
+        bg="black"
         color="white"
-        background="black"
-        maxW="600px"
+        mt={10}
+        right={60}
       >
-        <Stack p={10}>
-          <Heading>Make new account</Heading>
+        <Stack p={3}>
+          <Center mt={5}>
+            <Heading>Make new account</Heading>
+          </Center>
           <form>
             <Flex flexDir="column" alignItems="center">
-              <Box>
+              <Box w="100%" p={3}>
                 <FormControl isInvalid={formik.errors.email}>
                   <FormLabel htmlFor="inputEmail">Email</FormLabel>
                   <Input id="inputEmail" name="email" onChange={inputHandler} />
@@ -143,9 +165,7 @@ const SignUpPage = () => {
                   <FormHelperText>{formik.errors.password}</FormHelperText>
                 </FormControl>
 
-                <FormControl
-                isInvalid={formik.errors.confirm_password}
-                >
+                <FormControl isInvalid={formik.errors.confirm_password}>
                   <FormLabel htmlFor="inputPassword">
                     Confirm Your Password
                   </FormLabel>
@@ -160,7 +180,9 @@ const SignUpPage = () => {
                       children={
                         <Icon
                           fontSize="lg"
-                          onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                          onClick={() =>
+                            setConfirmPasswordVisible(!confirmPasswordVisible)
+                          }
                           as={confirmPasswordVisible ? IoMdEyeOff : IoMdEye}
                           sx={{ _hover: { cursor: "pointer" } }}
                         />
@@ -204,7 +226,7 @@ const SignUpPage = () => {
                   <FormHelperText>{formik.errors.usertag}</FormHelperText>
                 </FormControl>
               </Box>
-              <Box>
+              <Box display="flex" p="10px">
                 <Link href="/">
                   <Button colorScheme="blue" w={200} mt={2} mr={2}>
                     Back
@@ -212,7 +234,8 @@ const SignUpPage = () => {
                 </Link>
                 <Link href="/">
                   <Button
-                    colorScheme="green"
+                    bgColor="white"
+                    color="black"
                     w={200}
                     onClick={formik.handleSubmit}
                     disabled={formik.isSubmitting}
