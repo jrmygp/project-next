@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import { Box, Button, Flex, Icon, Input, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Input, Text, useToast } from "@chakra-ui/react";
 import { BsSearch } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { BsFillCheckCircleFill } from "react-icons/bs";
@@ -52,9 +52,9 @@ const NavTop = () => {
       background="black"
       color="white"
     >
-      <Box paddingLeft="50px" paddingTop="5px">
+      <Box paddingLeft="50px" paddingTop="5px" fontSize="xl">
         <Link href="/home" style={{ textDecoration: "none" }}>
-          Weebsgram™
+          Konekt.
         </Link>
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -63,13 +63,13 @@ const NavTop = () => {
       </Box>
       <Box paddingRight="50px">
         {userSelector.id ? (
-          <Link href="/login">
+          <Link href="/">
             <Button onClick={logoutBtnHandler} colorScheme="red">
               Logout
             </Button>
           </Link>
         ) : (
-          <Link href="/login">
+          <Link href="/">
             <Button colorScheme="green">Login</Button>
           </Link>
         )}
