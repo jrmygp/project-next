@@ -15,14 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { userLogin } from "../../redux/actions/user";
-import axiosInstance from "../../configs/api";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Router from "next/router";
-import Cookies from "js-cookie";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ImCross } from "react-icons/im"
-import jsCookie from "js-cookie";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 

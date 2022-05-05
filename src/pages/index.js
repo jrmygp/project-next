@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ImCross } from "react-icons/im"
 
 const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -60,6 +61,19 @@ const LoginPage = () => {
       router.push("/home");
     }
   }, [userSelector.id]);
+
+  useEffect(() => {
+    if (userSelector.err_message) {
+      toast ({
+        position: "bottom",
+        render: () => (
+          <Box color="white" p={3} bg="red.500" borderRadius={5} display="flex" alignItems="center">
+            {userSelector.err_message} <Icon bg="red.500" as={ImCross} ml={3}/>
+          </Box>
+        ),
+      })
+    }
+  }, [userSelector.err_message])
   return (
 
     // LEFT SIDE
