@@ -11,23 +11,26 @@ import {
 } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { IoMdSettings } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { HiLogout } from "react-icons/hi";
+import { GoVerified } from "react-icons/go";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { MdGeneratingTokens } from "react-icons/md";
-import { axiosInstance } from "../../configs/api";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
 import NavItems from "./NavItems";
+import { useRouter } from "next/router";
 
 const Nav = () => {
+  const router = useRouter();
   const [navSize, changeNavSize] = useState("large");
 
   const userSelector = useSelector((state) => state.user);
 
-  if (!userSelector.id) return null;
-
+  if (router.asPath == "/test") {
+    return null;
+  }
+  if (!userSelector.id) {
+    return null;
+  }
+  
   return (
     <Flex
       position="sticky"
@@ -83,14 +86,14 @@ const Nav = () => {
         <NavItems
           navSize={navSize}
           icon={BsPlusSquareFill}
-          title="Upload Memes"
+          title="Upload Post"
           href="/upload"
         />
         {userSelector.is_verified == false ? (
           <NavItems
             navSize={navSize}
-            icon={MdGeneratingTokens}
-            title="Resend Token"
+            icon={GoVerified}
+            title="Verify Account"
             href="/test"
           />
         ) : null}
