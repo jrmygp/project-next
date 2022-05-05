@@ -124,8 +124,8 @@ const LoginPage = () => {
        justifyContent="center"
        ml={4}
        position="absolute"
-       bg="black"
-       color="white"
+       bg="white"
+       color="black"
        mt={10}
        top={40}
        right={60}
@@ -167,8 +167,8 @@ const LoginPage = () => {
             <Button
               onClick={formik.handleSubmit}
               disabled={formik.isSubmitting}
-              bgColor="white"
-              color="black"
+              bgColor="black"
+              color="white"
               w={100}
             >
               Login

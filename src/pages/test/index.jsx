@@ -60,16 +60,31 @@ const ResendToken = () => {
                 Click the button below to resend verification token to your
                 email.
               </Text>
-              <Button
-                mt={3}
-                onClick={resendToken}
-                bgColor="white"
-                color="black"
-                borderRadius="20px"
-                width="180px"
-              >
-                Send Token
-              </Button>
+              <Flex mt={3}>
+                <Button
+                  onClick={resendToken}
+                  bgColor="white"
+                  color="black"
+                  borderRadius="20px"
+                  width="180px"
+                  mr={2}
+                >
+                  Send Token
+                </Button>
+                {/* <Text color="white" fontSize="2xl" mr={2}>
+                  or
+                </Text>
+                <Link href="/home">
+                  <Button
+                    bgColor="white"
+                    color="black"
+                    borderRadius="20px"
+                    width="180px"
+                  >
+                    Go Back Home
+                  </Button>
+                </Link> */}
+              </Flex>
             </Box>
           ) : (
             <Box display="flex" flexDir="column" alignItems="center">

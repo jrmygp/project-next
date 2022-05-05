@@ -56,10 +56,14 @@ const SignUpPage = () => {
         .required("Please repeat your password")
         .oneOf([yup.ref("password"), null], "Your password does not match!"),
       fullname: yup.string().required("This field is required!"),
-      username: yup.string().min(5, "5 characters minimum!").max(16, "16 characters maximum!").required("This field is required!"),
+      username: yup
+        .string()
+        .min(5, "5 characters minimum!")
+        .max(16, "16 characters maximum!")
+        .required("This field is required!"),
       usertag: yup
         .string()
-        .max(8, "Usertag should not be 8 or more characters!")
+        .max(16, "Usertag should not be 16 or more characters!")
         .required("This field is required!"),
     }),
     validateOnChange: false,
@@ -69,7 +73,7 @@ const SignUpPage = () => {
         password: values.password,
         full_name: values.fullname,
         username: values.username,
-        tag_name: values.usertag,
+        tag_name: `@${values.usertag}`,
       };
 
       await axiosInstance.post(`/user/register`, newUser);
@@ -98,46 +102,49 @@ const SignUpPage = () => {
 
     <Flex background="black">
       <Box display="flex" justifyContent="center">
-      <Image
-        src="https://images.unsplash.com/photo-1602803056945-ebac8ae8fd00?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-        w="600px"
-        m={2}
-      />
+        <Image
+          src="https://images.unsplash.com/photo-1602803056945-ebac8ae8fd00?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          w="600px"
+          m={2}
+        />
 
-      <Flex flexDir="column" position="absolute" color="white" top={40}>
-        <Text fontSize="6xl">Register to Konekt.</Text>
-        <Text fontSize="2xl">so you can make new great friends all over the world!</Text>
-      </Flex>
-
+        <Flex flexDir="column" position="absolute" color="white" top={40}>
+          <Text fontSize="6xl">Register to Konekt.</Text>
+          <Text fontSize="2xl">
+            so you can make new great friends all over the world!
+          </Text>
+        </Flex>
       </Box>
 
       {/* RIGHT SIDE */}
 
       <Box
         border="1px solid white"
-        borderRadius="5px"
-        w="450px"
+        borderRadius="8px"
+        w="500px"
         display="flex"
         flexDir="column"
-        alignItems="center"
-        justifyContent="center"
-        ml={4}
         position="absolute"
-        bg="black"
-        color="white"
+        bg="white"
+        color="black"
         mt={10}
         right={60}
       >
-        <Stack p={3}>
+        <Box>
           <Center mt={5}>
             <Heading>Make new account</Heading>
           </Center>
           <form>
             <Flex flexDir="column" alignItems="center">
-              <Box w="100%" p={3}>
+              <Box width="100%" p={5}>
                 <FormControl isInvalid={formik.errors.email}>
                   <FormLabel htmlFor="inputEmail">Email</FormLabel>
-                  <Input id="inputEmail" name="email" onChange={inputHandler} />
+                  <Input
+                    id="inputEmail"
+                    name="email"
+                    onChange={inputHandler}
+                    placeholder="James@email.com"
+                  />
                   <FormHelperText>{formik.errors.email}</FormHelperText>
                 </FormControl>
 
@@ -149,6 +156,7 @@ const SignUpPage = () => {
                       name="password"
                       type={passwordVisible ? "text" : "password"}
                       onChange={inputHandler}
+                      placeholder="Password123!"
                     />
                     <InputRightElement
                       children={
@@ -175,6 +183,7 @@ const SignUpPage = () => {
                       name="confirm_password"
                       type={confirmPasswordVisible ? "text" : "password"}
                       onChange={inputHandler}
+                      placeholder="Password123!"
                     />
                     <InputRightElement
                       children={
@@ -201,6 +210,7 @@ const SignUpPage = () => {
                     id="inputFullname"
                     name="fullname"
                     onChange={inputHandler}
+                    placeholder="James Hugh"
                   />
 
                   <FormHelperText>{formik.errors.fullname}</FormHelperText>
@@ -212,6 +222,7 @@ const SignUpPage = () => {
                     id="inputUsername"
                     name="username"
                     onChange={inputHandler}
+                    placeholder="James"
                   />
                   <FormHelperText>{formik.errors.username}</FormHelperText>
                 </FormControl>
@@ -222,33 +233,42 @@ const SignUpPage = () => {
                     id="inputUsertag"
                     name="usertag"
                     onChange={inputHandler}
+                    placeholder="JamesHugh"
                   />
                   <FormHelperText>{formik.errors.usertag}</FormHelperText>
                 </FormControl>
               </Box>
-              <Box display="flex" p="10px">
+              <Box display="flex" justifyContent="center">
+                <Text color="gray">Already have account?</Text>
                 <Link href="/">
-                  <Button bgColor="#00BFFF" color="white" w={200} mt={2} mr={2}>
-                    Already have account
-                  </Button>
-                </Link>
-                <Link href="/">
-                  <Button
-                    bgColor="white"
+                  {/* <Button bgColor="#85929E" color="white" w={200} mt={2} mr={2}> */}
+                  <Text
+                    sx={{ _hover: { cursor: "pointer" } }}
+                    ml={1}
                     color="black"
-                    w={200}
-                    onClick={formik.handleSubmit}
-                    disabled={formik.isSubmitting}
-                    type="submit"
-                    mt={2}
                   >
-                    Make your account
-                  </Button>
+                    Log In
+                  </Text>
+                  {/* </Button> */}
                 </Link>
               </Box>
+              <Link href="/">
+                <Button
+                  bgColor="black"
+                  color="white"
+                  w={200}
+                  onClick={formik.handleSubmit}
+                  disabled={formik.isSubmitting}
+                  type="submit"
+                  mt={1}
+                  mb={2}
+                >
+                  Make your account
+                </Button>
+              </Link>
             </Flex>
           </form>
-        </Stack>
+        </Box>
       </Box>
     </Flex>
   );
