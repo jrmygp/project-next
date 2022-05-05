@@ -56,31 +56,42 @@ const ForgotPassword = () => {
   };
 
   return (
+
+    // LEFT SIDE
+
     <Flex background="black">
       <Image
-        src="https://wallpapercave.com/wp/wp8424243.png"
-        w="500px"
-        objectFit="cover"
+        src="https://images.unsplash.com/photo-1597402483906-5ef5ff9bdf51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+        w="600px"
+        m={2}
       />
+
+      {/* RIGHT SIDE */}
+
       <Flex
         border="1px solid white"
-        borderRadius={10}
-        mt={40}
-        height="300px"
-        color="white"
-        background="black"
+        borderRadius="5px"
+        w="500px"
+        display="flex"
         flexDir="column"
         alignItems="center"
+        justifyContent="center"
+        ml={4}
+        position="absolute"
+        bg="black"
+        color="white"
+        mt={10}
+        top={40}
+        right={60}
+        p={5}
       >
-        <Box p={10} mt={2}>
-          <Text color="white">
-            It looks like you might have forgotten your password
-          </Text>
-          <Text color="white">
-            Input your email, so we can send you a reset password form
-          </Text>
-        </Box>
-        <FormControl paddingX={20} isInvalid={formik.errors.email}>
+        <Text color="white" mb={1} fontSize="xl">
+          Trouble Logging In?
+        </Text>
+        <Text color="white">
+          Input your email, so we can send you a reset password form
+        </Text>
+        <FormControl paddingX={20} isInvalid={formik.errors.email} mt={5}>
           <FormLabel htmlFor="inputEmail" color="white">
             Email
           </FormLabel>
@@ -93,14 +104,15 @@ const ForgotPassword = () => {
           <FormHelperText>{formik.errors.email}</FormHelperText>
         </FormControl>
         <Box paddingX="20px" marginTop={5}>
-          <Link href={"/login"}>
+          <Link href={"/"}>
             <Button colorScheme="blue" mr={5}>
               Back
             </Button>
           </Link>
           <Button
             disabled={formik.isSubmitting}
-            colorScheme="green"
+            bgColor="white"
+            color="black"
             onClick={formik.handleSubmit}
           >
             Send Email
