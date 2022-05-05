@@ -104,9 +104,9 @@ const MyProfilePage = ({ user }) => {
     validationSchema: yup.object().shape({
       username: yup
         .string()
-        .min(8, "8 characters min")
-        .max(16, "16 characters max"),
-      full_name: yup.string().max(20, "20 characters max"),
+        .min(5, "5 characters min")
+        .max(16, "16 characters max").required("This field is required!"),
+      full_name: yup.string().max(20, "20 characters max").required("This field is required!"),
       bio: yup.string().max(100, "100 characters max"),
     }),
     validateOnChange: false,

@@ -54,7 +54,6 @@ const ContentCard = ({
   verified,
 }) => {
   const [comments, setComments] = useState([]);
-  // const [commentInput, setCommentInput] = useState("");
   const [like_status, setlike_status] = useState(likeStatus);
   const userSelector = useSelector((state) => state.user);
   const [displayComment, setDisplayComment] = useState(false);
@@ -68,7 +67,7 @@ const ContentCard = ({
       comment: yup.string().max(200, "Maximum 200 characters per comment!")
     }),
     validateOnChange: false,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const newComment = {
         user_id: userSelector.id,
         content: values.comment,
@@ -76,7 +75,8 @@ const ContentCard = ({
       }
       await axiosInstance.post("/comments", newComment)
       fetchComments()
-      setDisplayComment(!displayComment)
+      setDisplayComment(displayComment)
+      resetForm({ values: "" })
     }
   })
   const fetchComments = async () => {
@@ -268,7 +268,7 @@ const ContentCard = ({
         <Input
           onChange={handleCommentInput}
           type="text"
-          placeholder="Insert your comment here!"
+          placeholder="Insert your comment here"
           name="comment"
         />
         <Icon

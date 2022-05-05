@@ -56,7 +56,7 @@ const SignUpPage = () => {
         .required("Please repeat your password")
         .oneOf([yup.ref("password"), null], "Your password does not match!"),
       fullname: yup.string().required("This field is required!"),
-      username: yup.string().required("This field is required!"),
+      username: yup.string().min(5, "5 characters minimum!").max(16, "16 characters maximum!").required("This field is required!"),
       usertag: yup
         .string()
         .max(8, "Usertag should not be 8 or more characters!")
