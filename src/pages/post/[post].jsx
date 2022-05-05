@@ -116,8 +116,8 @@ const Post = ({ postDetailData }) => {
           <Box
             backgroundColor="black"
             color="white"
-            borderWidth="1px"
-            borderRadius="lg"
+            borderTopLeftRadius="lg"
+            borderBottomLeftRadius="lg"
             maxW="lg"
             paddingY="2"
             marginY="4"
@@ -203,8 +203,8 @@ const Post = ({ postDetailData }) => {
           <Box
             backgroundColor="black"
             color="white"
-            borderWidth="1px"
-            borderRadius="lg"
+            borderTopRightRadius="lg"
+            borderBottomRightRadius="lg"
             maxW="lg"
             paddingY="2"
             marginY="4"
@@ -218,7 +218,8 @@ const Post = ({ postDetailData }) => {
             {commentData.length ? (
               <Button
                 ml={2}
-                colorScheme="green"
+                bgColor="white"
+                color="black"
                 size="xs"
                 onClick={() => fetchNextComments()}
               >
