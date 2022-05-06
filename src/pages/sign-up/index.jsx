@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -22,11 +22,14 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axiosInstance from "../../configs/api";
 import Link from "next/link";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const SignUpPage = () => {
+  const userSelector = useSelector((state) => state.user)
+  const router = useRouter()
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const toast = useToast();
@@ -96,6 +99,12 @@ const SignUpPage = () => {
     const { value, name } = event.target;
     formik.setFieldValue(name, value);
   };
+
+  useEffect(() => {
+    if (userSelector.id) {
+      router.push("/home");
+    }
+  }, [userSelector.id]);
 
   return (
     // LEFT SIDE
