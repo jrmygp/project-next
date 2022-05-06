@@ -27,6 +27,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlinePhotoCamera } from "react-icons/md";
+import { AiOutlineMail } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../configs/api";
 import requiresAuth from "../../component/requiresAuth";
@@ -105,8 +106,12 @@ const MyProfilePage = ({ user }) => {
       username: yup
         .string()
         .min(5, "5 characters min")
-        .max(16, "16 characters max").required("This field is required!"),
-      full_name: yup.string().max(20, "20 characters max").required("This field is required!"),
+        .max(16, "16 characters max")
+        .required("This field is required!"),
+      full_name: yup
+        .string()
+        .max(20, "20 characters max")
+        .required("This field is required!"),
       bio: yup.string().max(100, "100 characters max"),
     }),
     validateOnChange: false,
@@ -296,19 +301,19 @@ const MyProfilePage = ({ user }) => {
         marginTop={5}
         borderRadius="lg"
         border="1px solid white"
-        mb={2}
+        mb="2px"
       >
         <Box
           paddingTop={5}
           paddingLeft={5}
           paddingBottom={5}
-          margin={2}
           color="white"
           display="flex"
           alignItems="center"
           borderRadius="lg"
           backgroundColor="black"
         >
+          <Flex>
           <Flex flexDir="column">
             {!selectedFile ? (
               <Avatar
@@ -364,6 +369,15 @@ const MyProfilePage = ({ user }) => {
               <Text fontSize="lg" backgroundColor="black" color="white">
                 {userSelector.tag_name}
               </Text>
+              <Box display="flex" alignItems="center" mt={1}>
+                <Text
+                  fontSize="sm"
+                  backgroundColor="black"
+                  color="white"
+                >
+                  <Icon as={AiOutlineMail} boxSize="13px"/> {userSelector.email}
+                </Text>
+              </Box>
               <Box
                 display="flex"
                 fontSize="sm"
@@ -449,13 +463,14 @@ const MyProfilePage = ({ user }) => {
                 </Modal>
               </Flex>
             </Box>
+            </Flex>
           </Flex>
         </Box>
         <Box>
           <Link href={`/liked/${userSelector.id}`}>
-          <Button bgColor="white" color="black" size="xs" ml={8} mb={3}>
-            Liked Posts
-          </Button>
+            <Button bgColor="white" color="black" size="xs" ml={6} mb={3}>
+              Liked Posts
+            </Button>
           </Link>
         </Box>
         <Box
