@@ -1,6 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import { Box, Button, Flex, Icon, Input, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  Input,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { BsSearch } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { BsFillCheckCircleFill } from "react-icons/bs";
@@ -52,11 +60,13 @@ const NavTop = () => {
       background="black"
       color="white"
     >
-      <Box paddingLeft="50px" paddingTop="5px" fontSize="xl">
-        <Link href="/home" style={{ textDecoration: "none" }}>
-          Konekt.
-        </Link>
-      </Box>
+      <Link href="/home" style={{ textDecoration: "none" }}>
+        <Box paddingLeft="50px" paddingTop="5px" fontSize="xl">
+          <Text size="3lg" as="kbd" sx={{ _hover: { cursor: "pointer" } }}>
+            K o n e k t .
+          </Text>
+        </Box>
+      </Link>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Input w="50" marginRight="10px" placeholder="search" />
         <Icon as={BsSearch} fontSize="xl" />
@@ -64,7 +74,11 @@ const NavTop = () => {
       <Box paddingRight="50px">
         {userSelector.id ? (
           <Link href="/">
-            <Button onClick={logoutBtnHandler} bgColor="#F08080" borderRadius="17px">
+            <Button
+              onClick={logoutBtnHandler}
+              bgColor="#F08080"
+              borderRadius="17px"
+            >
               Logout
             </Button>
           </Link>
