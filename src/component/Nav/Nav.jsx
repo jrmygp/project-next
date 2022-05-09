@@ -24,7 +24,7 @@ const Nav = () => {
 
   const userSelector = useSelector((state) => state.user);
 
-  if (router.asPath == "/test") {
+  if (router.asPath == "/verify-user") {
     return null;
   }
   if (!userSelector.id) {
@@ -93,7 +93,7 @@ const Nav = () => {
             navSize={navSize}
             icon={GoVerified}
             title="Verify Account"
-            href="/test"
+            href="/verify-user"
           />
         ) : null}
       </Flex>

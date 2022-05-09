@@ -104,21 +104,6 @@ const ContentCard = ({
     formik.setFieldValue(name, value);
   };
 
-  // const postNewComment = async () => {
-  //   try {
-  //     const newData = {
-  //       user_id: userSelector.id,
-  //       content: commentInput,
-  //       post_id: id,
-  //     };
-  //     const result = await axiosInstance.post("/comments", newData);
-  //     fetchComments();
-  //     setDisplayComment(!displayComment);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const copyLinkBtnHandler = () => {
     navigator.clipboard.writeText(`https://proud-lizard-0.loca.lt/post/${id}`);
 
