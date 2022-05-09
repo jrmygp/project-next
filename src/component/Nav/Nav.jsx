@@ -34,8 +34,8 @@ const Nav = () => {
   return (
     <Flex
       position="sticky"
-      top="5"
-      left="5"
+      top={10}
+      left="95px"
       h="90vh"
       marginTop="2.5vh"
       boxShadow="0 4px 12px 0 rgba(0,0,0,0.2)"

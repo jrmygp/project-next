@@ -6,6 +6,8 @@ import {
   Flex,
   Icon,
   Input,
+  InputGroup,
+  InputRightElement,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -52,24 +54,37 @@ const NavTop = () => {
       display="flex"
       flexDir="row"
       justifyContent="space-between"
-      // borderBottom="1px solid white"
-      padding="7px"
+      paddingX={50}
+      paddingY={2}
       position="sticky"
       top="0"
       zIndex="999"
       background="black"
       color="white"
     >
+      <Box display="flex" justifyContent="space-between">
       <Link href="/home" style={{ textDecoration: "none" }}>
-        <Box paddingLeft="50px" paddingTop="5px" fontSize="xl">
+        <Box paddingLeft="50px" paddingTop="5px" fontSize="xl" mr={5}>
           <Text size="3lg" as="kbd" sx={{ _hover: { cursor: "pointer" } }}>
             K o n e k t .
           </Text>
         </Box>
       </Link>
-      <Box display="flex" alignItems="center" justifyContent="center">
-        <Input w="50" marginRight="10px" placeholder="search" />
-        <Icon as={BsSearch} fontSize="xl" />
+      <Box display="flex" alignItems="center" justifyContent="center" ml={5}>
+        <InputGroup>
+        <Input w="50" marginRight="10px" placeholder="Search" borderRadius="10px"/>
+        <InputRightElement
+        children={
+          <Icon 
+          as={BsSearch} 
+          fontSize="lg"
+          mr={5}
+           />
+        }
+        />
+        </InputGroup>
+      </Box>
+
       </Box>
       <Box paddingRight="50px">
         {userSelector.id ? (
