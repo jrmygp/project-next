@@ -12,8 +12,13 @@ import {
 import { FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaChevronCircleRight, FaChevronCircleLeft } from "react-icons/fa"
 import { GoVerified } from "react-icons/go";
-import { BsPlusSquareFill } from "react-icons/bs";
+import {
+  BsPlusSquareFill,
+  BsFillArrowLeftSquareFill,
+  BsArrowRightSquareFill,
+} from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import NavItems from "./NavItems";
 import { useRouter } from "next/router";
@@ -30,7 +35,7 @@ const Nav = () => {
   if (!userSelector.id) {
     return null;
   }
-  
+
   return (
     <Flex
       position="sticky"
@@ -53,7 +58,7 @@ const Nav = () => {
         marginTop="30px"
         backgroundColor="black"
       >
-        <IconButton
+        {/* <IconButton
           background="none"
           marginBottom={3}
           mt={5}
@@ -66,7 +71,26 @@ const Nav = () => {
               changeNavSize("small");
             }
           }}
-        />
+        /> */}
+        {navSize === "small" ? (
+          <IconButton
+            icon={<FaChevronCircleRight />}
+            size="lg"
+            onClick={()=>changeNavSize("large")}
+            _hover={{ background: "none" }}
+            background="none"
+            mt={5}
+          />
+        ) : (
+          <IconButton
+            icon={<FaChevronCircleLeft />}
+            size="lg"
+            onClick={()=>changeNavSize("small")}
+            _hover={{ background: "none" }}
+            background="none"
+            mt={5}
+          />
+        )}
         <NavItems
           navSize={navSize}
           icon={FaHome}
