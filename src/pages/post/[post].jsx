@@ -17,8 +17,6 @@ import { HiLocationMarker } from "react-icons/hi";
 import SmallComment from "../../component/CommentSmall";
 import { useRouter } from "next/router";
 import axiosInstance from "../../configs/api";
-import Link from "next/link";
-import requiresAuth from "../../component/requiresAuth";
 import Page from "../../component/Page";
 import { WEB_URL } from "../../configs/url";
 import axios from "axios";

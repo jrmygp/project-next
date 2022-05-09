@@ -92,7 +92,7 @@ const UploadPage = () => {
           />
           <Button
             onClick={() => inputFileRef.current.click()}
-            colorScheme="green"
+            variant="outline"
             mb="10px"
             maxW="500px"
           >
