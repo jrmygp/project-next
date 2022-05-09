@@ -46,7 +46,7 @@ const LikedPost = () => {
     });
   };
   return (
-    <Center mt={5}>
+    <Center mt={5} ml={20} mr={2}>
       <Flex borderRadius={5} flexWrap="wrap" ml={20}>
         {renderLikedPost()}
       </Flex>
