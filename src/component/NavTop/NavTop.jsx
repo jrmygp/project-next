@@ -76,8 +76,9 @@ const NavTop = () => {
           <Link href="/">
             <Button
               onClick={logoutBtnHandler}
-              bgColor="#F08080"
-              borderRadius="17px"
+              bgColor="black"
+              borderRadius="15px"
+              variant="outline"
             >
               Logout
             </Button>
