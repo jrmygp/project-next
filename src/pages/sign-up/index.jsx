@@ -245,12 +245,12 @@ const SignUpPage = () => {
                     placeholder="JamesHugh"
                   />
                   <FormHelperText>{formik.errors.usertag}</FormHelperText>
+                  <Text color="red" fontSize="sm" ml="2px">note: user tag can't be change later on</Text>
                 </FormControl>
               </Box>
               <Box display="flex" justifyContent="center">
                 <Text color="gray">Already have account?</Text>
                 <Link href="/">
-                  {/* <Button bgColor="#85929E" color="white" w={200} mt={2} mr={2}> */}
                   <Text
                     sx={{ _hover: { cursor: "pointer" } }}
                     ml={1}
