@@ -66,7 +66,7 @@ const ContentCard = ({
       comment: yup.string().max(200, "Maximum 200 characters per comment!"),
     }),
     validateOnChange: false,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       const newComment = {
         user_id: userSelector.id,
         content: values.comment,
@@ -75,7 +75,6 @@ const ContentCard = ({
       await axiosInstance.post("/comments", newComment);
       fetchComments();
       setDisplayComment(displayComment);
-      resetForm({ values: "" });
     },
   });
   const fetchComments = async () => {
@@ -84,6 +83,8 @@ const ContentCard = ({
         params: {
           post_id: id,
           _limit: 5,
+          _sortBy: "id",
+          _sortDir: "DESC"
         },
       });
       setComments(dataResult.data.result.rows);
