@@ -110,7 +110,7 @@ const MyProfilePage = ({ user }) => {
         .required("This field is required!"),
       full_name: yup
         .string()
-        .max(20, "20 characters max")
+        .max(40, "40 characters max")
         .required("This field is required!"),
       bio: yup.string().max(100, "100 characters max"),
     }),
