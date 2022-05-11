@@ -106,7 +106,7 @@ const ContentCard = ({
   };
 
   const copyLinkBtnHandler = () => {
-    navigator.clipboard.writeText(`https://proud-lizard-0.loca.lt/post/${id}`);
+    navigator.clipboard.writeText(`https://silver-mirrors-take-120-188-36-130.loca.lt/post/${id}`);
 
     toast({
       position: "top-right",

@@ -58,7 +58,7 @@ const Post = ({ postDetailData }) => {
       const commentData = await axiosInstance.get(`/comments`, {
         params: {
           post_id: router.query.post,
-          _limit: 3,
+          _limit: 5,
           _page: page,
           _sortBy: "id",
           _sortDir: "DESC"
